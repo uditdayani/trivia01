@@ -75,7 +75,7 @@ create table submissions (
 create index on submissions (prompt_id, puzzle_date, answer_id);
 
 -- How many players gave each answer, per prompt per day
-create view answer_counts as
+create view answer_counts with (security_invoker = true) as
 select prompt_id, puzzle_date, answer_id, count(*)::int as n
 from submissions
 where answer_id is not null
