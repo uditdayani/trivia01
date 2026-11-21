@@ -1,6 +1,6 @@
 """Build the Geography pack: countries, their accepted spellings, prompts and answers.
 
-Reads  pipeline/data/countries.json, pipeline/data/population.json
+Reads  pipeline/data/countries.json (familiarity from wordfreq, see familiarity.py)
 Writes supabase/data/geography.sql   (run it in the Supabase SQL editor; safe to re-run)
        pipeline/out/geography_prompts.md  (human-readable review of every prompt)
 
@@ -10,11 +10,13 @@ Run:  python pipeline/build_geography.py
 from __future__ import annotations
 
 import json
-import math
 import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
+
+from familiarity import familiarity
+from tiers import assign_tiers
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "pipeline" / "data"
@@ -91,7 +93,6 @@ class Country:
     code: str
     name: str
     raw: dict
-    population: int
 
     @property
     def english_names(self) -> list[str]:
@@ -119,14 +120,13 @@ class Country:
 
 def load() -> list[Country]:
     raw = json.loads((DATA / "countries.json").read_text(encoding="utf-8"))
-    pops = json.loads((DATA / "population.json").read_text(encoding="utf-8"))
     chosen = [c for c in raw if c.get("unMember") or c["cca3"] in OBSERVERS]
     codes = {c["cca3"] for c in chosen}
     out = []
     for c in chosen:
         c = dict(c)
         c["borders"] = [b for b in c.get("borders", []) if b in codes]  # drop non-sovereign neighbours
-        out.append(Country(c["cca3"], c["name"]["common"], c, int(pops.get(c["cca3"], 100_000))))
+        out.append(Country(c["cca3"], c["name"]["common"], c))
     return sorted(out, key=lambda c: c.name)
 
 
@@ -236,8 +236,8 @@ def build_prompts(countries: list[Country]) -> list[PromptDef]:
 
 
 def popularity(c: Country) -> float:
-    """Interim fame prior: sqrt(population). Replace with Wikipedia pageviews later."""
-    return round(math.sqrt(max(c.population, 1_000)) / 100, 3)
+    """How familiar the name is (Zipf scale, roughly 2 to 5.3). See familiarity.py."""
+    return round(familiarity(c.name, c.english_names), 3)
 
 
 def difficulty(n_answers: int) -> int:
@@ -284,14 +284,19 @@ def main() -> None:
     L.append(f") as v(slug, theme, text, difficulty) where p.slug = {q(PACK)}")
     L.append("on conflict (slug) do update set theme = excluded.theme, text = excluded.text, difficulty = excluded.difficulty;")
     L.append("")
-    L.append("create temp table _new_answers (prompt_slug text, entity_slug text, w real) on commit drop;")
+    L.append("create temp table _new_answers (prompt_slug text, entity_slug text, w real, tier text, points smallint) on commit drop;")
     L.append("insert into _new_answers values")
-    L.append(",\n".join(f"  ({q(p.slug)}, {q(c.code.lower())}, {popularity(c)})" for p, a in kept for c in a) + ";")
-    L.append("insert into answers (prompt_id, entity_id, seed_weight)")
-    L.append("select pr.id, e.id, n.w from _new_answers n")
+    rows = []
+    for p, a in kept:
+        tiers = assign_tiers({c.code: popularity(c) for c in a})
+        rows += [f"  ({q(p.slug)}, {q(c.code.lower())}, {popularity(c)}, {q(tiers[c.code][0])}, {tiers[c.code][1]})" for c in a]
+    L.append(",\n".join(rows) + ";")
+    L.append("insert into answers (prompt_id, entity_id, seed_weight, tier, points)")
+    L.append("select pr.id, e.id, n.w, n.tier, n.points from _new_answers n")
     L.append("join prompts pr on pr.slug = n.prompt_slug")
     L.append(f"join entities e on e.slug = n.entity_slug join packs p on p.id = e.pack_id and p.slug = {q(PACK)}")
-    L.append("on conflict (prompt_id, entity_id) do update set seed_weight = excluded.seed_weight;")
+    L.append("on conflict (prompt_id, entity_id) do update")
+    L.append("  set seed_weight = excluded.seed_weight, tier = excluded.tier, points = excluded.points;")
     L.append("-- remove answers that no longer qualify (unless a player already gave them)")
     L.append("delete from answers a using prompts pr, entities e")
     L.append("where a.prompt_id = pr.id and a.entity_id = e.id")
@@ -306,17 +311,20 @@ def main() -> None:
     M = ["# Geography prompts (generated)", "",
          f"{len(countries)} countries, {sum(len(aliases_for(c)) for c in countries)} accepted spellings, "
          f"{len(kept)} prompts kept, {len(dropped)} dropped (< {MIN_ANSWERS} answers).", ""]
-    M.append("| Theme | Prompt | Answers | Most likely (prior) | Rarest (prior) |")
+    M.append("| Theme | Prompt | Answers | Wycheproof (20) | Everest (100) |")
     M.append("| --- | --- | --- | --- | --- |")
     for p, a in sorted(kept, key=lambda t: (t[0].theme, t[0].slug)):
-        ranked = sorted(a, key=popularity, reverse=True)
-        M.append(f"| {p.theme} | {p.text} | {len(a)} | {', '.join(c.name for c in ranked[:3])} | "
-                 f"{', '.join(c.name for c in ranked[-3:])} |")
+        tiers = assign_tiers({c.code: popularity(c) for c in a})
+        obvious = [c.name for c in a if tiers[c.code][0] == "Wycheproof"]
+        rarest = [c.name for c in a if tiers[c.code][0] == "Everest"]
+        M.append(f"| {p.theme} | {p.text} | {len(a)} | {', '.join(obvious)} | {', '.join(rarest)} |")
     if dropped:
         M += ["", "## Dropped", ""] + [f"- {p.text} ({len(a)} answers)" for p, a in dropped]
     M += ["", "## Full answer lists", ""]
     for p, a in kept:
-        M.append(f"**{p.text}** ({len(a)}): {', '.join(c.name for c in a)}")
+        tiers = assign_tiers({c.code: popularity(c) for c in a})
+        ranked = sorted(a, key=popularity, reverse=True)
+        M.append(f"**{p.text}** ({len(a)}): " + ", ".join(f"{c.name} ({tiers[c.code][1]})" for c in ranked))
         M.append("")
     MD_OUT.parent.mkdir(parents=True, exist_ok=True)
     MD_OUT.write_text("\n".join(M), encoding="utf-8")

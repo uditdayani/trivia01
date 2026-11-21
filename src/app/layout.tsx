@@ -27,7 +27,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <a className="underline" href="https://github.com/mledoze/countries">
             mledoze/countries
           </a>
-          , licensed under ODbL 1.0.
+          , licensed under ODbL 1.0. Answer familiarity from{" "}
+          <a className="underline" href="https://github.com/rspeer/wordfreq">
+            wordfreq
+          </a>{" "}
+          (CC BY-SA 4.0).
         </footer>
       </body>
     </html>

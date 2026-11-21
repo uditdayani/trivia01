@@ -30,8 +30,11 @@ export type AnswerResult = {
   input: string;
   name: string | null;
   correct: boolean;
-  share: number | null;
-  /** players who gave a correct answer to this question so far */
+  /** fixed tier and points, set when the answer was given */
+  tier: string | null;
+  points: number;
+  /** players today who gave this same answer, and who answered correctly at all (information only) */
+  nAnswer: number | null;
   nCorrect: number | null;
 };
 
@@ -83,7 +86,8 @@ type DbDayRow = {
   raw_input: string | null;
   canonical_name: string | null;
   is_correct: boolean;
-  share: number | null;
+  tier: string | null;
+  points: number;
   n_answer: number | null;
   n_correct: number | null;
 };
@@ -114,7 +118,9 @@ export async function getDay(pack: PackSlug, date: string, playerId: string | nu
             input: r.raw_input ?? "",
             name: r.canonical_name,
             correct: r.is_correct,
-            share: r.share,
+            tier: r.tier,
+            points: r.points,
+            nAnswer: r.n_answer,
             nCorrect: r.n_correct,
           }
         : null,
@@ -153,6 +159,25 @@ export async function submitAnswer(playerId: string, date: string, promptId: num
     p_input: input,
   });
   if (error) fail(error);
-  const r = (data as { status: SubmitResult["status"]; canonical_name: string | null; is_correct: boolean; share: number | null; n_correct: number | null }[])[0];
-  return { status: r.status, input, name: r.canonical_name, correct: r.is_correct, share: r.share, nCorrect: r.n_correct };
+  const r = (
+    data as {
+      status: SubmitResult["status"];
+      canonical_name: string | null;
+      is_correct: boolean;
+      tier: string | null;
+      points: number;
+      n_answer: number | null;
+      n_correct: number | null;
+    }[]
+  )[0];
+  return {
+    status: r.status,
+    input,
+    name: r.canonical_name,
+    correct: r.is_correct,
+    tier: r.tier,
+    points: r.points,
+    nAnswer: r.n_answer,
+    nCorrect: r.n_correct,
+  };
 }

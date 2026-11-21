@@ -3,8 +3,8 @@
 import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import type { DayRow } from "@/lib/game";
-import { MAX_POINTS, formatShare } from "@/lib/tiers";
-import { emojiOf, formatDate, pointsOf, tierOf } from "./scoring";
+import { MAX_POINTS } from "@/lib/tiers";
+import { emojiOf, formatDate, pointsOf, statLine, tierOf } from "./scoring";
 
 export function Results({ packName, date, rows }: { packName: string; date: string; rows: DayRow[] }) {
   const total = rows.reduce((sum, r) => sum + pointsOf(r.result), 0);
@@ -20,7 +20,7 @@ export function Results({ packName, date, rows }: { packName: string; date: stri
         {total} <span className="text-3xl text-stone sm:text-4xl">/ {max} points</span>
       </h1>
       <p className="mt-3 text-stone">
-        {correct} of {rows.length} correct. Points move as more people play and are final at midnight UTC.
+        {correct} of {rows.length} correct. Every answer&apos;s points were set before the day began.
       </p>
 
       <ShareCard packName={packName} date={date} rows={rows} total={total} max={max} />
@@ -47,10 +47,9 @@ function ResultRow({ row, n }: { row: DayRow; n: number }) {
       <div>
         <p className="font-medium">{row.text ?? "Question not opened"}</p>
         <p className={tier ? "text-moss" : "text-flag"}>{describe(row)}</p>
-        {tier && r?.share != null && (
+        {tier && (
           <p className="text-sm text-stone">
-            {tier.name}: {formatShare(r.share)} of players
-            {r.nCorrect != null && ` (${r.nCorrect} correct ${r.nCorrect === 1 ? "answer" : "answers"} so far)`}
+            {tier.name}. {statLine(r)}
           </p>
         )}
         {row.topAnswers && row.topAnswers.length > 0 && (
@@ -58,7 +57,7 @@ function ResultRow({ row, n }: { row: DayRow; n: number }) {
         )}
       </div>
       <span className="text-right">
-        <span className="block font-sign text-2xl font-bold tabular-nums">{tier?.points ?? 0}</span>
+        <span className="block font-sign text-2xl font-bold tabular-nums">{pointsOf(r)}</span>
         <span aria-hidden="true">{emojiOf(r)}</span>
       </span>
     </li>

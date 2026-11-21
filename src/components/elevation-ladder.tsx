@@ -1,4 +1,4 @@
-import { TIERS, shareLabel } from "@/lib/tiers";
+import { TIERS } from "@/lib/tiers";
 
 const MAX = TIERS[0].elevation;
 
@@ -7,7 +7,7 @@ export function ElevationLadder() {
   return (
     <figure>
       <ol className="space-y-2.5">
-        {TIERS.map((t, i) => (
+        {TIERS.map((t) => (
           <li key={t.name} className="grid grid-cols-[7.5rem_1fr_3.5rem] items-center gap-3">
             <span className="font-sign text-lg font-semibold leading-tight">{t.name}</span>
             <span className="relative h-7">
@@ -16,7 +16,7 @@ export function ElevationLadder() {
                 style={{ width: `${Math.max((t.elevation / MAX) * 100, 1.2)}%`, opacity: 0.35 + 0.65 * (t.points / 100) }}
               />
               <span className={`absolute inset-y-0 left-2 flex items-center text-sm ${t.points >= 70 ? "font-medium text-snow" : "text-slate"}`}>
-                {shareLabel(i)}
+                {t.blurb}
               </span>
             </span>
             <span className="text-right font-sign text-lg font-semibold tabular-nums">{t.points}</span>
@@ -25,7 +25,7 @@ export function ElevationLadder() {
       </ol>
       <figcaption className="mt-3 text-sm text-stone">
         Bars are drawn to each summit&apos;s height, from Everest (8,849 m) down to Mount Wycheproof (148 m).
-        Percentages are the share of players who gave the same correct answer.
+        Every answer&apos;s tier is set before the day starts, so your points never change after you answer.
       </figcaption>
     </figure>
   );

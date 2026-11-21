@@ -9,8 +9,8 @@ export default function Home() {
         Name what nobody else thinks of.
       </h1>
       <p className="mt-5 max-w-prose text-lg text-stone">
-        Seven questions a day, thirty seconds each. Every correct answer scores, and the fewer players
-        who gave the same one, the higher it climbs.
+        Seven questions a day, thirty seconds each. Every correct answer scores, and the less obvious
+        it is, the higher it climbs.
       </p>
 
       <section aria-labelledby="packs" className="mt-10">

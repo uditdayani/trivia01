@@ -2,9 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { AnswerResult, DayRow, RowStatus } from "@/lib/game";
-import { formatShare } from "@/lib/tiers";
 import { Results } from "./results";
-import { formatDate, tierOf } from "./scoring";
+import { formatDate, statLine, tierOf } from "./scoring";
 
 type Phase = "ready" | "opening" | "question" | "checking" | "feedback" | "finishing" | "done" | "error";
 
@@ -97,7 +96,15 @@ export function Game({
         });
         const json = await res.json();
         if (!res.ok) throw new Error(json.error ?? "Couldn't check that answer.");
-        result = { input: json.input, name: json.name, correct: json.correct, share: json.share, nCorrect: json.nCorrect };
+        result = {
+          input: json.input,
+          name: json.name,
+          correct: json.correct,
+          tier: json.tier,
+          points: json.points,
+          nAnswer: json.nAnswer,
+          nCorrect: json.nCorrect,
+        };
         if (json.status === "late") status = "late";
       } catch (e) {
         setError(e instanceof Error ? e.message : "Couldn't check that answer.");
@@ -271,15 +278,14 @@ function Feedback({ result, late }: { result: AnswerResult; late: boolean }) {
   if (late) {
     return <p className="rounded-md bg-mist px-4 py-3 text-lg">Time ran out before that answer arrived.</p>;
   }
-  if (tier && result.share != null) {
+  if (tier) {
+    const stat = statLine(result);
     return (
       <div className="rounded-md bg-moss-soft px-4 py-3 text-moss">
         <p className="text-lg">
-          <strong className="font-semibold">{result.name}</strong> is correct.
+          <strong className="font-semibold">{result.name}</strong>: {tier.name}, {result.points} points.
         </p>
-        <p>
-          {tier.name}, {tier.points} points for now. {formatShare(result.share)} of players gave it.
-        </p>
+        {stat && <p>{stat}</p>}
       </div>
     );
   }

@@ -1,12 +1,12 @@
 import type { AnswerResult } from "@/lib/game";
-import { WRONG_EMOJI, tierForShare, type Tier } from "@/lib/tiers";
+import { WRONG_EMOJI, tierByName, type Tier } from "@/lib/tiers";
 
 export function tierOf(result: AnswerResult | null): Tier | null {
-  return result?.correct && result.share != null ? tierForShare(result.share) : null;
+  return result?.correct ? tierByName(result.tier) : null;
 }
 
 export function pointsOf(result: AnswerResult | null): number {
-  return tierOf(result)?.points ?? 0;
+  return result?.correct ? result.points : 0;
 }
 
 export function emojiOf(result: AnswerResult | null): string {
@@ -20,4 +20,12 @@ export function formatDate(iso: string, style: "long" | "short" = "long") {
     month: style === "long" ? "long" : "short",
     timeZone: "UTC",
   });
+}
+
+/** "1 of 4 players who got it right today gave this answer" */
+export function statLine(result: AnswerResult | null): string | null {
+  if (!result?.correct || result.nAnswer == null || result.nCorrect == null) return null;
+  if (result.nCorrect <= 1) return "You're the first to give a correct answer today.";
+  if (result.nAnswer <= 1) return `Nobody else gave it among ${result.nCorrect} correct answers so far today.`;
+  return `${result.nAnswer} of ${result.nCorrect} correct answers today were this one.`;
 }
