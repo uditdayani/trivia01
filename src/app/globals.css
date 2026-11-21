@@ -1,10 +1,37 @@
 @import "tailwindcss";
 
-@theme inline {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+/* Alpine trail-sign palette: snow, slate ink, glacier blue, with green/red only for right/wrong. */
+@theme {
+  --color-snow: #f6f8f9;
+  --color-mist: #dce4e8;
+  --color-stone: #6b7a84;
+  --color-slate: #1d2b34;
+  --color-glacier: #2b6a8a;
+  --color-glacier-soft: #d7e7ef;
+  --color-moss: #2f7a4d;
+  --color-moss-soft: #ddeee3;
+  --color-flag: #b02a46;
+  --color-flag-soft: #f4dde2;
+
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+  --font-sign: "Barlow Condensed", "Barlow", ui-sans-serif, sans-serif;
 }
 
 body {
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--color-snow);
+  color: var(--color-slate);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-glacier);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
