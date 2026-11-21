@@ -1,5 +1,5 @@
 import type { AnswerResult } from "@/lib/game";
-import { WRONG_EMOJI, tierByName, type Tier } from "@/lib/tiers";
+import { WRONG_COLOR, WRONG_EMOJI, tierByName, type Tier } from "@/lib/tiers";
 
 export function tierOf(result: AnswerResult | null): Tier | null {
   return result?.correct ? tierByName(result.tier) : null;
@@ -11,6 +11,19 @@ export function pointsOf(result: AnswerResult | null): number {
 
 export function emojiOf(result: AnswerResult | null): string {
   return tierOf(result)?.emoji ?? WRONG_EMOJI;
+}
+
+/** Tier colour for a correct answer, red for a wrong one. */
+export function colorOf(result: AnswerResult | null): string {
+  return tierOf(result)?.color ?? WRONG_COLOR;
+}
+
+/** "5h 12m" until the next puzzle (midnight UTC). */
+export function untilNextPuzzle(now = new Date()): string {
+  const next = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
+  const mins = Math.max(0, Math.ceil((next - now.getTime()) / 60_000));
+  const h = Math.floor(mins / 60);
+  return h > 0 ? `${h}h ${mins % 60}m` : `${mins}m`;
 }
 
 export function formatDate(iso: string, style: "long" | "short" = "long") {

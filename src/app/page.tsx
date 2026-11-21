@@ -8,7 +8,7 @@ export default function Home() {
       <h1 className="font-sign text-5xl font-bold leading-[0.95] tracking-tight sm:text-7xl">
         Name what nobody else thinks of.
       </h1>
-      <p className="mt-5 max-w-prose text-lg text-stone">
+      <p className="mt-5 max-w-prose text-lg text-haze">
         Seven questions a day, thirty seconds each. Every correct answer scores, and the less obvious
         it is, the higher it climbs.
       </p>
@@ -17,22 +17,22 @@ export default function Home() {
         <h2 id="packs" className="sr-only">
           Choose a pack
         </h2>
-        <ul className="divide-y divide-mist border-y border-mist">
+        <ul className="divide-y divide-rule border-y border-rule">
           <li>
             <Link
               href="/play/geography"
-              className="group flex items-baseline justify-between gap-4 py-5 hover:bg-glacier-soft/50"
+              className="group -mx-3 flex items-baseline justify-between gap-4 rounded-md px-3 py-5 hover:bg-panel"
             >
               <span>
                 <span className="block font-sign text-3xl font-bold">{PACKS.geography.name}</span>
-                <span className="text-stone">195 countries, a new set of questions every day</span>
+                <span className="text-haze">195 countries, a new set of questions every day</span>
               </span>
-              <span className="shrink-0 rounded-md bg-slate px-4 py-2 font-medium text-snow group-hover:bg-glacier">
+              <span className="shrink-0 rounded-md bg-glacier px-4 py-2 font-semibold text-night group-hover:bg-ink">
                 Play today
               </span>
             </Link>
           </li>
-          <li className="flex items-baseline justify-between gap-4 py-5 text-stone">
+          <li className="flex items-baseline justify-between gap-4 py-5 text-haze">
             <span>
               <span className="block font-sign text-3xl font-bold">{PACKS.cricket.name}</span>
               <span>Players, records and teams</span>
@@ -40,6 +40,18 @@ export default function Home() {
             <span className="shrink-0 text-sm">Coming soon</span>
           </li>
         </ul>
+      </section>
+
+      <section aria-labelledby="how" className="mt-12">
+        <h2 id="how" className="font-sign text-2xl font-bold">
+          How to play
+        </h2>
+        <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-haze marker:font-sign marker:text-ink">
+          <li>Each question appears when you reach it, and its 30-second clock starts straight away.</li>
+          <li>Type one answer and press Enter. Small spelling mistakes are fine.</li>
+          <li>Every correct answer scores. The less expected it is for that question, the more it&apos;s worth.</li>
+          <li>One game per pack per day. New questions every midnight UTC.</li>
+        </ol>
       </section>
 
       <section aria-labelledby="scoring" className="mt-12">

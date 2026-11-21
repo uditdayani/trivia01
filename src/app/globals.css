@@ -1,25 +1,37 @@
 @import "tailwindcss";
 
-/* Alpine trail-sign palette: snow, slate ink, glacier blue, with green/red only for right/wrong. */
+/* Night on the mountain: deep blue-black, pale ink, glacier accent.
+   Colour carries meaning: each rarity tier has its own colour (matching its
+   share-card square), red is a wrong answer, and nothing else is coloured. */
 @theme {
-  --color-snow: #f6f8f9;
-  --color-mist: #dce4e8;
-  --color-stone: #6b7a84;
-  --color-slate: #1d2b34;
-  --color-glacier: #2b6a8a;
-  --color-glacier-soft: #d7e7ef;
-  --color-moss: #2f7a4d;
-  --color-moss-soft: #ddeee3;
-  --color-flag: #b02a46;
-  --color-flag-soft: #f4dde2;
+  --color-night: #0d1821;
+  --color-panel: #142431;
+  --color-rule: #26394a;
+  --color-haze: #97abb8;
+  --color-ink: #e8eff3;
+  --color-glacier: #7cc4e4;
+  --color-flag: #f2707e;
+  --color-flag-soft: #3a1f29;
+
+  /* tiers, rarest first */
+  --color-everest: #b794f6;
+  --color-aconcagua: #5aa9f0;
+  --color-kilimanjaro: #4cc38a;
+  --color-montblanc: #f2c94c;
+  --color-fuji: #f59a4a;
+  --color-wycheproof: #b98563;
 
   --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
   --font-sign: "Barlow Condensed", "Barlow", ui-sans-serif, sans-serif;
 }
 
+:root {
+  color-scheme: dark;
+}
+
 body {
-  background: var(--color-snow);
-  color: var(--color-slate);
+  background: var(--color-night);
+  color: var(--color-ink);
 }
 
 :focus-visible {

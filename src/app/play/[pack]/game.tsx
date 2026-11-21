@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { AnswerResult, DayRow, RowStatus } from "@/lib/game";
 import { Results } from "./results";
-import { formatDate, statLine, tierOf } from "./scoring";
+import { track } from "@/lib/track";
+import { colorOf, formatDate, pointsOf, statLine, tierOf } from "./scoring";
 
 type Phase = "ready" | "opening" | "question" | "checking" | "feedback" | "finishing" | "done" | "error";
 
@@ -37,6 +38,12 @@ export function Game({
     inputValue.current = input;
   }, [input]);
 
+  useEffect(() => {
+    track("puzzle_view", pack, date, { finished: allDone });
+    // once per page load
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const row = rows[index];
   const answeredCount = rows.filter((r) => DONE.includes(r.status)).length;
 
@@ -47,6 +54,11 @@ export function Game({
       const json = await res.json();
       if (!res.ok) throw new Error(json.error);
       setRows(json.rows);
+      const final = json.rows as DayRow[];
+      track("game_finish", pack, date, {
+        score: final.reduce((sum, r) => sum + pointsOf(r.result), 0),
+        correct: final.filter((r) => r.result?.correct).length,
+      });
     } catch {
       // keep the rows we have; points shown are from when each answer was given
     }
@@ -144,19 +156,19 @@ export function Game({
     return () => window.clearTimeout(id);
   }, [phase, next]);
 
-  if (phase === "done") return <Results packName={packName} date={date} rows={rows} />;
+  if (phase === "done") return <Results pack={pack} packName={packName} date={date} rows={rows} />;
 
-  if (phase === "finishing") return <p className="text-stone">Adding up your points…</p>;
+  if (phase === "finishing") return <p className="text-haze">Adding up your points…</p>;
 
   if (phase === "error") {
     return (
       <div>
         <h1 className="font-sign text-4xl font-bold">Something got in the way</h1>
-        <p className="mt-3 text-stone">{error}</p>
+        <p className="mt-3 text-haze">{error}</p>
         <button
           type="button"
           onClick={() => window.location.reload()}
-          className="mt-6 rounded-md bg-slate px-5 py-3 font-medium text-snow hover:bg-glacier"
+          className="mt-6 rounded-md bg-glacier px-5 py-3 font-semibold text-night hover:bg-ink"
         >
           Reload the puzzle
         </button>
@@ -168,7 +180,7 @@ export function Game({
     const resuming = answeredCount > 0 || rows.some((r) => r.status === "in_progress");
     return (
       <section aria-labelledby="ready-title">
-        <p className="text-stone">
+        <p className="text-haze">
           {packName} · {formatDate(date)}
         </p>
         <h1 id="ready-title" className="mt-1 font-sign text-5xl font-bold leading-none sm:text-6xl">
@@ -176,15 +188,18 @@ export function Game({
             ? `${answeredCount} of ${rows.length} answered`
             : `${rows.length} questions, ${rows[0]?.timeLimitS ?? 30} seconds each`}
         </h1>
-        <p className="mt-4 max-w-prose text-lg text-stone">
+        <p className="mt-4 max-w-prose text-lg text-haze">
           {resuming
             ? "Pick up where you left off. A question you opened keeps its own clock, even if you left the page."
             : "One answer per question, one try per day. Each question appears only when you reach it, and its clock starts straight away."}
         </p>
         <button
           type="button"
-          onClick={() => openQuestion(index)}
-          className="mt-8 rounded-md bg-slate px-6 py-3 text-lg font-medium text-snow hover:bg-glacier"
+          onClick={() => {
+            if (!resuming) track("game_start", pack, date);
+            void openQuestion(index);
+          }}
+          className="mt-8 rounded-md bg-glacier px-6 py-3 text-lg font-semibold text-night hover:bg-ink"
         >
           {resuming ? "Continue" : "Start"}
         </button>
@@ -199,7 +214,7 @@ export function Game({
 
   return (
     <section aria-labelledby="prompt-text">
-      <div className="flex items-center justify-between text-stone">
+      <div className="flex items-center justify-between text-haze">
         <span>
           Question {index + 1} of {rows.length}
         </span>
@@ -207,15 +222,15 @@ export function Game({
       </div>
 
       <h1 id="prompt-text" className="mt-6 min-h-[2.5em] font-sign text-4xl font-bold leading-tight sm:text-5xl">
-        {phase === "opening" ? <span className="text-stone">…</span> : row?.text}
+        {phase === "opening" ? <span className="text-haze">…</span> : row?.text}
       </h1>
 
       {/* horizon line: drains as time runs out */}
       <div className="mt-6 flex items-center gap-3" aria-hidden="true">
-        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-mist">
+        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-rule">
           <div
             className={`h-full rounded-full transition-[width] duration-100 ease-linear ${
-              phase !== "question" ? "bg-stone/40" : fraction < 0.25 ? "bg-flag" : "bg-glacier"
+              phase !== "question" ? "bg-haze/40" : fraction < 0.25 ? "bg-flag" : "bg-glacier"
             }`}
             style={{ width: `${fraction * 100}%` }}
           />
@@ -247,19 +262,19 @@ export function Game({
           spellCheck={false}
           maxLength={80}
           placeholder={pack === "geography" ? "Type a country" : "Type an answer"}
-          className="min-w-0 flex-1 rounded-md border-2 border-mist bg-white px-4 py-3 text-xl outline-none focus:border-glacier disabled:opacity-60"
+          className="min-w-0 flex-1 rounded-md border-2 border-rule bg-panel px-4 py-3 text-xl outline-none focus:border-glacier disabled:opacity-60"
         />
         <button
           type="submit"
           disabled={phase !== "question"}
-          className="rounded-md bg-slate px-5 py-3 font-medium text-snow hover:bg-glacier disabled:opacity-60"
+          className="rounded-md bg-glacier px-5 py-3 font-semibold text-night hover:bg-ink disabled:opacity-50"
         >
           Answer
         </button>
       </form>
 
       <div className="mt-5 min-h-28" aria-live="assertive">
-        {phase === "checking" && <p className="text-stone">Checking…</p>}
+        {phase === "checking" && <p className="text-haze">Checking…</p>}
         {phase === "feedback" && row?.result && (
           <div>
             <Feedback result={row.result} late={row.status === "late"} />
@@ -276,29 +291,40 @@ export function Game({
 function Feedback({ result, late }: { result: AnswerResult; late: boolean }) {
   const tier = tierOf(result);
   if (late) {
-    return <p className="rounded-md bg-mist px-4 py-3 text-lg">Time ran out before that answer arrived.</p>;
+    return <p className="rounded-md border-l-4 border-haze bg-panel px-4 py-3 text-lg">Time ran out before that answer arrived.</p>;
   }
   if (tier) {
     const stat = statLine(result);
     return (
-      <div className="rounded-md bg-moss-soft px-4 py-3 text-moss">
-        <p className="text-lg">
-          <strong className="font-semibold">{result.name}</strong>: {tier.name}, {result.points} points.
-        </p>
-        {stat && <p>{stat}</p>}
+      <div
+        className="flex items-center gap-4 rounded-md border-l-4 bg-panel px-4 py-3"
+        style={{ borderColor: tier.color }}
+      >
+        <span className="font-sign text-4xl font-bold tabular-nums" style={{ color: tier.color }}>
+          +{result.points}
+        </span>
+        <div>
+          <p className="text-lg">
+            <strong className="font-semibold">{result.name}</strong> is correct:{" "}
+            <span className="font-semibold" style={{ color: tier.color }}>
+              {tier.name}
+            </span>
+          </p>
+          {stat && <p className="text-sm text-haze">{stat}</p>}
+        </div>
       </div>
     );
   }
   if (result.name) {
     return (
-      <p className="rounded-md bg-flag-soft px-4 py-3 text-lg text-flag">
-        <strong className="font-semibold">{result.name}</strong> is a real country, but not a correct answer here.
+      <p className="rounded-md border-l-4 border-flag bg-flag-soft px-4 py-3 text-lg">
+        <strong className="font-semibold text-flag">{result.name}</strong> is a real country, but not a correct answer here.
       </p>
     );
   }
-  if (!result.input) return <p className="rounded-md bg-mist px-4 py-3 text-lg">Time&apos;s up, no answer given.</p>;
+  if (!result.input) return <p className="rounded-md border-l-4 border-haze bg-panel px-4 py-3 text-lg">Time&apos;s up, no answer given.</p>;
   return (
-    <p className="rounded-md bg-flag-soft px-4 py-3 text-lg text-flag">
+    <p className="rounded-md border-l-4 border-flag bg-flag-soft px-4 py-3 text-lg">
       That isn&apos;t a country on our list. Check the spelling next time.
     </p>
   );
@@ -309,10 +335,12 @@ function Progress({ rows, index }: { rows: DayRow[]; index: number }) {
     <ol className="flex gap-1.5" aria-label="Progress">
       {rows.map((r, i) => {
         const done = DONE.includes(r.status);
-        const color = done ? (r.result?.correct ? "bg-moss" : "bg-flag") : i === index ? "bg-slate" : "bg-mist";
-        const label = done ? (r.result?.correct ? "correct" : "wrong") : i === index ? "current" : "to come";
+        const tier = done ? tierOf(r.result) : null;
+        const style = done ? { background: colorOf(r.result) } : undefined;
+        const cls = done ? "" : i === index ? "bg-ink" : "bg-rule";
+        const label = done ? (tier ? `${tier.name}, ${r.result?.points} points` : "wrong") : i === index ? "current" : "to come";
         return (
-          <li key={r.promptId} className={`h-2.5 w-5 rounded-sm ${color}`}>
+          <li key={r.promptId} className={`h-2.5 w-5 rounded-sm ${cls}`} style={style}>
             <span className="sr-only">
               Question {i + 1}: {label}
             </span>

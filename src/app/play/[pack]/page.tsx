@@ -34,7 +34,7 @@ function Notice({ title, body }: { title: string; body: string }) {
   return (
     <div>
       <h1 className="font-sign text-4xl font-bold">{title}</h1>
-      <p className="mt-3 text-stone">{body}</p>
+      <p className="mt-3 text-haze">{body}</p>
       <Link href="/" className="mt-6 inline-block underline">
         Back to the start
       </Link>
@@ -45,7 +45,7 @@ function Notice({ title, body }: { title: string; body: string }) {
 export default function PlayPage({ params }: PageProps<"/play/[pack]">) {
   return (
     <main className="mx-auto w-full max-w-2xl px-5 pb-10 pt-8">
-      <Suspense fallback={<p className="text-stone">Loading today&apos;s questions…</p>}>
+      <Suspense fallback={<p className="text-haze">Loading today&apos;s questions…</p>}>
         <Puzzle params={params} />
       </Suspense>
     </main>

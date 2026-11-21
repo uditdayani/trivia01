@@ -17,12 +17,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className="h-full antialiased">
       <body className="flex min-h-full flex-col font-sans text-[17px] leading-relaxed">
         <header className="mx-auto w-full max-w-2xl px-5 pt-6">
-          <Link href="/" className="font-sign text-xl font-bold tracking-tight text-slate">
+          <Link href="/" className="font-sign text-xl font-bold tracking-tight text-ink">
             Rare-Answer Trivia
           </Link>
         </header>
         <div className="flex flex-1 flex-col">{children}</div>
-        <footer className="mx-auto w-full max-w-2xl px-5 py-8 text-sm text-stone">
+        <footer className="mx-auto w-full max-w-2xl px-5 py-8 text-sm text-haze">
           Country data from{" "}
           <a className="underline" href="https://github.com/mledoze/countries">
             mledoze/countries

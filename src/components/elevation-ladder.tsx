@@ -2,30 +2,34 @@ import { TIERS } from "@/lib/tiers";
 
 const MAX = TIERS[0].elevation;
 
-/** The six tiers drawn to their real summit heights. */
+/** The six tiers drawn to their real summit heights, each in its own colour. */
 export function ElevationLadder() {
   return (
     <figure>
-      <ol className="space-y-2.5">
+      <ol className="space-y-3">
         {TIERS.map((t) => (
-          <li key={t.name} className="grid grid-cols-[7.5rem_1fr_3.5rem] items-center gap-3">
-            <span className="font-sign text-lg font-semibold leading-tight">{t.name}</span>
-            <span className="relative h-7">
-              <span
-                className="absolute inset-y-0 left-0 rounded-r-sm bg-glacier"
-                style={{ width: `${Math.max((t.elevation / MAX) * 100, 1.2)}%`, opacity: 0.35 + 0.65 * (t.points / 100) }}
-              />
-              <span className={`absolute inset-y-0 left-2 flex items-center text-sm ${t.points >= 70 ? "font-medium text-snow" : "text-slate"}`}>
-                {t.blurb}
+          <li key={t.name} className="grid grid-cols-[minmax(0,10rem)_1fr_3rem] items-center gap-3">
+            <span className="leading-tight">
+              <span className="block font-sign text-lg font-semibold" style={{ color: t.color }}>
+                {t.name}
               </span>
+              <span className="block text-sm text-haze">{t.blurb}</span>
             </span>
-            <span className="text-right font-sign text-lg font-semibold tabular-nums">{t.points}</span>
+            <span className="h-3 rounded-full bg-rule/60" aria-hidden="true">
+              <span
+                className="block h-full rounded-full"
+                style={{ width: `${Math.max((t.elevation / MAX) * 100, 2)}%`, background: t.color }}
+              />
+            </span>
+            <span className="text-right font-sign text-xl font-bold tabular-nums" style={{ color: t.color }}>
+              {t.points}
+            </span>
           </li>
         ))}
       </ol>
-      <figcaption className="mt-3 text-sm text-stone">
+      <figcaption className="mt-4 text-sm text-haze">
         Bars are drawn to each summit&apos;s height, from Everest (8,849 m) down to Mount Wycheproof (148 m).
-        Every answer&apos;s tier is set before the day starts, so your points never change after you answer.
+        Tiers are set for each question before the day starts, so your points never change after you answer.
       </figcaption>
     </figure>
   );

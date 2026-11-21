@@ -12,7 +12,8 @@ Stack: Next.js (App Router) + TypeScript + Tailwind · Supabase (Postgres, auth)
 - [x] **M1 Geography data:** Python pipeline, 195 countries, 53 prompts, 765 spellings (`pipeline/`)
 - [x] **M2 Playable loop:** daily 7-question game, 30s timer, server-side answer matching, results
 - [x] **M3 Rarity scoring and sharing:** answers saved, fixed tier points (set in the pipeline), one play per day (cookie), server-kept timer, share card
-- [ ] M4 Geography beta launch
+- [x] **M4 Daily operations:** 30-day puzzle schedule, daily rollover job (Vercel Cron), analytics events, `daily_stats` and `answer_review` views, dark colour-coded UI
+- [ ] Public beta: deploy, run 14 days unattended, share
 
 ## Setup
 
@@ -25,8 +26,20 @@ Stack: Next.js (App Router) + TypeScript + Tailwind · Supabase (Postgres, auth)
 3. **Env:** copy `.env.example` to `.env.local` and fill in `SUPABASE_URL` and
    `SUPABASE_SECRET_KEY` (URL: Connect button or Project Settings → Data API; key: Project Settings → API Keys → Secret key).
 4. **Run:** `npm run dev`, open http://localhost:3000 and choose Geography.
-5. **Deploy:** push to GitHub, import the repo in Vercel, and add the same two
-   env vars in Vercel → Settings → Environment Variables.
+5. **Deploy:** push to GitHub, import the repo in Vercel, and add `SUPABASE_URL`,
+   `SUPABASE_SECRET_KEY` and `CRON_SECRET` (any long random string) in
+   Vercel → Settings → Environment Variables. `vercel.json` runs
+   `/api/cron/rollover` once a day; Vercel sends the secret automatically.
+
+## Running it day to day
+
+- **Schedule:** 30 days of puzzles are always planned ahead. After adding or
+  editing questions, run `select reschedule_future('geography');` in the SQL editor.
+- **Health check:** `select * from daily_stats;` shows players, finishes, average
+  score, shares and next-day returns per day.
+- **Missing spellings:** `select * from answer_review;` lists answers that weren't
+  recognised or real countries players thought were right. Add spellings in
+  `pipeline/build_geography.py` and rerun the build.
 
 ## Project layout
 
