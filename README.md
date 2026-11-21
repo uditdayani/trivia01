@@ -23,7 +23,7 @@ Stack: Next.js (App Router) + TypeScript + Tailwind · Supabase (Postgres, auth)
 2. **Supabase:** create a free project at supabase.com. In **SQL Editor**, run
    `supabase/migrations/20261119000000_init.sql`, then `supabase/seed.sql`.
 3. **Env:** copy `.env.example` to `.env.local` and fill in `SUPABASE_URL` and
-   `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API).
+   `SUPABASE_SECRET_KEY` (URL: Connect button or Project Settings → Data API; key: Project Settings → API Keys → Secret key).
 4. **Run:** `npm run dev` and open http://localhost:3000. You should see
    "Name a landlocked country" with a green "Read from Supabase" line.
 5. **Deploy:** push to GitHub, import the repo in Vercel, and add the same two
