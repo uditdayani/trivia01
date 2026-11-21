@@ -1,0 +1,1180 @@
+question,answer,tier,points
+Name a landlocked country,Austria,Wycheproof,20
+Name a landlocked country,Switzerland,Wycheproof,20
+Name a landlocked country,Afghanistan,Fuji,40
+Name a landlocked country,Bolivia,Fuji,40
+Name a landlocked country,Czechia,Fuji,40
+Name a landlocked country,Hungary,Fuji,40
+Name a landlocked country,Mongolia,Fuji,40
+Name a landlocked country,Nepal,Fuji,40
+Name a landlocked country,Paraguay,Fuji,40
+Name a landlocked country,Ethiopia,Mont Blanc,55
+Name a landlocked country,Kazakhstan,Mont Blanc,55
+Name a landlocked country,Liechtenstein,Mont Blanc,55
+Name a landlocked country,Luxembourg,Mont Blanc,55
+Name a landlocked country,Serbia,Mont Blanc,55
+Name a landlocked country,Slovakia,Mont Blanc,55
+Name a landlocked country,Uganda,Mont Blanc,55
+Name a landlocked country,Vatican City,Mont Blanc,55
+Name a landlocked country,Zambia,Mont Blanc,55
+Name a landlocked country,Zimbabwe,Mont Blanc,55
+Name a landlocked country,Andorra,Kilimanjaro,70
+Name a landlocked country,Belarus,Kilimanjaro,70
+Name a landlocked country,Botswana,Kilimanjaro,70
+Name a landlocked country,Chad,Kilimanjaro,70
+Name a landlocked country,Laos,Kilimanjaro,70
+Name a landlocked country,Mali,Kilimanjaro,70
+Name a landlocked country,Niger,Kilimanjaro,70
+Name a landlocked country,Rwanda,Kilimanjaro,70
+Name a landlocked country,San Marino,Kilimanjaro,70
+Name a landlocked country,Armenia,Aconcagua,85
+Name a landlocked country,Bhutan,Aconcagua,85
+Name a landlocked country,Burkina Faso,Aconcagua,85
+Name a landlocked country,Burundi,Aconcagua,85
+Name a landlocked country,Central African Republic,Aconcagua,85
+Name a landlocked country,Eswatini,Aconcagua,85
+Name a landlocked country,Kyrgyzstan,Aconcagua,85
+Name a landlocked country,Lesotho,Aconcagua,85
+Name a landlocked country,Malawi,Aconcagua,85
+Name a landlocked country,Moldova,Aconcagua,85
+Name a landlocked country,North Macedonia,Aconcagua,85
+Name a landlocked country,South Sudan,Aconcagua,85
+Name a landlocked country,Tajikistan,Aconcagua,85
+Name a landlocked country,Uzbekistan,Aconcagua,85
+Name a landlocked country,Azerbaijan,Everest,100
+Name a landlocked country,Turkmenistan,Everest,100
+Name a country with no land borders,Australia,Wycheproof,20
+Name a country with no land borders,Iceland,Wycheproof,20
+Name a country with no land borders,Japan,Wycheproof,20
+Name a country with no land borders,New Zealand,Wycheproof,20
+Name a country with no land borders,Cuba,Fuji,40
+Name a country with no land borders,Fiji,Fuji,40
+Name a country with no land borders,Jamaica,Fuji,40
+Name a country with no land borders,Madagascar,Fuji,40
+Name a country with no land borders,Maldives,Fuji,40
+Name a country with no land borders,Malta,Fuji,40
+Name a country with no land borders,Philippines,Fuji,40
+Name a country with no land borders,Bahamas,Mont Blanc,55
+Name a country with no land borders,Barbados,Mont Blanc,55
+Name a country with no land borders,Cyprus,Mont Blanc,55
+Name a country with no land borders,Mauritius,Mont Blanc,55
+Name a country with no land borders,Samoa,Mont Blanc,55
+Name a country with no land borders,Seychelles,Mont Blanc,55
+Name a country with no land borders,Cape Verde,Kilimanjaro,70
+Name a country with no land borders,Nauru,Kilimanjaro,70
+Name a country with no land borders,Tonga,Kilimanjaro,70
+Name a country with no land borders,Trinidad and Tobago,Kilimanjaro,70
+Name a country with no land borders,Tuvalu,Kilimanjaro,70
+Name a country with no land borders,Antigua and Barbuda,Aconcagua,85
+Name a country with no land borders,Comoros,Aconcagua,85
+Name a country with no land borders,Dominica,Aconcagua,85
+Name a country with no land borders,Grenada,Aconcagua,85
+Name a country with no land borders,Kiribati,Aconcagua,85
+Name a country with no land borders,Marshall Islands,Aconcagua,85
+Name a country with no land borders,Micronesia,Aconcagua,85
+Name a country with no land borders,Palau,Aconcagua,85
+Name a country with no land borders,Saint Kitts and Nevis,Aconcagua,85
+Name a country with no land borders,Saint Lucia,Aconcagua,85
+Name a country with no land borders,Saint Vincent and the Grenadines,Aconcagua,85
+Name a country with no land borders,Solomon Islands,Aconcagua,85
+Name a country with no land borders,São Tomé and Príncipe,Aconcagua,85
+Name a country with no land borders,Vanuatu,Aconcagua,85
+Name a country with no land borders,Bahrain,Everest,100
+Name a country with no land borders,Singapore,Everest,100
+"Name a country larger than 1,000,000 km²",Australia,Wycheproof,20
+"Name a country larger than 1,000,000 km²",Brazil,Wycheproof,20
+"Name a country larger than 1,000,000 km²",Canada,Wycheproof,20
+"Name a country larger than 1,000,000 km²",China,Wycheproof,20
+"Name a country larger than 1,000,000 km²",Russia,Wycheproof,20
+"Name a country larger than 1,000,000 km²",United States,Wycheproof,20
+"Name a country larger than 1,000,000 km²",Algeria,Fuji,40
+"Name a country larger than 1,000,000 km²",Argentina,Fuji,40
+"Name a country larger than 1,000,000 km²",India,Fuji,40
+"Name a country larger than 1,000,000 km²",Kazakhstan,Fuji,40
+"Name a country larger than 1,000,000 km²",DR Congo,Mont Blanc,55
+"Name a country larger than 1,000,000 km²",Indonesia,Mont Blanc,55
+"Name a country larger than 1,000,000 km²",Mexico,Mont Blanc,55
+"Name a country larger than 1,000,000 km²",Saudi Arabia,Mont Blanc,55
+"Name a country larger than 1,000,000 km²",Egypt,Kilimanjaro,70
+"Name a country larger than 1,000,000 km²",Iran,Kilimanjaro,70
+"Name a country larger than 1,000,000 km²",Libya,Kilimanjaro,70
+"Name a country larger than 1,000,000 km²",Sudan,Kilimanjaro,70
+"Name a country larger than 1,000,000 km²",Angola,Aconcagua,85
+"Name a country larger than 1,000,000 km²",Chad,Aconcagua,85
+"Name a country larger than 1,000,000 km²",Colombia,Aconcagua,85
+"Name a country larger than 1,000,000 km²",Ethiopia,Aconcagua,85
+"Name a country larger than 1,000,000 km²",Mali,Aconcagua,85
+"Name a country larger than 1,000,000 km²",Mongolia,Aconcagua,85
+"Name a country larger than 1,000,000 km²",Niger,Aconcagua,85
+"Name a country larger than 1,000,000 km²",Peru,Aconcagua,85
+"Name a country larger than 1,000,000 km²",South Africa,Aconcagua,85
+"Name a country larger than 1,000,000 km²",Bolivia,Everest,100
+"Name a country larger than 1,000,000 km²",Mauritania,Everest,100
+"Name a country smaller than 1,000 km²",Liechtenstein,Wycheproof,20
+"Name a country smaller than 1,000 km²",Monaco,Wycheproof,20
+"Name a country smaller than 1,000 km²",San Marino,Wycheproof,20
+"Name a country smaller than 1,000 km²",Vatican City,Wycheproof,20
+"Name a country smaller than 1,000 km²",Andorra,Fuji,40
+"Name a country smaller than 1,000 km²",Maldives,Fuji,40
+"Name a country smaller than 1,000 km²",Malta,Fuji,40
+"Name a country smaller than 1,000 km²",Nauru,Fuji,40
+"Name a country smaller than 1,000 km²",Singapore,Fuji,40
+"Name a country smaller than 1,000 km²",Tuvalu,Fuji,40
+"Name a country smaller than 1,000 km²",Bahrain,Mont Blanc,55
+"Name a country smaller than 1,000 km²",Barbados,Mont Blanc,55
+"Name a country smaller than 1,000 km²",Grenada,Mont Blanc,55
+"Name a country smaller than 1,000 km²",Seychelles,Mont Blanc,55
+"Name a country smaller than 1,000 km²",Marshall Islands,Kilimanjaro,70
+"Name a country smaller than 1,000 km²",Palau,Kilimanjaro,70
+"Name a country smaller than 1,000 km²",Saint Kitts and Nevis,Kilimanjaro,70
+"Name a country smaller than 1,000 km²",Saint Lucia,Kilimanjaro,70
+"Name a country smaller than 1,000 km²",Antigua and Barbuda,Aconcagua,85
+"Name a country smaller than 1,000 km²",Dominica,Aconcagua,85
+"Name a country smaller than 1,000 km²",Saint Vincent and the Grenadines,Aconcagua,85
+"Name a country smaller than 1,000 km²",São Tomé and Príncipe,Aconcagua,85
+"Name a country smaller than 1,000 km²",Tonga,Aconcagua,85
+"Name a country smaller than 1,000 km²",Kiribati,Everest,100
+"Name a country smaller than 1,000 km²",Micronesia,Everest,100
+Name a country in Africa,Egypt,Wycheproof,20
+Name a country in Africa,Kenya,Wycheproof,20
+Name a country in Africa,Morocco,Wycheproof,20
+Name a country in Africa,Nigeria,Wycheproof,20
+Name a country in Africa,South Africa,Wycheproof,20
+Name a country in Africa,Algeria,Fuji,40
+Name a country in Africa,Ethiopia,Fuji,40
+Name a country in Africa,Ghana,Fuji,40
+Name a country in Africa,Libya,Fuji,40
+Name a country in Africa,Madagascar,Fuji,40
+Name a country in Africa,Rwanda,Fuji,40
+Name a country in Africa,Somalia,Fuji,40
+Name a country in Africa,Sudan,Fuji,40
+Name a country in Africa,Tanzania,Fuji,40
+Name a country in Africa,Tunisia,Fuji,40
+Name a country in Africa,Uganda,Fuji,40
+Name a country in Africa,Zimbabwe,Fuji,40
+Name a country in Africa,Angola,Mont Blanc,55
+Name a country in Africa,Botswana,Mont Blanc,55
+Name a country in Africa,Cameroon,Mont Blanc,55
+Name a country in Africa,DR Congo,Mont Blanc,55
+Name a country in Africa,Ivory Coast,Mont Blanc,55
+Name a country in Africa,Mali,Mont Blanc,55
+Name a country in Africa,Mozambique,Mont Blanc,55
+Name a country in Africa,Namibia,Mont Blanc,55
+Name a country in Africa,Senegal,Mont Blanc,55
+Name a country in Africa,Zambia,Mont Blanc,55
+Name a country in Africa,Chad,Kilimanjaro,70
+Name a country in Africa,Eritrea,Kilimanjaro,70
+Name a country in Africa,Liberia,Kilimanjaro,70
+Name a country in Africa,Malawi,Kilimanjaro,70
+Name a country in Africa,Mauritius,Kilimanjaro,70
+Name a country in Africa,Niger,Kilimanjaro,70
+Name a country in Africa,Seychelles,Kilimanjaro,70
+Name a country in Africa,Sierra Leone,Kilimanjaro,70
+Name a country in Africa,South Sudan,Kilimanjaro,70
+Name a country in Africa,Benin,Aconcagua,85
+Name a country in Africa,Burkina Faso,Aconcagua,85
+Name a country in Africa,Burundi,Aconcagua,85
+Name a country in Africa,Central African Republic,Aconcagua,85
+Name a country in Africa,Djibouti,Aconcagua,85
+Name a country in Africa,Equatorial Guinea,Aconcagua,85
+Name a country in Africa,Eswatini,Aconcagua,85
+Name a country in Africa,Gabon,Aconcagua,85
+Name a country in Africa,Gambia,Aconcagua,85
+Name a country in Africa,Guinea,Aconcagua,85
+Name a country in Africa,Guinea-Bissau,Aconcagua,85
+Name a country in Africa,Lesotho,Aconcagua,85
+Name a country in Africa,Mauritania,Aconcagua,85
+Name a country in Africa,Republic of the Congo,Aconcagua,85
+Name a country in Africa,São Tomé and Príncipe,Aconcagua,85
+Name a country in Africa,Togo,Aconcagua,85
+Name a country in Africa,Cape Verde,Everest,100
+Name a country in Africa,Comoros,Everest,100
+Name a country in Asia,China,Wycheproof,20
+Name a country in Asia,India,Wycheproof,20
+Name a country in Asia,Japan,Wycheproof,20
+Name a country in Asia,South Korea,Wycheproof,20
+Name a country in Asia,Thailand,Wycheproof,20
+Name a country in Asia,Bangladesh,Fuji,40
+Name a country in Asia,Cambodia,Fuji,40
+Name a country in Asia,Indonesia,Fuji,40
+Name a country in Asia,Malaysia,Fuji,40
+Name a country in Asia,Mongolia,Fuji,40
+Name a country in Asia,Nepal,Fuji,40
+Name a country in Asia,North Korea,Fuji,40
+Name a country in Asia,Pakistan,Fuji,40
+Name a country in Asia,Philippines,Fuji,40
+Name a country in Asia,Singapore,Fuji,40
+Name a country in Asia,Sri Lanka,Fuji,40
+Name a country in Asia,Vietnam,Fuji,40
+Name a country in Asia,Afghanistan,Mont Blanc,55
+Name a country in Asia,Iran,Mont Blanc,55
+Name a country in Asia,Iraq,Mont Blanc,55
+Name a country in Asia,Israel,Mont Blanc,55
+Name a country in Asia,Kazakhstan,Mont Blanc,55
+Name a country in Asia,Laos,Mont Blanc,55
+Name a country in Asia,Myanmar,Mont Blanc,55
+Name a country in Asia,Saudi Arabia,Mont Blanc,55
+Name a country in Asia,Syria,Mont Blanc,55
+Name a country in Asia,Türkiye,Mont Blanc,55
+Name a country in Asia,Bhutan,Kilimanjaro,70
+Name a country in Asia,Brunei,Kilimanjaro,70
+Name a country in Asia,Jordan,Kilimanjaro,70
+Name a country in Asia,Kuwait,Kilimanjaro,70
+Name a country in Asia,Lebanon,Kilimanjaro,70
+Name a country in Asia,Maldives,Kilimanjaro,70
+Name a country in Asia,Qatar,Kilimanjaro,70
+Name a country in Asia,United Arab Emirates,Kilimanjaro,70
+Name a country in Asia,Uzbekistan,Kilimanjaro,70
+Name a country in Asia,Yemen,Kilimanjaro,70
+Name a country in Asia,Azerbaijan,Aconcagua,85
+Name a country in Asia,Bahrain,Aconcagua,85
+Name a country in Asia,Kyrgyzstan,Aconcagua,85
+Name a country in Asia,Oman,Aconcagua,85
+Name a country in Asia,Palestine,Aconcagua,85
+Name a country in Asia,Tajikistan,Aconcagua,85
+Name a country in Asia,Timor-Leste,Aconcagua,85
+Name a country in Asia,Turkmenistan,Aconcagua,85
+Name a country in Asia,Armenia,Everest,100
+Name a country in Asia,Georgia,Everest,100
+Name a country in Europe,France,Wycheproof,20
+Name a country in Europe,Germany,Wycheproof,20
+Name a country in Europe,Italy,Wycheproof,20
+Name a country in Europe,Spain,Wycheproof,20
+Name a country in Europe,United Kingdom,Wycheproof,20
+Name a country in Europe,Austria,Fuji,40
+Name a country in Europe,Belgium,Fuji,40
+Name a country in Europe,Greece,Fuji,40
+Name a country in Europe,Ireland,Fuji,40
+Name a country in Europe,Netherlands,Fuji,40
+Name a country in Europe,Norway,Fuji,40
+Name a country in Europe,Poland,Fuji,40
+Name a country in Europe,Portugal,Fuji,40
+Name a country in Europe,Sweden,Fuji,40
+Name a country in Europe,Switzerland,Fuji,40
+Name a country in Europe,Croatia,Mont Blanc,55
+Name a country in Europe,Czechia,Mont Blanc,55
+Name a country in Europe,Denmark,Mont Blanc,55
+Name a country in Europe,Finland,Mont Blanc,55
+Name a country in Europe,Hungary,Mont Blanc,55
+Name a country in Europe,Iceland,Mont Blanc,55
+Name a country in Europe,Romania,Mont Blanc,55
+Name a country in Europe,Russia,Mont Blanc,55
+Name a country in Europe,Ukraine,Mont Blanc,55
+Name a country in Europe,Andorra,Kilimanjaro,70
+Name a country in Europe,Bulgaria,Kilimanjaro,70
+Name a country in Europe,Liechtenstein,Kilimanjaro,70
+Name a country in Europe,Luxembourg,Kilimanjaro,70
+Name a country in Europe,Malta,Kilimanjaro,70
+Name a country in Europe,Monaco,Kilimanjaro,70
+Name a country in Europe,San Marino,Kilimanjaro,70
+Name a country in Europe,Serbia,Kilimanjaro,70
+Name a country in Europe,Vatican City,Kilimanjaro,70
+Name a country in Europe,Albania,Aconcagua,85
+Name a country in Europe,Belarus,Aconcagua,85
+Name a country in Europe,Bosnia and Herzegovina,Aconcagua,85
+Name a country in Europe,Estonia,Aconcagua,85
+Name a country in Europe,Latvia,Aconcagua,85
+Name a country in Europe,Lithuania,Aconcagua,85
+Name a country in Europe,Moldova,Aconcagua,85
+Name a country in Europe,Montenegro,Aconcagua,85
+Name a country in Europe,North Macedonia,Aconcagua,85
+Name a country in Europe,Slovakia,Aconcagua,85
+Name a country in Europe,Slovenia,Aconcagua,85
+Name a country in Europe,Cyprus,Everest,100
+Name a country in Oceania,Australia,Wycheproof,20
+Name a country in Oceania,New Zealand,Wycheproof,20
+Name a country in Oceania,Fiji,Fuji,40
+Name a country in Oceania,Samoa,Fuji,40
+Name a country in Oceania,Solomon Islands,Mont Blanc,55
+Name a country in Oceania,Tonga,Mont Blanc,55
+Name a country in Oceania,Tuvalu,Kilimanjaro,70
+Name a country in Oceania,Vanuatu,Kilimanjaro,70
+Name a country in Oceania,Kiribati,Aconcagua,85
+Name a country in Oceania,Marshall Islands,Aconcagua,85
+Name a country in Oceania,Micronesia,Aconcagua,85
+Name a country in Oceania,Nauru,Aconcagua,85
+Name a country in Oceania,Palau,Aconcagua,85
+Name a country in Oceania,Papua New Guinea,Everest,100
+Name a country in South America,Argentina,Wycheproof,20
+Name a country in South America,Brazil,Wycheproof,20
+Name a country in South America,Chile,Fuji,40
+Name a country in South America,Colombia,Fuji,40
+Name a country in South America,Peru,Fuji,40
+Name a country in South America,Bolivia,Mont Blanc,55
+Name a country in South America,Venezuela,Mont Blanc,55
+Name a country in South America,Ecuador,Kilimanjaro,70
+Name a country in South America,Uruguay,Kilimanjaro,70
+Name a country in South America,Paraguay,Aconcagua,85
+Name a country in South America,Guyana,Everest,100
+Name a country in South America,Suriname,Everest,100
+"Name a country in North or Central America, or the Caribbean",Canada,Wycheproof,20
+"Name a country in North or Central America, or the Caribbean",Mexico,Wycheproof,20
+"Name a country in North or Central America, or the Caribbean",United States,Wycheproof,20
+"Name a country in North or Central America, or the Caribbean",Costa Rica,Fuji,40
+"Name a country in North or Central America, or the Caribbean",Cuba,Fuji,40
+"Name a country in North or Central America, or the Caribbean",Jamaica,Fuji,40
+"Name a country in North or Central America, or the Caribbean",Panama,Fuji,40
+"Name a country in North or Central America, or the Caribbean",Bahamas,Mont Blanc,55
+"Name a country in North or Central America, or the Caribbean",Dominican Republic,Mont Blanc,55
+"Name a country in North or Central America, or the Caribbean",Guatemala,Mont Blanc,55
+"Name a country in North or Central America, or the Caribbean",Haiti,Mont Blanc,55
+"Name a country in North or Central America, or the Caribbean",Honduras,Mont Blanc,55
+"Name a country in North or Central America, or the Caribbean",Barbados,Kilimanjaro,70
+"Name a country in North or Central America, or the Caribbean",Belize,Kilimanjaro,70
+"Name a country in North or Central America, or the Caribbean",El Salvador,Kilimanjaro,70
+"Name a country in North or Central America, or the Caribbean",Nicaragua,Kilimanjaro,70
+"Name a country in North or Central America, or the Caribbean",Antigua and Barbuda,Aconcagua,85
+"Name a country in North or Central America, or the Caribbean",Dominica,Aconcagua,85
+"Name a country in North or Central America, or the Caribbean",Grenada,Aconcagua,85
+"Name a country in North or Central America, or the Caribbean",Saint Kitts and Nevis,Aconcagua,85
+"Name a country in North or Central America, or the Caribbean",Saint Lucia,Aconcagua,85
+"Name a country in North or Central America, or the Caribbean",Saint Vincent and the Grenadines,Aconcagua,85
+"Name a country in North or Central America, or the Caribbean",Trinidad and Tobago,Everest,100
+Name a country in the Caribbean,Cuba,Wycheproof,20
+Name a country in the Caribbean,Jamaica,Wycheproof,20
+Name a country in the Caribbean,Bahamas,Fuji,40
+Name a country in the Caribbean,Barbados,Fuji,40
+Name a country in the Caribbean,Dominican Republic,Fuji,40
+Name a country in the Caribbean,Haiti,Fuji,40
+Name a country in the Caribbean,Saint Lucia,Mont Blanc,55
+Name a country in the Caribbean,Trinidad and Tobago,Mont Blanc,55
+Name a country in the Caribbean,Grenada,Kilimanjaro,70
+Name a country in the Caribbean,Antigua and Barbuda,Aconcagua,85
+Name a country in the Caribbean,Dominica,Aconcagua,85
+Name a country in the Caribbean,Saint Kitts and Nevis,Aconcagua,85
+Name a country in the Caribbean,Saint Vincent and the Grenadines,Everest,100
+Name a country in West Africa,Ghana,Wycheproof,20
+Name a country in West Africa,Nigeria,Wycheproof,20
+Name a country in West Africa,Ivory Coast,Fuji,40
+Name a country in West Africa,Liberia,Fuji,40
+Name a country in West Africa,Mali,Fuji,40
+Name a country in West Africa,Senegal,Fuji,40
+Name a country in West Africa,Sierra Leone,Fuji,40
+Name a country in West Africa,Burkina Faso,Mont Blanc,55
+Name a country in West Africa,Guinea,Mont Blanc,55
+Name a country in West Africa,Niger,Mont Blanc,55
+Name a country in West Africa,Benin,Kilimanjaro,70
+Name a country in West Africa,Gambia,Kilimanjaro,70
+Name a country in West Africa,Togo,Kilimanjaro,70
+Name a country in West Africa,Guinea-Bissau,Aconcagua,85
+Name a country in West Africa,Mauritania,Aconcagua,85
+Name a country in West Africa,Cape Verde,Everest,100
+Name a country in East Africa,Ethiopia,Wycheproof,20
+Name a country in East Africa,Kenya,Wycheproof,20
+Name a country in East Africa,Rwanda,Fuji,40
+Name a country in East Africa,Somalia,Fuji,40
+Name a country in East Africa,Tanzania,Fuji,40
+Name a country in East Africa,Uganda,Fuji,40
+Name a country in East Africa,Djibouti,Mont Blanc,55
+Name a country in East Africa,Eritrea,Mont Blanc,55
+Name a country in East Africa,Madagascar,Mont Blanc,55
+Name a country in East Africa,Burundi,Kilimanjaro,70
+Name a country in East Africa,Mozambique,Kilimanjaro,70
+Name a country in East Africa,Comoros,Aconcagua,85
+Name a country in East Africa,Malawi,Aconcagua,85
+Name a country in East Africa,Mauritius,Aconcagua,85
+Name a country in East Africa,Seychelles,Aconcagua,85
+Name a country in East Africa,Zambia,Everest,100
+Name a country in East Africa,Zimbabwe,Everest,100
+Name a country in Central Africa,Central African Republic,Wycheproof,20
+Name a country in Central Africa,DR Congo,Wycheproof,20
+Name a country in Central Africa,Cameroon,Fuji,40
+Name a country in Central Africa,Chad,Fuji,40
+Name a country in Central Africa,Republic of the Congo,Fuji,40
+Name a country in Central Africa,Gabon,Mont Blanc,55
+Name a country in Central Africa,Equatorial Guinea,Kilimanjaro,70
+Name a country in Central Africa,South Sudan,Aconcagua,85
+Name a country in Central Africa,São Tomé and Príncipe,Aconcagua,85
+Name a country in Central Africa,Angola,Everest,100
+Name a country in Western Asia (Middle East and Caucasus),Iraq,Wycheproof,20
+Name a country in Western Asia (Middle East and Caucasus),Israel,Wycheproof,20
+Name a country in Western Asia (Middle East and Caucasus),Saudi Arabia,Wycheproof,20
+Name a country in Western Asia (Middle East and Caucasus),Syria,Wycheproof,20
+Name a country in Western Asia (Middle East and Caucasus),Jordan,Fuji,40
+Name a country in Western Asia (Middle East and Caucasus),Kuwait,Fuji,40
+Name a country in Western Asia (Middle East and Caucasus),Lebanon,Fuji,40
+Name a country in Western Asia (Middle East and Caucasus),Qatar,Fuji,40
+Name a country in Western Asia (Middle East and Caucasus),Türkiye,Fuji,40
+Name a country in Western Asia (Middle East and Caucasus),United Arab Emirates,Fuji,40
+Name a country in Western Asia (Middle East and Caucasus),Yemen,Fuji,40
+Name a country in Western Asia (Middle East and Caucasus),Bahrain,Mont Blanc,55
+Name a country in Western Asia (Middle East and Caucasus),Oman,Mont Blanc,55
+Name a country in Western Asia (Middle East and Caucasus),Palestine,Kilimanjaro,70
+Name a country in Western Asia (Middle East and Caucasus),Armenia,Aconcagua,85
+Name a country in Western Asia (Middle East and Caucasus),Azerbaijan,Aconcagua,85
+Name a country in Western Asia (Middle East and Caucasus),Georgia,Everest,100
+Name a country in Southeast Asia,Thailand,Wycheproof,20
+Name a country in Southeast Asia,Vietnam,Wycheproof,20
+Name a country in Southeast Asia,Cambodia,Fuji,40
+Name a country in Southeast Asia,Indonesia,Fuji,40
+Name a country in Southeast Asia,Malaysia,Fuji,40
+Name a country in Southeast Asia,Philippines,Fuji,40
+Name a country in Southeast Asia,Singapore,Fuji,40
+Name a country in Southeast Asia,Myanmar,Mont Blanc,55
+Name a country in Southeast Asia,Laos,Kilimanjaro,70
+Name a country in Southeast Asia,Brunei,Aconcagua,85
+Name a country in Southeast Asia,Timor-Leste,Everest,100
+Name a country in Northern Europe,Denmark,Wycheproof,20
+Name a country in Northern Europe,Finland,Wycheproof,20
+Name a country in Northern Europe,Norway,Wycheproof,20
+Name a country in Northern Europe,Sweden,Wycheproof,20
+Name a country in Northern Europe,Iceland,Fuji,40
+Name a country in Northern Europe,Estonia,Mont Blanc,55
+Name a country in Northern Europe,Latvia,Mont Blanc,55
+Name a country in Northern Europe,Lithuania,Kilimanjaro,70
+Name a country in Northern Europe,Ireland,Everest,100
+Name a country in Northern Europe,United Kingdom,Everest,100
+Name a country that borders China,India,Wycheproof,20
+Name a country that borders China,Mongolia,Wycheproof,20
+Name a country that borders China,North Korea,Wycheproof,20
+Name a country that borders China,Russia,Wycheproof,20
+Name a country that borders China,Kazakhstan,Fuji,40
+Name a country that borders China,Nepal,Fuji,40
+Name a country that borders China,Pakistan,Fuji,40
+Name a country that borders China,Vietnam,Fuji,40
+Name a country that borders China,Laos,Mont Blanc,55
+Name a country that borders China,Myanmar,Mont Blanc,55
+Name a country that borders China,Bhutan,Kilimanjaro,70
+Name a country that borders China,Kyrgyzstan,Aconcagua,85
+Name a country that borders China,Tajikistan,Aconcagua,85
+Name a country that borders China,Afghanistan,Everest,100
+Name a country that borders Russia,China,Wycheproof,20
+Name a country that borders Russia,Finland,Wycheproof,20
+Name a country that borders Russia,Kazakhstan,Wycheproof,20
+Name a country that borders Russia,Mongolia,Wycheproof,20
+Name a country that borders Russia,Ukraine,Wycheproof,20
+Name a country that borders Russia,Belarus,Fuji,40
+Name a country that borders Russia,Estonia,Fuji,40
+Name a country that borders Russia,Georgia,Fuji,40
+Name a country that borders Russia,Latvia,Fuji,40
+Name a country that borders Russia,Norway,Fuji,40
+Name a country that borders Russia,Azerbaijan,Mont Blanc,55
+Name a country that borders Russia,Lithuania,Aconcagua,85
+Name a country that borders Russia,Poland,Aconcagua,85
+Name a country that borders Russia,North Korea,Everest,100
+Name a country that borders Germany or France,Belgium,Wycheproof,20
+Name a country that borders Germany or France,France,Wycheproof,20
+Name a country that borders Germany or France,Germany,Wycheproof,20
+Name a country that borders Germany or France,Italy,Wycheproof,20
+Name a country that borders Germany or France,Spain,Wycheproof,20
+Name a country that borders Germany or France,Switzerland,Wycheproof,20
+Name a country that borders Germany or France,Austria,Fuji,40
+Name a country that borders Germany or France,Luxembourg,Fuji,40
+Name a country that borders Germany or France,Netherlands,Fuji,40
+Name a country that borders Germany or France,Poland,Fuji,40
+Name a country that borders Germany or France,Czechia,Mont Blanc,55
+Name a country that borders Germany or France,Monaco,Kilimanjaro,70
+Name a country that borders Germany or France,Andorra,Aconcagua,85
+Name a country that borders Germany or France,Denmark,Everest,100
+Name a country that borders at least 6 other countries,Brazil,Wycheproof,20
+Name a country that borders at least 6 other countries,China,Wycheproof,20
+Name a country that borders at least 6 other countries,Russia,Wycheproof,20
+Name a country that borders at least 6 other countries,DR Congo,Fuji,40
+Name a country that borders at least 6 other countries,Germany,Fuji,40
+Name a country that borders at least 6 other countries,India,Fuji,40
+Name a country that borders at least 6 other countries,Austria,Mont Blanc,55
+Name a country that borders at least 6 other countries,Hungary,Mont Blanc,55
+Name a country that borders at least 6 other countries,Poland,Mont Blanc,55
+Name a country that borders at least 6 other countries,Serbia,Mont Blanc,55
+Name a country that borders at least 6 other countries,Sudan,Mont Blanc,55
+Name a country that borders at least 6 other countries,Tanzania,Mont Blanc,55
+Name a country that borders at least 6 other countries,Türkiye,Mont Blanc,55
+Name a country that borders at least 6 other countries,Ukraine,Mont Blanc,55
+Name a country that borders at least 6 other countries,Zambia,Mont Blanc,55
+Name a country that borders at least 6 other countries,Afghanistan,Kilimanjaro,70
+Name a country that borders at least 6 other countries,Algeria,Kilimanjaro,70
+Name a country that borders at least 6 other countries,Chad,Kilimanjaro,70
+Name a country that borders at least 6 other countries,Iran,Kilimanjaro,70
+Name a country that borders at least 6 other countries,Iraq,Kilimanjaro,70
+Name a country that borders at least 6 other countries,Libya,Kilimanjaro,70
+Name a country that borders at least 6 other countries,Mali,Kilimanjaro,70
+Name a country that borders at least 6 other countries,Niger,Kilimanjaro,70
+Name a country that borders at least 6 other countries,Saudi Arabia,Kilimanjaro,70
+Name a country that borders at least 6 other countries,Burkina Faso,Aconcagua,85
+Name a country that borders at least 6 other countries,Cameroon,Aconcagua,85
+Name a country that borders at least 6 other countries,Central African Republic,Aconcagua,85
+Name a country that borders at least 6 other countries,Ethiopia,Aconcagua,85
+Name a country that borders at least 6 other countries,Guinea,Aconcagua,85
+Name a country that borders at least 6 other countries,Mozambique,Aconcagua,85
+Name a country that borders at least 6 other countries,South Africa,Aconcagua,85
+Name a country that borders at least 6 other countries,South Sudan,Aconcagua,85
+Name a country that borders at least 6 other countries,France,Everest,100
+Name a country that borders at least 6 other countries,Italy,Everest,100
+Name a country that borders exactly one other country,Canada,Wycheproof,20
+Name a country that borders exactly one other country,Dominican Republic,Wycheproof,20
+Name a country that borders exactly one other country,Haiti,Wycheproof,20
+Name a country that borders exactly one other country,Portugal,Wycheproof,20
+Name a country that borders exactly one other country,Ireland,Fuji,40
+Name a country that borders exactly one other country,South Korea,Fuji,40
+Name a country that borders exactly one other country,United Kingdom,Fuji,40
+Name a country that borders exactly one other country,Monaco,Mont Blanc,55
+Name a country that borders exactly one other country,San Marino,Mont Blanc,55
+Name a country that borders exactly one other country,Vatican City,Mont Blanc,55
+Name a country that borders exactly one other country,Gambia,Kilimanjaro,70
+Name a country that borders exactly one other country,Lesotho,Kilimanjaro,70
+Name a country that borders exactly one other country,Qatar,Kilimanjaro,70
+Name a country that borders exactly one other country,Brunei,Aconcagua,85
+Name a country that borders exactly one other country,Papua New Guinea,Aconcagua,85
+Name a country that borders exactly one other country,Timor-Leste,Aconcagua,85
+Name a country that borders exactly one other country,Denmark,Everest,100
+Name a country that borders exactly one other country,Sri Lanka,Everest,100
+Name a country where English is an official language,Australia,Wycheproof,20
+Name a country where English is an official language,Canada,Wycheproof,20
+Name a country where English is an official language,Ireland,Wycheproof,20
+Name a country where English is an official language,New Zealand,Wycheproof,20
+Name a country where English is an official language,United Kingdom,Wycheproof,20
+Name a country where English is an official language,United States,Wycheproof,20
+Name a country where English is an official language,Bahamas,Fuji,40
+Name a country where English is an official language,Barbados,Fuji,40
+Name a country where English is an official language,Ghana,Fuji,40
+Name a country where English is an official language,India,Fuji,40
+Name a country where English is an official language,Jamaica,Fuji,40
+Name a country where English is an official language,Kenya,Fuji,40
+Name a country where English is an official language,Malta,Fuji,40
+Name a country where English is an official language,Nigeria,Fuji,40
+Name a country where English is an official language,Philippines,Fuji,40
+Name a country where English is an official language,Singapore,Fuji,40
+Name a country where English is an official language,South Africa,Fuji,40
+Name a country where English is an official language,Belize,Mont Blanc,55
+Name a country where English is an official language,Botswana,Mont Blanc,55
+Name a country where English is an official language,Fiji,Mont Blanc,55
+Name a country where English is an official language,Guyana,Mont Blanc,55
+Name a country where English is an official language,Liberia,Mont Blanc,55
+Name a country where English is an official language,Namibia,Mont Blanc,55
+Name a country where English is an official language,Pakistan,Mont Blanc,55
+Name a country where English is an official language,Sierra Leone,Mont Blanc,55
+Name a country where English is an official language,Trinidad and Tobago,Mont Blanc,55
+Name a country where English is an official language,Uganda,Mont Blanc,55
+Name a country where English is an official language,Zambia,Mont Blanc,55
+Name a country where English is an official language,Zimbabwe,Mont Blanc,55
+Name a country where English is an official language,Cameroon,Kilimanjaro,70
+Name a country where English is an official language,Gambia,Kilimanjaro,70
+Name a country where English is an official language,Grenada,Kilimanjaro,70
+Name a country where English is an official language,Malawi,Kilimanjaro,70
+Name a country where English is an official language,Malaysia,Kilimanjaro,70
+Name a country where English is an official language,Mauritius,Kilimanjaro,70
+Name a country where English is an official language,Papua New Guinea,Kilimanjaro,70
+Name a country where English is an official language,Saint Lucia,Kilimanjaro,70
+Name a country where English is an official language,Samoa,Kilimanjaro,70
+Name a country where English is an official language,Seychelles,Kilimanjaro,70
+Name a country where English is an official language,Tanzania,Kilimanjaro,70
+Name a country where English is an official language,Tonga,Kilimanjaro,70
+Name a country where English is an official language,Antigua and Barbuda,Aconcagua,85
+Name a country where English is an official language,Dominica,Aconcagua,85
+Name a country where English is an official language,Eswatini,Aconcagua,85
+Name a country where English is an official language,Kiribati,Aconcagua,85
+Name a country where English is an official language,Lesotho,Aconcagua,85
+Name a country where English is an official language,Marshall Islands,Aconcagua,85
+Name a country where English is an official language,Micronesia,Aconcagua,85
+Name a country where English is an official language,Nauru,Aconcagua,85
+Name a country where English is an official language,Palau,Aconcagua,85
+Name a country where English is an official language,Saint Kitts and Nevis,Aconcagua,85
+Name a country where English is an official language,Saint Vincent and the Grenadines,Aconcagua,85
+Name a country where English is an official language,Solomon Islands,Aconcagua,85
+Name a country where English is an official language,South Sudan,Aconcagua,85
+Name a country where English is an official language,Sudan,Aconcagua,85
+Name a country where English is an official language,Tuvalu,Aconcagua,85
+Name a country where English is an official language,Vanuatu,Aconcagua,85
+Name a country where English is an official language,Eritrea,Everest,100
+Name a country where English is an official language,Rwanda,Everest,100
+Name a country where French is an official language,Belgium,Wycheproof,20
+Name a country where French is an official language,Canada,Wycheproof,20
+Name a country where French is an official language,France,Wycheproof,20
+Name a country where French is an official language,Switzerland,Wycheproof,20
+Name a country where French is an official language,Cameroon,Fuji,40
+Name a country where French is an official language,DR Congo,Fuji,40
+Name a country where French is an official language,Haiti,Fuji,40
+Name a country where French is an official language,Ivory Coast,Fuji,40
+Name a country where French is an official language,Luxembourg,Fuji,40
+Name a country where French is an official language,Madagascar,Fuji,40
+Name a country where French is an official language,Monaco,Fuji,40
+Name a country where French is an official language,Senegal,Fuji,40
+Name a country where French is an official language,Benin,Mont Blanc,55
+Name a country where French is an official language,Burkina Faso,Mont Blanc,55
+Name a country where French is an official language,Chad,Mont Blanc,55
+Name a country where French is an official language,Gabon,Mont Blanc,55
+Name a country where French is an official language,Guinea,Mont Blanc,55
+Name a country where French is an official language,Mali,Mont Blanc,55
+Name a country where French is an official language,Niger,Mont Blanc,55
+Name a country where French is an official language,Togo,Mont Blanc,55
+Name a country where French is an official language,Burundi,Kilimanjaro,70
+Name a country where French is an official language,Central African Republic,Kilimanjaro,70
+Name a country where French is an official language,Comoros,Kilimanjaro,70
+Name a country where French is an official language,Djibouti,Kilimanjaro,70
+Name a country where French is an official language,Mauritius,Kilimanjaro,70
+Name a country where French is an official language,Republic of the Congo,Kilimanjaro,70
+Name a country where French is an official language,Rwanda,Kilimanjaro,70
+Name a country where French is an official language,Seychelles,Kilimanjaro,70
+Name a country where French is an official language,Equatorial Guinea,Aconcagua,85
+Name a country where French is an official language,Lebanon,Everest,100
+Name a country where French is an official language,Vanuatu,Everest,100
+Name a country where Arabic is an official language,Egypt,Wycheproof,20
+Name a country where Arabic is an official language,Saudi Arabia,Wycheproof,20
+Name a country where Arabic is an official language,Iraq,Fuji,40
+Name a country where Arabic is an official language,Jordan,Fuji,40
+Name a country where Arabic is an official language,Kuwait,Fuji,40
+Name a country where Arabic is an official language,Lebanon,Fuji,40
+Name a country where Arabic is an official language,Morocco,Fuji,40
+Name a country where Arabic is an official language,Oman,Fuji,40
+Name a country where Arabic is an official language,Qatar,Fuji,40
+Name a country where Arabic is an official language,Syria,Fuji,40
+Name a country where Arabic is an official language,United Arab Emirates,Fuji,40
+Name a country where Arabic is an official language,Yemen,Fuji,40
+Name a country where Arabic is an official language,Algeria,Mont Blanc,55
+Name a country where Arabic is an official language,Libya,Mont Blanc,55
+Name a country where Arabic is an official language,Sudan,Mont Blanc,55
+Name a country where Arabic is an official language,Tunisia,Mont Blanc,55
+Name a country where Arabic is an official language,Bahrain,Kilimanjaro,70
+Name a country where Arabic is an official language,Mauritania,Kilimanjaro,70
+Name a country where Arabic is an official language,Palestine,Kilimanjaro,70
+Name a country where Arabic is an official language,Somalia,Kilimanjaro,70
+Name a country where Arabic is an official language,Djibouti,Aconcagua,85
+Name a country where Arabic is an official language,Eritrea,Aconcagua,85
+Name a country where Arabic is an official language,Israel,Aconcagua,85
+Name a country where Arabic is an official language,Chad,Everest,100
+Name a country where Arabic is an official language,Comoros,Everest,100
+Name a country where Spanish is an official language,Mexico,Wycheproof,20
+Name a country where Spanish is an official language,Spain,Wycheproof,20
+Name a country where Spanish is an official language,Argentina,Fuji,40
+Name a country where Spanish is an official language,Chile,Fuji,40
+Name a country where Spanish is an official language,Colombia,Fuji,40
+Name a country where Spanish is an official language,Cuba,Fuji,40
+Name a country where Spanish is an official language,Peru,Fuji,40
+Name a country where Spanish is an official language,Venezuela,Fuji,40
+Name a country where Spanish is an official language,Bolivia,Mont Blanc,55
+Name a country where Spanish is an official language,Costa Rica,Mont Blanc,55
+Name a country where Spanish is an official language,Ecuador,Mont Blanc,55
+Name a country where Spanish is an official language,Guatemala,Mont Blanc,55
+Name a country where Spanish is an official language,Paraguay,Mont Blanc,55
+Name a country where Spanish is an official language,Uruguay,Mont Blanc,55
+Name a country where Spanish is an official language,Dominican Republic,Kilimanjaro,70
+Name a country where Spanish is an official language,El Salvador,Kilimanjaro,70
+Name a country where Spanish is an official language,Honduras,Kilimanjaro,70
+Name a country where Spanish is an official language,Nicaragua,Kilimanjaro,70
+Name a country where Spanish is an official language,Panama,Kilimanjaro,70
+Name a country where Spanish is an official language,Belize,Aconcagua,85
+Name a country where Spanish is an official language,Equatorial Guinea,Everest,100
+Name a country that uses the euro,France,Wycheproof,20
+Name a country that uses the euro,Germany,Wycheproof,20
+Name a country that uses the euro,Italy,Wycheproof,20
+Name a country that uses the euro,Spain,Wycheproof,20
+Name a country that uses the euro,Austria,Fuji,40
+Name a country that uses the euro,Belgium,Fuji,40
+Name a country that uses the euro,Finland,Fuji,40
+Name a country that uses the euro,Greece,Fuji,40
+Name a country that uses the euro,Ireland,Fuji,40
+Name a country that uses the euro,Netherlands,Fuji,40
+Name a country that uses the euro,Portugal,Fuji,40
+Name a country that uses the euro,Cyprus,Mont Blanc,55
+Name a country that uses the euro,Luxembourg,Mont Blanc,55
+Name a country that uses the euro,Malta,Mont Blanc,55
+Name a country that uses the euro,Slovakia,Mont Blanc,55
+Name a country that uses the euro,Slovenia,Mont Blanc,55
+Name a country that uses the euro,Croatia,Kilimanjaro,70
+Name a country that uses the euro,Estonia,Kilimanjaro,70
+Name a country that uses the euro,Latvia,Kilimanjaro,70
+Name a country that uses the euro,Lithuania,Kilimanjaro,70
+Name a country that uses the euro,Andorra,Aconcagua,85
+Name a country that uses the euro,Monaco,Aconcagua,85
+Name a country that uses the euro,San Marino,Aconcagua,85
+Name a country that uses the euro,Vatican City,Aconcagua,85
+Name a country that uses the euro,Montenegro,Everest,100
+Name a country that uses the euro,Zimbabwe,Everest,100
+Name a country whose currency is called a dollar,Australia,Wycheproof,20
+Name a country whose currency is called a dollar,Canada,Wycheproof,20
+Name a country whose currency is called a dollar,United States,Wycheproof,20
+Name a country whose currency is called a dollar,Bahamas,Fuji,40
+Name a country whose currency is called a dollar,Fiji,Fuji,40
+Name a country whose currency is called a dollar,Jamaica,Fuji,40
+Name a country whose currency is called a dollar,New Zealand,Fuji,40
+Name a country whose currency is called a dollar,Singapore,Fuji,40
+Name a country whose currency is called a dollar,Zimbabwe,Fuji,40
+Name a country whose currency is called a dollar,Barbados,Mont Blanc,55
+Name a country whose currency is called a dollar,Belize,Mont Blanc,55
+Name a country whose currency is called a dollar,Brunei,Mont Blanc,55
+Name a country whose currency is called a dollar,Ecuador,Mont Blanc,55
+Name a country whose currency is called a dollar,Guyana,Mont Blanc,55
+Name a country whose currency is called a dollar,Liberia,Mont Blanc,55
+Name a country whose currency is called a dollar,Namibia,Mont Blanc,55
+Name a country whose currency is called a dollar,Trinidad and Tobago,Mont Blanc,55
+Name a country whose currency is called a dollar,Antigua and Barbuda,Kilimanjaro,70
+Name a country whose currency is called a dollar,Dominica,Kilimanjaro,70
+Name a country whose currency is called a dollar,El Salvador,Kilimanjaro,70
+Name a country whose currency is called a dollar,Grenada,Kilimanjaro,70
+Name a country whose currency is called a dollar,Panama,Kilimanjaro,70
+Name a country whose currency is called a dollar,Saint Kitts and Nevis,Kilimanjaro,70
+Name a country whose currency is called a dollar,Saint Lucia,Kilimanjaro,70
+Name a country whose currency is called a dollar,Saint Vincent and the Grenadines,Kilimanjaro,70
+Name a country whose currency is called a dollar,Kiribati,Aconcagua,85
+Name a country whose currency is called a dollar,Marshall Islands,Aconcagua,85
+Name a country whose currency is called a dollar,Nauru,Aconcagua,85
+Name a country whose currency is called a dollar,Palau,Aconcagua,85
+Name a country whose currency is called a dollar,Solomon Islands,Aconcagua,85
+Name a country whose currency is called a dollar,Suriname,Aconcagua,85
+Name a country whose currency is called a dollar,Tuvalu,Aconcagua,85
+Name a country whose currency is called a dollar,Cambodia,Everest,100
+Name a country whose currency is called a dollar,Timor-Leste,Everest,100
+Name a country whose currency is called a franc,Switzerland,Wycheproof,20
+Name a country whose currency is called a franc,Cameroon,Fuji,40
+Name a country whose currency is called a franc,Ivory Coast,Fuji,40
+Name a country whose currency is called a franc,Liechtenstein,Fuji,40
+Name a country whose currency is called a franc,Mali,Fuji,40
+Name a country whose currency is called a franc,Senegal,Fuji,40
+Name a country whose currency is called a franc,Benin,Mont Blanc,55
+Name a country whose currency is called a franc,Burkina Faso,Mont Blanc,55
+Name a country whose currency is called a franc,Burundi,Mont Blanc,55
+Name a country whose currency is called a franc,Chad,Mont Blanc,55
+Name a country whose currency is called a franc,DR Congo,Mont Blanc,55
+Name a country whose currency is called a franc,Niger,Mont Blanc,55
+Name a country whose currency is called a franc,Rwanda,Mont Blanc,55
+Name a country whose currency is called a franc,Central African Republic,Kilimanjaro,70
+Name a country whose currency is called a franc,Comoros,Kilimanjaro,70
+Name a country whose currency is called a franc,Djibouti,Kilimanjaro,70
+Name a country whose currency is called a franc,Gabon,Kilimanjaro,70
+Name a country whose currency is called a franc,Guinea,Kilimanjaro,70
+Name a country whose currency is called a franc,Republic of the Congo,Kilimanjaro,70
+Name a country whose currency is called a franc,Togo,Kilimanjaro,70
+Name a country whose currency is called a franc,Equatorial Guinea,Aconcagua,85
+Name a country whose currency is called a franc,Guinea-Bissau,Everest,100
+Name a country that starts with S,South Africa,Wycheproof,20
+Name a country that starts with S,Spain,Wycheproof,20
+Name a country that starts with S,Sweden,Wycheproof,20
+Name a country that starts with S,Switzerland,Wycheproof,20
+Name a country that starts with S,Saudi Arabia,Fuji,40
+Name a country that starts with S,Singapore,Fuji,40
+Name a country that starts with S,South Korea,Fuji,40
+Name a country that starts with S,Sri Lanka,Fuji,40
+Name a country that starts with S,Sudan,Fuji,40
+Name a country that starts with S,Syria,Fuji,40
+Name a country that starts with S,Senegal,Mont Blanc,55
+Name a country that starts with S,Serbia,Mont Blanc,55
+Name a country that starts with S,Slovakia,Mont Blanc,55
+Name a country that starts with S,Slovenia,Mont Blanc,55
+Name a country that starts with S,Somalia,Mont Blanc,55
+Name a country that starts with S,Samoa,Kilimanjaro,70
+Name a country that starts with S,San Marino,Kilimanjaro,70
+Name a country that starts with S,Seychelles,Kilimanjaro,70
+Name a country that starts with S,Sierra Leone,Kilimanjaro,70
+Name a country that starts with S,South Sudan,Kilimanjaro,70
+Name a country that starts with S,Saint Kitts and Nevis,Aconcagua,85
+Name a country that starts with S,Saint Lucia,Aconcagua,85
+Name a country that starts with S,Saint Vincent and the Grenadines,Aconcagua,85
+Name a country that starts with S,Solomon Islands,Aconcagua,85
+Name a country that starts with S,Suriname,Aconcagua,85
+Name a country that starts with S,São Tomé and Príncipe,Aconcagua,85
+Name a country that starts with S,Eswatini,Everest,100
+Name a country that starts with M,Malaysia,Wycheproof,20
+Name a country that starts with M,Mexico,Wycheproof,20
+Name a country that starts with M,Madagascar,Fuji,40
+Name a country that starts with M,Maldives,Fuji,40
+Name a country that starts with M,Malta,Fuji,40
+Name a country that starts with M,Monaco,Fuji,40
+Name a country that starts with M,Mongolia,Fuji,40
+Name a country that starts with M,Morocco,Fuji,40
+Name a country that starts with M,Malawi,Mont Blanc,55
+Name a country that starts with M,Mali,Mont Blanc,55
+Name a country that starts with M,Mauritius,Mont Blanc,55
+Name a country that starts with M,Mozambique,Mont Blanc,55
+Name a country that starts with M,Mauritania,Kilimanjaro,70
+Name a country that starts with M,Moldova,Kilimanjaro,70
+Name a country that starts with M,Montenegro,Kilimanjaro,70
+Name a country that starts with M,Myanmar,Kilimanjaro,70
+Name a country that starts with M,Marshall Islands,Aconcagua,85
+Name a country that starts with M,Micronesia,Aconcagua,85
+Name a country that starts with M,North Macedonia,Everest,100
+Name a country that starts with B,Belgium,Wycheproof,20
+Name a country that starts with B,Brazil,Wycheproof,20
+Name a country that starts with B,Bahamas,Fuji,40
+Name a country that starts with B,Bangladesh,Fuji,40
+Name a country that starts with B,Barbados,Fuji,40
+Name a country that starts with B,Bolivia,Fuji,40
+Name a country that starts with B,Bulgaria,Fuji,40
+Name a country that starts with B,Bahrain,Mont Blanc,55
+Name a country that starts with B,Belarus,Mont Blanc,55
+Name a country that starts with B,Bosnia and Herzegovina,Mont Blanc,55
+Name a country that starts with B,Botswana,Mont Blanc,55
+Name a country that starts with B,Belize,Kilimanjaro,70
+Name a country that starts with B,Bhutan,Kilimanjaro,70
+Name a country that starts with B,Brunei,Kilimanjaro,70
+Name a country that starts with B,Benin,Aconcagua,85
+Name a country that starts with B,Burkina Faso,Aconcagua,85
+Name a country that starts with B,Burundi,Aconcagua,85
+Name a country that starts with B,Myanmar,Everest,100
+Name a country that starts with B,United Kingdom,Everest,100
+Name a country that starts with C,Canada,Wycheproof,20
+Name a country that starts with C,China,Wycheproof,20
+Name a country that starts with C,Chile,Fuji,40
+Name a country that starts with C,Colombia,Fuji,40
+Name a country that starts with C,Croatia,Fuji,40
+Name a country that starts with C,Cuba,Fuji,40
+Name a country that starts with C,Cyprus,Fuji,40
+Name a country that starts with C,Cambodia,Mont Blanc,55
+Name a country that starts with C,Cameroon,Mont Blanc,55
+Name a country that starts with C,Costa Rica,Mont Blanc,55
+Name a country that starts with C,Chad,Kilimanjaro,70
+Name a country that starts with C,Czechia,Kilimanjaro,70
+Name a country that starts with C,Cape Verde,Aconcagua,85
+Name a country that starts with C,Central African Republic,Aconcagua,85
+Name a country that starts with C,Comoros,Aconcagua,85
+Name a country that starts with C,DR Congo,Aconcagua,85
+Name a country that starts with C,Republic of the Congo,Aconcagua,85
+Name a country that starts with C,Ivory Coast,Everest,100
+Name a country that starts with A,Argentina,Wycheproof,20
+Name a country that starts with A,Australia,Wycheproof,20
+Name a country that starts with A,Afghanistan,Fuji,40
+Name a country that starts with A,Algeria,Fuji,40
+Name a country that starts with A,Austria,Fuji,40
+Name a country that starts with A,Albania,Mont Blanc,55
+Name a country that starts with A,Angola,Mont Blanc,55
+Name a country that starts with A,Armenia,Mont Blanc,55
+Name a country that starts with A,Andorra,Kilimanjaro,70
+Name a country that starts with A,Azerbaijan,Kilimanjaro,70
+Name a country that starts with A,Antigua and Barbuda,Aconcagua,85
+Name a country that starts with A,United States,Everest,100
+Name a country that starts with G,Germany,Wycheproof,20
+Name a country that starts with G,Greece,Wycheproof,20
+Name a country that starts with G,Georgia,Fuji,40
+Name a country that starts with G,Ghana,Fuji,40
+Name a country that starts with G,Guatemala,Fuji,40
+Name a country that starts with G,Gambia,Mont Blanc,55
+Name a country that starts with G,Guinea,Mont Blanc,55
+Name a country that starts with G,Guyana,Mont Blanc,55
+Name a country that starts with G,Gabon,Kilimanjaro,70
+Name a country that starts with G,Grenada,Kilimanjaro,70
+Name a country that starts with G,Guinea-Bissau,Aconcagua,85
+Name a country that starts with G,United Kingdom,Everest,100
+Name a country that starts with N,Netherlands,Wycheproof,20
+Name a country that starts with N,New Zealand,Wycheproof,20
+Name a country that starts with N,Nigeria,Wycheproof,20
+Name a country that starts with N,Norway,Wycheproof,20
+Name a country that starts with N,Nepal,Fuji,40
+Name a country that starts with N,Niger,Fuji,40
+Name a country that starts with N,North Korea,Fuji,40
+Name a country that starts with N,Namibia,Mont Blanc,55
+Name a country that starts with N,Nicaragua,Mont Blanc,55
+Name a country that starts with N,North Macedonia,Kilimanjaro,70
+Name a country that starts with N,Nauru,Everest,100
+Name a country that starts with T,Thailand,Wycheproof,20
+Name a country that starts with T,Türkiye,Wycheproof,20
+Name a country that starts with T,Tanzania,Fuji,40
+Name a country that starts with T,Togo,Fuji,40
+Name a country that starts with T,Tunisia,Fuji,40
+Name a country that starts with T,Tajikistan,Mont Blanc,55
+Name a country that starts with T,Turkmenistan,Mont Blanc,55
+Name a country that starts with T,Tonga,Kilimanjaro,70
+Name a country that starts with T,Trinidad and Tobago,Kilimanjaro,70
+Name a country that starts with T,Tuvalu,Aconcagua,85
+Name a country that starts with T,Timor-Leste,Everest,100
+Name a country that starts with P,Peru,Wycheproof,20
+Name a country that starts with P,Poland,Wycheproof,20
+Name a country that starts with P,Portugal,Wycheproof,20
+Name a country that starts with P,Pakistan,Fuji,40
+Name a country that starts with P,Panama,Fuji,40
+Name a country that starts with P,Paraguay,Fuji,40
+Name a country that starts with P,Philippines,Fuji,40
+Name a country that starts with P,Palestine,Mont Blanc,55
+Name a country that starts with P,Papua New Guinea,Kilimanjaro,70
+Name a country that starts with P,Palau,Everest,100
+Name a country whose name ends in -ia,Australia,Wycheproof,20
+Name a country whose name ends in -ia,Austria,Wycheproof,20
+Name a country whose name ends in -ia,Colombia,Wycheproof,20
+Name a country whose name ends in -ia,Croatia,Wycheproof,20
+Name a country whose name ends in -ia,India,Wycheproof,20
+Name a country whose name ends in -ia,Russia,Wycheproof,20
+Name a country whose name ends in -ia,Bolivia,Fuji,40
+Name a country whose name ends in -ia,Bulgaria,Fuji,40
+Name a country whose name ends in -ia,Cambodia,Fuji,40
+Name a country whose name ends in -ia,Ethiopia,Fuji,40
+Name a country whose name ends in -ia,Georgia,Fuji,40
+Name a country whose name ends in -ia,Indonesia,Fuji,40
+Name a country whose name ends in -ia,Malaysia,Fuji,40
+Name a country whose name ends in -ia,Mongolia,Fuji,40
+Name a country whose name ends in -ia,Nigeria,Fuji,40
+Name a country whose name ends in -ia,Romania,Fuji,40
+Name a country whose name ends in -ia,Saudi Arabia,Fuji,40
+Name a country whose name ends in -ia,Serbia,Fuji,40
+Name a country whose name ends in -ia,Syria,Fuji,40
+Name a country whose name ends in -ia,Tanzania,Fuji,40
+Name a country whose name ends in -ia,Albania,Mont Blanc,55
+Name a country whose name ends in -ia,Algeria,Mont Blanc,55
+Name a country whose name ends in -ia,Armenia,Mont Blanc,55
+Name a country whose name ends in -ia,Estonia,Mont Blanc,55
+Name a country whose name ends in -ia,Latvia,Mont Blanc,55
+Name a country whose name ends in -ia,Lithuania,Mont Blanc,55
+Name a country whose name ends in -ia,Slovakia,Mont Blanc,55
+Name a country whose name ends in -ia,Slovenia,Mont Blanc,55
+Name a country whose name ends in -ia,Tunisia,Mont Blanc,55
+Name a country whose name ends in -ia,Bosnia and Herzegovina,Kilimanjaro,70
+Name a country whose name ends in -ia,Gambia,Kilimanjaro,70
+Name a country whose name ends in -ia,Liberia,Kilimanjaro,70
+Name a country whose name ends in -ia,Mauritania,Kilimanjaro,70
+Name a country whose name ends in -ia,Namibia,Kilimanjaro,70
+Name a country whose name ends in -ia,North Macedonia,Kilimanjaro,70
+Name a country whose name ends in -ia,Somalia,Kilimanjaro,70
+Name a country whose name ends in -ia,Zambia,Kilimanjaro,70
+Name a country whose name ends in -ia,Micronesia,Aconcagua,85
+Name a country whose name ends in -ia,Saint Lucia,Aconcagua,85
+Name a country whose name ends in -ia,Czechia,Everest,100
+Name a country with two or more words in its name,New Zealand,Wycheproof,20
+Name a country with two or more words in its name,North Korea,Wycheproof,20
+Name a country with two or more words in its name,Saudi Arabia,Wycheproof,20
+Name a country with two or more words in its name,South Africa,Wycheproof,20
+Name a country with two or more words in its name,South Korea,Wycheproof,20
+Name a country with two or more words in its name,United Kingdom,Wycheproof,20
+Name a country with two or more words in its name,United States,Wycheproof,20
+Name a country with two or more words in its name,Costa Rica,Fuji,40
+Name a country with two or more words in its name,Dominican Republic,Fuji,40
+Name a country with two or more words in its name,El Salvador,Fuji,40
+Name a country with two or more words in its name,Papua New Guinea,Fuji,40
+Name a country with two or more words in its name,Sierra Leone,Fuji,40
+Name a country with two or more words in its name,Sri Lanka,Fuji,40
+Name a country with two or more words in its name,Trinidad and Tobago,Fuji,40
+Name a country with two or more words in its name,United Arab Emirates,Fuji,40
+Name a country with two or more words in its name,Bosnia and Herzegovina,Mont Blanc,55
+Name a country with two or more words in its name,Burkina Faso,Mont Blanc,55
+Name a country with two or more words in its name,Cape Verde,Mont Blanc,55
+Name a country with two or more words in its name,Central African Republic,Mont Blanc,55
+Name a country with two or more words in its name,Ivory Coast,Mont Blanc,55
+Name a country with two or more words in its name,San Marino,Mont Blanc,55
+Name a country with two or more words in its name,South Sudan,Mont Blanc,55
+Name a country with two or more words in its name,Vatican City,Mont Blanc,55
+Name a country with two or more words in its name,Antigua and Barbuda,Kilimanjaro,70
+Name a country with two or more words in its name,DR Congo,Kilimanjaro,70
+Name a country with two or more words in its name,Equatorial Guinea,Kilimanjaro,70
+Name a country with two or more words in its name,Marshall Islands,Kilimanjaro,70
+Name a country with two or more words in its name,North Macedonia,Kilimanjaro,70
+Name a country with two or more words in its name,Republic of the Congo,Kilimanjaro,70
+Name a country with two or more words in its name,Saint Lucia,Kilimanjaro,70
+Name a country with two or more words in its name,Solomon Islands,Kilimanjaro,70
+Name a country with two or more words in its name,Saint Kitts and Nevis,Aconcagua,85
+Name a country with two or more words in its name,Saint Vincent and the Grenadines,Aconcagua,85
+Name a country with two or more words in its name,São Tomé and Príncipe,Aconcagua,85
+Name a country with two or more words in its name,Timor-Leste,Aconcagua,85
+Name a country with two or more words in its name,Guinea-Bissau,Everest,100
+Name a country with a Z in its name,Brazil,Wycheproof,20
+Name a country with a Z in its name,New Zealand,Wycheproof,20
+Name a country with a Z in its name,Switzerland,Wycheproof,20
+Name a country with a Z in its name,Zimbabwe,Wycheproof,20
+Name a country with a Z in its name,Kazakhstan,Fuji,40
+Name a country with a Z in its name,Mozambique,Fuji,40
+Name a country with a Z in its name,Tanzania,Fuji,40
+Name a country with a Z in its name,Venezuela,Fuji,40
+Name a country with a Z in its name,Zambia,Fuji,40
+Name a country with a Z in its name,Azerbaijan,Mont Blanc,55
+Name a country with a Z in its name,Belize,Mont Blanc,55
+Name a country with a Z in its name,Uzbekistan,Mont Blanc,55
+Name a country with a Z in its name,Bosnia and Herzegovina,Kilimanjaro,70
+Name a country with a Z in its name,Kyrgyzstan,Kilimanjaro,70
+Name a country with a Z in its name,Czechia,Aconcagua,85
+Name a country with a Z in its name,Eswatini,Aconcagua,85
+Name a country with a Z in its name,Republic of the Congo,Everest,100
+Name a country with a K in its name,Denmark,Wycheproof,20
+Name a country with a K in its name,Kenya,Wycheproof,20
+Name a country with a K in its name,Pakistan,Wycheproof,20
+Name a country with a K in its name,Ukraine,Wycheproof,20
+Name a country with a K in its name,United Kingdom,Wycheproof,20
+Name a country with a K in its name,Kazakhstan,Fuji,40
+Name a country with a K in its name,Kuwait,Fuji,40
+Name a country with a K in its name,North Korea,Fuji,40
+Name a country with a K in its name,South Korea,Fuji,40
+Name a country with a K in its name,Sri Lanka,Fuji,40
+Name a country with a K in its name,Türkiye,Fuji,40
+Name a country with a K in its name,Kyrgyzstan,Mont Blanc,55
+Name a country with a K in its name,Slovakia,Mont Blanc,55
+Name a country with a K in its name,Uzbekistan,Mont Blanc,55
+Name a country with a K in its name,Kiribati,Kilimanjaro,70
+Name a country with a K in its name,Tajikistan,Kilimanjaro,70
+Name a country with a K in its name,Turkmenistan,Kilimanjaro,70
+Name a country with a K in its name,Burkina Faso,Aconcagua,85
+Name a country with a K in its name,Saint Kitts and Nevis,Aconcagua,85
+Name a country with a K in its name,DR Congo,Everest,100
+Name a country whose name starts and ends with the same letter,Albania,Wycheproof,20
+Name a country whose name starts and ends with the same letter,Algeria,Wycheproof,20
+Name a country whose name starts and ends with the same letter,Angola,Wycheproof,20
+Name a country whose name starts and ends with the same letter,Argentina,Wycheproof,20
+Name a country whose name starts and ends with the same letter,Armenia,Wycheproof,20
+Name a country whose name starts and ends with the same letter,Australia,Wycheproof,20
+Name a country whose name starts and ends with the same letter,Austria,Wycheproof,20
+Name a country whose name starts and ends with the same letter,Andorra,Fuji,40
+Name a country whose name starts and ends with the same letter,Antigua and Barbuda,Fuji,40
+Name a country whose name starts and ends with the same letter,Seychelles,Mont Blanc,55
+Name a country whose name starts and ends with the same letter,Solomon Islands,Kilimanjaro,70
+Name a country whose name starts and ends with the same letter,Czechia,Aconcagua,85
+Name a country whose name starts and ends with the same letter,Saint Kitts and Nevis,Aconcagua,85
+Name a country whose name starts and ends with the same letter,Saint Vincent and the Grenadines,Aconcagua,85
+Name a country whose name starts and ends with the same letter,Central African Republic,Everest,100
+Name a country whose name starts and ends with the same letter,United States,Everest,100
+Name a country with 5 letters or fewer in its name,Chile,Wycheproof,20
+Name a country with 5 letters or fewer in its name,China,Wycheproof,20
+Name a country with 5 letters or fewer in its name,Cuba,Wycheproof,20
+Name a country with 5 letters or fewer in its name,Egypt,Wycheproof,20
+Name a country with 5 letters or fewer in its name,India,Wycheproof,20
+Name a country with 5 letters or fewer in its name,Iran,Wycheproof,20
+Name a country with 5 letters or fewer in its name,Iraq,Wycheproof,20
+Name a country with 5 letters or fewer in its name,Italy,Wycheproof,20
+Name a country with 5 letters or fewer in its name,Japan,Wycheproof,20
+Name a country with 5 letters or fewer in its name,Peru,Wycheproof,20
+Name a country with 5 letters or fewer in its name,Spain,Wycheproof,20
+Name a country with 5 letters or fewer in its name,Benin,Fuji,40
+Name a country with 5 letters or fewer in its name,Chad,Fuji,40
+Name a country with 5 letters or fewer in its name,Fiji,Fuji,40
+Name a country with 5 letters or fewer in its name,Gabon,Fuji,40
+Name a country with 5 letters or fewer in its name,Ghana,Fuji,40
+Name a country with 5 letters or fewer in its name,Haiti,Fuji,40
+Name a country with 5 letters or fewer in its name,Kenya,Fuji,40
+Name a country with 5 letters or fewer in its name,Laos,Fuji,40
+Name a country with 5 letters or fewer in its name,Libya,Fuji,40
+Name a country with 5 letters or fewer in its name,Mali,Fuji,40
+Name a country with 5 letters or fewer in its name,Malta,Fuji,40
+Name a country with 5 letters or fewer in its name,Nauru,Fuji,40
+Name a country with 5 letters or fewer in its name,Nepal,Fuji,40
+Name a country with 5 letters or fewer in its name,Niger,Fuji,40
+Name a country with 5 letters or fewer in its name,Oman,Fuji,40
+Name a country with 5 letters or fewer in its name,Palau,Fuji,40
+Name a country with 5 letters or fewer in its name,Qatar,Fuji,40
+Name a country with 5 letters or fewer in its name,Samoa,Fuji,40
+Name a country with 5 letters or fewer in its name,Sudan,Fuji,40
+Name a country with 5 letters or fewer in its name,Syria,Fuji,40
+Name a country with 5 letters or fewer in its name,Togo,Fuji,40
+Name a country with 5 letters or fewer in its name,Tonga,Fuji,40
+Name a country with 5 letters or fewer in its name,Yemen,Fuji,40
+Name a country with 5 letters or fewer in its name,DR Congo,Aconcagua,85
+Name a country with 5 letters or fewer in its name,North Korea,Aconcagua,85
+Name a country with 5 letters or fewer in its name,Republic of the Congo,Aconcagua,85
+Name a country with 5 letters or fewer in its name,Myanmar,Everest,100
+Name a country with 5 letters or fewer in its name,Papua New Guinea,Everest,100
+Name a country with 5 letters or fewer in its name,South Korea,Everest,100
+Name a country whose capital starts with B,Belgium,Wycheproof,20
+Name a country whose capital starts with B,China,Wycheproof,20
+Name a country whose capital starts with B,Germany,Wycheproof,20
+Name a country whose capital starts with B,Argentina,Fuji,40
+Name a country whose capital starts with B,Colombia,Fuji,40
+Name a country whose capital starts with B,Hungary,Fuji,40
+Name a country whose capital starts with B,Iraq,Fuji,40
+Name a country whose capital starts with B,Lebanon,Fuji,40
+Name a country whose capital starts with B,Romania,Fuji,40
+Name a country whose capital starts with B,Serbia,Fuji,40
+Name a country whose capital starts with B,Switzerland,Fuji,40
+Name a country whose capital starts with B,Thailand,Fuji,40
+Name a country whose capital starts with B,Azerbaijan,Mont Blanc,55
+Name a country whose capital starts with B,Mali,Mont Blanc,55
+Name a country whose capital starts with B,Slovakia,Mont Blanc,55
+Name a country whose capital starts with B,Barbados,Kilimanjaro,70
+Name a country whose capital starts with B,Belize,Kilimanjaro,70
+Name a country whose capital starts with B,Gambia,Kilimanjaro,70
+Name a country whose capital starts with B,Brunei,Aconcagua,85
+Name a country whose capital starts with B,Central African Republic,Aconcagua,85
+Name a country whose capital starts with B,Guinea-Bissau,Aconcagua,85
+Name a country whose capital starts with B,Kyrgyzstan,Aconcagua,85
+Name a country whose capital starts with B,Republic of the Congo,Aconcagua,85
+Name a country whose capital starts with B,Saint Kitts and Nevis,Aconcagua,85
+Name a country whose capital starts with B,Brazil,Everest,100
+Name a country whose capital starts with M,Mexico,Wycheproof,20
+Name a country whose capital starts with M,Russia,Wycheproof,20
+Name a country whose capital starts with M,Spain,Wycheproof,20
+Name a country whose capital starts with M,Monaco,Fuji,40
+Name a country whose capital starts with M,Philippines,Fuji,40
+Name a country whose capital starts with M,Uruguay,Fuji,40
+Name a country whose capital starts with M,Bahrain,Mont Blanc,55
+Name a country whose capital starts with M,Belarus,Mont Blanc,55
+Name a country whose capital starts with M,Nicaragua,Mont Blanc,55
+Name a country whose capital starts with M,Somalia,Mont Blanc,55
+Name a country whose capital starts with M,Liberia,Kilimanjaro,70
+Name a country whose capital starts with M,Maldives,Kilimanjaro,70
+Name a country whose capital starts with M,Mozambique,Kilimanjaro,70
+Name a country whose capital starts with M,Oman,Kilimanjaro,70
+Name a country whose capital starts with M,Comoros,Aconcagua,85
+Name a country whose capital starts with M,Lesotho,Aconcagua,85
+Name a country whose capital starts with M,Marshall Islands,Aconcagua,85
+Name a country whose capital starts with M,Equatorial Guinea,Everest,100
+Name a country whose capital starts with S,Chile,Wycheproof,20
+Name a country whose capital starts with S,South Korea,Wycheproof,20
+Name a country whose capital starts with S,Sweden,Wycheproof,20
+Name a country whose capital starts with S,Bosnia and Herzegovina,Fuji,40
+Name a country whose capital starts with S,Bulgaria,Fuji,40
+Name a country whose capital starts with S,Costa Rica,Fuji,40
+Name a country whose capital starts with S,Singapore,Fuji,40
+Name a country whose capital starts with S,Yemen,Fuji,40
+Name a country whose capital starts with S,Dominican Republic,Mont Blanc,55
+Name a country whose capital starts with S,El Salvador,Mont Blanc,55
+Name a country whose capital starts with S,North Macedonia,Mont Blanc,55
+Name a country whose capital starts with S,Bolivia,Kilimanjaro,70
+Name a country whose capital starts with S,Fiji,Kilimanjaro,70
+Name a country whose capital starts with S,Antigua and Barbuda,Aconcagua,85
+Name a country whose capital starts with S,Grenada,Aconcagua,85
+Name a country whose capital starts with S,São Tomé and Príncipe,Aconcagua,85
+Name a country whose capital starts with S,Kiribati,Everest,100
+Name a country whose capital starts with A,Greece,Wycheproof,20
+Name a country whose capital starts with A,Netherlands,Wycheproof,20
+Name a country whose capital starts with A,Türkiye,Wycheproof,20
+Name a country whose capital starts with A,Algeria,Fuji,40
+Name a country whose capital starts with A,Ethiopia,Fuji,40
+Name a country whose capital starts with A,Ghana,Fuji,40
+Name a country whose capital starts with A,Jordan,Fuji,40
+Name a country whose capital starts with A,Nigeria,Fuji,40
+Name a country whose capital starts with A,United Arab Emirates,Fuji,40
+Name a country whose capital starts with A,Kazakhstan,Mont Blanc,55
+Name a country whose capital starts with A,Madagascar,Mont Blanc,55
+Name a country whose capital starts with A,Paraguay,Mont Blanc,55
+Name a country whose capital starts with A,Eritrea,Kilimanjaro,70
+Name a country whose capital starts with A,Turkmenistan,Kilimanjaro,70
+Name a country whose capital starts with A,Andorra,Aconcagua,85
+Name a country whose capital starts with A,Samoa,Everest,100
+Name a country whose capital starts with P,Czechia,Wycheproof,20
+Name a country whose capital starts with P,France,Wycheproof,20
+Name a country whose capital starts with P,Cambodia,Fuji,40
+Name a country whose capital starts with P,Haiti,Fuji,40
+Name a country whose capital starts with P,North Korea,Fuji,40
+Name a country whose capital starts with P,Panama,Fuji,40
+Name a country whose capital starts with P,South Africa,Fuji,40
+Name a country whose capital starts with P,Mauritius,Mont Blanc,55
+Name a country whose capital starts with P,Montenegro,Mont Blanc,55
+Name a country whose capital starts with P,Trinidad and Tobago,Mont Blanc,55
+Name a country whose capital starts with P,Papua New Guinea,Kilimanjaro,70
+Name a country whose capital starts with P,Suriname,Kilimanjaro,70
+Name a country whose capital starts with P,Benin,Aconcagua,85
+Name a country whose capital starts with P,Cape Verde,Aconcagua,85
+Name a country whose capital starts with P,Vanuatu,Aconcagua,85
+Name a country whose capital starts with P,Micronesia,Everest,100
+Name a country whose capital starts with K,Afghanistan,Wycheproof,20
+Name a country whose capital starts with K,Nepal,Wycheproof,20
+Name a country whose capital starts with K,Ukraine,Wycheproof,20
+Name a country whose capital starts with K,DR Congo,Fuji,40
+Name a country whose capital starts with K,Jamaica,Fuji,40
+Name a country whose capital starts with K,Kuwait,Fuji,40
+Name a country whose capital starts with K,Malaysia,Fuji,40
+Name a country whose capital starts with K,Rwanda,Fuji,40
+Name a country whose capital starts with K,Sudan,Fuji,40
+Name a country whose capital starts with K,Uganda,Fuji,40
+Name a country whose capital starts with K,Saint Vincent and the Grenadines,Everest,100
+Name a country whose capital starts with L,Peru,Wycheproof,20
+Name a country whose capital starts with L,Portugal,Wycheproof,20
+Name a country whose capital starts with L,United Kingdom,Wycheproof,20
+Name a country whose capital starts with L,Angola,Fuji,40
+Name a country whose capital starts with L,Luxembourg,Fuji,40
+Name a country whose capital starts with L,Slovenia,Fuji,40
+Name a country whose capital starts with L,Zambia,Fuji,40
+Name a country whose capital starts with L,Malawi,Mont Blanc,55
+Name a country whose capital starts with L,Togo,Mont Blanc,55
+Name a country whose capital starts with L,Gabon,Kilimanjaro,70
+Name a country whose capital starts with L,Eswatini,Everest,100
+Name a country whose capital starts with T,Iran,Wycheproof,20
+Name a country whose capital starts with T,Japan,Wycheproof,20
+Name a country whose capital starts with T,Albania,Fuji,40
+Name a country whose capital starts with T,Estonia,Fuji,40
+Name a country whose capital starts with T,Georgia,Fuji,40
+Name a country whose capital starts with T,Libya,Fuji,40
+Name a country whose capital starts with T,Tunisia,Fuji,40
+Name a country whose capital starts with T,Uzbekistan,Mont Blanc,55
+Name a country whose capital starts with T,Honduras,Kilimanjaro,70
+Name a country whose capital starts with T,Bhutan,Everest,100
+Name a country whose capital starts with N,India,Wycheproof,20
+Name a country whose capital starts with N,Kenya,Wycheproof,20
+Name a country whose capital starts with N,Bahamas,Fuji,40
+Name a country whose capital starts with N,Cyprus,Fuji,40
+Name a country whose capital starts with N,Niger,Fuji,40
+Name a country whose capital starts with N,Chad,Mont Blanc,55
+Name a country whose capital starts with N,Mauritania,Mont Blanc,55
+Name a country whose capital starts with N,Myanmar,Kilimanjaro,70
+Name a country whose capital starts with N,Tonga,Kilimanjaro,70
+Name a country whose capital starts with N,Palau,Everest,100

@@ -1,4 +1,7 @@
-"""How familiar each country name is, before anyone plays.
+"""How familiar each country name is in general (not per question).
+
+Used only to break ties when one spelling fits two countries (Congo, Korea) and
+to order review lists. Points come from data/<pack>_tiers.json, not from here.
 
 Base score: Zipf frequency of the country's English names in written English
 (wordfreq: Wikipedia, books, news, subtitles, web). Zipf is log10 per billion

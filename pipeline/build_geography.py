@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Callable
 
 from familiarity import familiarity
-from tiers import assign_tiers
+from tiers import assign_tiers, load_ratings
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "pipeline" / "data"
@@ -240,6 +240,15 @@ def popularity(c: Country) -> float:
     return round(familiarity(c.name, c.english_names), 3)
 
 
+RATINGS = load_ratings(PACK)
+
+
+def tiers_for(p: "PromptDef", answers: list["Country"]) -> dict[str, tuple[str, int]]:
+    if p.slug not in RATINGS:
+        raise SystemExit(f"pipeline/data/{PACK}_tiers.json has no entry for '{p.slug}'. Add one before building.")
+    return assign_tiers(RATINGS[p.slug], [c.name for c in answers], p.slug)
+
+
 def difficulty(n_answers: int) -> int:
     return 1 if n_answers >= 40 else 2 if n_answers >= 25 else 3 if n_answers >= 15 else 4
 
@@ -288,8 +297,8 @@ def main() -> None:
     L.append("insert into _new_answers values")
     rows = []
     for p, a in kept:
-        tiers = assign_tiers({c.code: popularity(c) for c in a})
-        rows += [f"  ({q(p.slug)}, {q(c.code.lower())}, {popularity(c)}, {q(tiers[c.code][0])}, {tiers[c.code][1]})" for c in a]
+        tiers = tiers_for(p, a)
+        rows += [f"  ({q(p.slug)}, {q(c.code.lower())}, {popularity(c)}, {q(tiers[c.name][0])}, {tiers[c.name][1]})" for c in a]
     L.append(",\n".join(rows) + ";")
     L.append("insert into answers (prompt_id, entity_id, seed_weight, tier, points)")
     L.append("select pr.id, e.id, n.w, n.tier, n.points from _new_answers n")
@@ -314,20 +323,31 @@ def main() -> None:
     M.append("| Theme | Prompt | Answers | Wycheproof (20) | Everest (100) |")
     M.append("| --- | --- | --- | --- | --- |")
     for p, a in sorted(kept, key=lambda t: (t[0].theme, t[0].slug)):
-        tiers = assign_tiers({c.code: popularity(c) for c in a})
-        obvious = [c.name for c in a if tiers[c.code][0] == "Wycheproof"]
-        rarest = [c.name for c in a if tiers[c.code][0] == "Everest"]
+        tiers = tiers_for(p, a)
+        obvious = [c.name for c in a if tiers[c.name][0] == "Wycheproof"]
+        rarest = [c.name for c in a if tiers[c.name][0] == "Everest"]
         M.append(f"| {p.theme} | {p.text} | {len(a)} | {', '.join(obvious)} | {', '.join(rarest)} |")
     if dropped:
         M += ["", "## Dropped", ""] + [f"- {p.text} ({len(a)} answers)" for p, a in dropped]
     M += ["", "## Full answer lists", ""]
     for p, a in kept:
-        tiers = assign_tiers({c.code: popularity(c) for c in a})
-        ranked = sorted(a, key=popularity, reverse=True)
-        M.append(f"**{p.text}** ({len(a)}): " + ", ".join(f"{c.name} ({tiers[c.code][1]})" for c in ranked))
+        tiers = tiers_for(p, a)
+        ranked = sorted(a, key=lambda c: (tiers[c.name][1], -popularity(c)))
+        M.append(f"**{p.text}** ({len(a)}): " + ", ".join(f"{c.name} ({tiers[c.name][1]})" for c in ranked))
         M.append("")
     MD_OUT.parent.mkdir(parents=True, exist_ok=True)
     MD_OUT.write_text("\n".join(M), encoding="utf-8")
+
+    # one row per answer, for reviewing tiers in a spreadsheet
+    import csv
+    csv_path = MD_OUT.parent / "geography_tiers_review.csv"
+    with csv_path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["question", "answer", "tier", "points"])
+        for p, a in kept:
+            tiers = tiers_for(p, a)
+            for c in sorted(a, key=lambda c: (tiers[c.name][1], c.name)):
+                w.writerow([p.text, c.name, tiers[c.name][0], tiers[c.name][1]])
 
     themes = sorted({p.theme for p, _ in kept})
     print(f"countries={len(countries)} prompts kept={len(kept)} dropped={len(dropped)} themes={themes}")

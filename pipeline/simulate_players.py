@@ -1,11 +1,10 @@
-"""Check the fixed tiers two ways.
+"""Check the per-question tiers.
 
-1. Answer lists: how many accepted answers sit in each tier, the same view
-   Krillion's public answer pages give (few obvious answers, a long deep-cut tail).
-2. Players: simulated players answer every question. A player is right with
-   probability P_CORRECT and picks among correct answers in proportion to
-   10 ** (BOLDNESS * familiarity). BOLDNESS 1 = picks track how often names
-   appear in writing; below 1 = players dig for rarer answers.
+1. Answer lists: how many correct answers sit in each tier.
+2. Repeat offenders: countries that are Everest in many questions (a "go-to" risk).
+3. Players: simulated players pick among correct answers, weighted by how
+   expected each tier is (an obvious answer is far more likely to be said).
+   BOLD players dig deeper. Reports average points.
 
 Run:  python pipeline/simulate_players.py [players]
 Writes pipeline/out/simulation.md
@@ -19,11 +18,15 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from build_geography import MIN_ANSWERS, build_prompts, load, popularity  # noqa: E402
-from tiers import TIERS, assign_tiers  # noqa: E402
+from build_geography import MIN_ANSWERS, build_prompts, load, tiers_for  # noqa: E402
+from tiers import TIERS  # noqa: E402
 
 P_CORRECT = 0.8
-BOLDNESS_LEVELS = [1.0, 0.7, 0.4]
+# relative chance a player says an answer of each tier
+STYLES = {
+    "typical": {"Wycheproof": 30, "Fuji": 10, "Mont Blanc": 4, "Kilimanjaro": 1.5, "Aconcagua": 1, "Everest": 0.7},
+    "bold": {"Wycheproof": 6, "Fuji": 5, "Mont Blanc": 4, "Kilimanjaro": 3, "Aconcagua": 2, "Everest": 2},
+}
 OUT = Path(__file__).parent / "out" / "simulation.md"
 
 
@@ -32,56 +35,50 @@ def questions():
     for p in build_prompts(countries):
         answers = [c for c in countries if p.test(c)]
         if len(answers) >= MIN_ANSWERS:
-            fam = {c.code: popularity(c) for c in answers}
-            yield p, fam, assign_tiers(fam)
+            yield p, tiers_for(p, answers)
 
 
-def simulate_players(qs, players: int, boldness: float, seed: int = 7):
+def simulate(qs, players: int, weights: dict[str, float], seed: int = 7):
     rng = random.Random(seed)
-    tier_hits, game_totals = Counter(), []
-    per_q = {p.slug: 0.0 for p, _, _ in qs}
+    hits: Counter[str] = Counter()
     for _ in range(players):
-        total = 0
-        for p, fam, tiers in qs:
+        for _, tiers in qs:
             if rng.random() >= P_CORRECT:
                 continue
-            codes = list(fam)
-            pick = rng.choices(codes, [10 ** (boldness * fam[c]) for c in codes])[0]
-            name, pts = tiers[pick]
-            tier_hits[name] += 1
-            per_q[p.slug] += pts
-            total += pts
-        game_totals.append(total * 7 / len(qs))  # scale to a 7-question game
-    return tier_hits, sum(game_totals) / len(game_totals)
+            names = list(tiers)
+            pick = rng.choices(names, [weights[tiers[n][0]] for n in names])[0]
+            hits[tiers[pick][0]] += 1
+    n = sum(hits.values())
+    avg = sum(dict(TIERS)[k] * v for k, v in hits.items()) / n
+    return hits, n, avg
 
 
 def main() -> None:
     players = int(sys.argv[1]) if len(sys.argv) > 1 else 200
     qs = list(questions())
-
-    listed = Counter(t for _, _, tiers in qs for t, _ in tiers.values())
+    listed = Counter(t for _, tiers in qs for t, _ in tiers.values())
     n_listed = sum(listed.values())
-    lines = ["# Tier check", "", f"{len(qs)} questions, {n_listed} accepted answers.", "",
-             "## 1. Accepted answers per tier", "", "| Tier | Points | Answers | Share |", "| --- | --- | --- | --- |"]
-    for name, pts in TIERS:
-        lines.append(f"| {name} | {pts} | {listed[name]} | {listed[name] / n_listed:.0%} |")
+    everest = Counter(name for _, tiers in qs for name, (t, _) in tiers.items() if t == "Everest")
 
-    lines += ["", f"## 2. {players} simulated players, {P_CORRECT:.0%} correct", "",
-              "| Boldness | " + " | ".join(n for n, _ in TIERS) + " | Avg points per correct answer | Avg game score (of 700) |",
+    lines = ["# Tier check", "", f"{len(qs)} questions, {n_listed} correct answers.", "",
+             "## Correct answers per tier", "", "| Tier | Points | Answers | Share |", "| --- | --- | --- | --- |"]
+    lines += [f"| {name} | {pts} | {listed[name]} | {listed[name] / n_listed:.0%} |" for name, pts in TIERS]
+    lines += ["", "## Countries that are Everest most often", ""]
+    lines += [f"- {name}: {n} questions" for name, n in everest.most_common(8)]
+    lines += ["", f"## {players} simulated players, {P_CORRECT:.0%} correct", "",
+              "| Style | " + " | ".join(n for n, _ in TIERS) + " | Avg points per correct answer | Avg game (of 700) |",
               "| --- | " + " | ".join("---" for _ in TIERS) + " | --- | --- |"]
     summary = []
-    for b in BOLDNESS_LEVELS:
-        hits, avg_game = simulate_players(qs, players, b)
-        n = sum(hits.values())
-        avg_pts = sum(dict(TIERS)[k] * v for k, v in hits.items()) / n
-        lines.append(f"| {b} | " + " | ".join(f"{hits[name] / n:.0%}" for name, _ in TIERS)
-                     + f" | {avg_pts:.0f} | {avg_game:.0f} |")
-        summary.append(f"boldness {b}: avg {avg_pts:.0f} pts/correct, game {avg_game:.0f}/700, "
-                       + ", ".join(f"{name} {hits[name] / n:.0%}" for name, _ in TIERS))
+    for style, weights in STYLES.items():
+        hits, n, avg = simulate(qs, players, weights)
+        game = avg * 7 * P_CORRECT
+        lines.append(f"| {style} | " + " | ".join(f"{hits[t] / n:.0%}" for t, _ in TIERS) + f" | {avg:.0f} | {game:.0f} |")
+        summary.append(f"{style}: {avg:.0f} pts per correct answer, ~{game:.0f}/700 per game, Everest {hits['Everest'] / n:.0%} of answers")
 
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print("answers per tier: " + ", ".join(f"{name} {listed[name]} ({listed[name] / n_listed:.0%})" for name, _ in TIERS))
+    print("answers per tier: " + ", ".join(f"{t} {listed[t] / n_listed:.0%}" for t, _ in TIERS))
+    print("most-Everest countries: " + ", ".join(f"{k} ({v})" for k, v in everest.most_common(4)))
     print("\n".join(summary))
 
 

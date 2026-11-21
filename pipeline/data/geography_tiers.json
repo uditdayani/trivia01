@@ -1,0 +1,415 @@
+{
+  "_about": "How expected each answer is FOR THIS QUESTION. Answers not listed are Aconcagua (85). Everest (100) = correct but logically unexpected for the question, not just obscure. Well-known 'clever' picks (Vatican City, Andorra, Liechtenstein, Tuvalu, Nauru) are treated as predictable. Drafted with an AI model, then reviewed by hand; edit freely and rerun build_geography.py.",
+  "landlocked": {
+    "Wycheproof": ["Switzerland", "Austria"],
+    "Fuji": ["Bolivia", "Nepal", "Mongolia", "Hungary", "Czechia", "Paraguay", "Afghanistan"],
+    "Mont Blanc": ["Kazakhstan", "Ethiopia", "Uganda", "Zimbabwe", "Zambia", "Slovakia", "Serbia", "Luxembourg", "Liechtenstein", "Vatican City"],
+    "Kilimanjaro": ["San Marino", "Andorra", "Belarus", "Chad", "Mali", "Niger", "Botswana", "Rwanda", "Laos"],
+    "Aconcagua": ["Armenia", "Uzbekistan", "Kyrgyzstan", "Tajikistan", "Malawi", "Central African Republic", "Moldova", "North Macedonia", "Lesotho", "Eswatini", "Burkina Faso", "Bhutan", "Burundi"],
+    "Everest": ["Azerbaijan", "Turkmenistan"]
+  },
+  "no-land-borders": {
+    "Wycheproof": ["Australia", "Japan", "New Zealand", "Iceland"],
+    "Fuji": ["Madagascar", "Philippines", "Cuba", "Jamaica", "Fiji", "Malta", "Maldives"],
+    "Mont Blanc": ["Cyprus", "Bahamas", "Barbados", "Mauritius", "Seychelles", "Samoa"],
+    "Kilimanjaro": ["Tonga", "Trinidad and Tobago", "Cape Verde", "Tuvalu", "Nauru"],
+    "Aconcagua": ["Vanuatu", "Solomon Islands", "Marshall Islands", "Palau", "Micronesia", "Grenada", "Saint Lucia", "Antigua and Barbuda", "Dominica", "Saint Kitts and Nevis", "Saint Vincent and the Grenadines", "Comoros", "São Tomé and Príncipe", "Kiribati"],
+    "Everest": ["Bahrain", "Singapore"]
+  },
+  "area-over-1m": {
+    "Wycheproof": ["Russia", "Canada", "China", "United States", "Brazil", "Australia"],
+    "Fuji": ["India", "Argentina", "Kazakhstan", "Algeria"],
+    "Mont Blanc": ["Mexico", "Saudi Arabia", "Indonesia", "DR Congo"],
+    "Kilimanjaro": ["Sudan", "Iran", "Egypt", "Libya"],
+    "Aconcagua": ["South Africa", "Mongolia", "Peru", "Colombia", "Ethiopia", "Chad", "Mali", "Niger", "Angola"],
+    "Everest": ["Bolivia", "Mauritania"]
+  },
+  "area-under-1k": {
+    "Wycheproof": ["Vatican City", "Monaco", "San Marino", "Liechtenstein"],
+    "Fuji": ["Malta", "Andorra", "Singapore", "Maldives", "Tuvalu", "Nauru"],
+    "Mont Blanc": ["Bahrain", "Barbados", "Seychelles", "Grenada"],
+    "Kilimanjaro": ["Saint Lucia", "Saint Kitts and Nevis", "Marshall Islands", "Palau"],
+    "Aconcagua": ["Tonga", "Antigua and Barbuda", "Dominica", "Saint Vincent and the Grenadines", "São Tomé and Príncipe"],
+    "Everest": ["Micronesia", "Kiribati"]
+  },
+  "region-africa": {
+    "Wycheproof": ["Egypt", "South Africa", "Nigeria", "Kenya", "Morocco"],
+    "Fuji": ["Ghana", "Ethiopia", "Algeria", "Tunisia", "Libya", "Sudan", "Zimbabwe", "Somalia", "Madagascar", "Tanzania", "Uganda", "Rwanda"],
+    "Mont Blanc": ["Cameroon", "Senegal", "DR Congo", "Angola", "Zambia", "Botswana", "Namibia", "Mozambique", "Ivory Coast", "Mali"],
+    "Kilimanjaro": ["Niger", "Chad", "Liberia", "Sierra Leone", "Malawi", "South Sudan", "Eritrea", "Mauritius", "Seychelles"],
+    "Aconcagua": ["Republic of the Congo", "Guinea", "Gambia", "Togo", "Benin", "Burkina Faso", "Gabon", "Central African Republic", "Burundi", "Lesotho", "Eswatini", "Djibouti", "Mauritania", "Equatorial Guinea"],
+    "Everest": ["Cape Verde", "Comoros"]
+  },
+  "region-asia": {
+    "Wycheproof": ["China", "Japan", "India", "South Korea", "Thailand"],
+    "Fuji": ["Vietnam", "Indonesia", "Philippines", "Malaysia", "Singapore", "North Korea", "Pakistan", "Nepal", "Mongolia", "Bangladesh", "Sri Lanka", "Cambodia"],
+    "Mont Blanc": ["Iran", "Iraq", "Saudi Arabia", "Afghanistan", "Israel", "Laos", "Myanmar", "Kazakhstan", "Syria", "Türkiye"],
+    "Kilimanjaro": ["United Arab Emirates", "Qatar", "Jordan", "Lebanon", "Bhutan", "Maldives", "Brunei", "Yemen", "Kuwait", "Uzbekistan"],
+    "Aconcagua": ["Oman", "Bahrain", "Palestine", "Tajikistan", "Kyrgyzstan", "Turkmenistan", "Timor-Leste"],
+    "Everest": ["Georgia", "Armenia"]
+  },
+  "region-europe": {
+    "Wycheproof": ["France", "Germany", "Spain", "Italy", "United Kingdom"],
+    "Fuji": ["Portugal", "Netherlands", "Belgium", "Switzerland", "Austria", "Poland", "Greece", "Sweden", "Norway", "Ireland"],
+    "Mont Blanc": ["Denmark", "Finland", "Iceland", "Czechia", "Hungary", "Croatia", "Romania", "Ukraine", "Russia"],
+    "Kilimanjaro": ["Bulgaria", "Serbia", "Luxembourg", "Monaco", "Vatican City", "San Marino", "Liechtenstein", "Andorra", "Malta"],
+    "Aconcagua": ["Slovakia", "Slovenia", "Estonia", "Latvia", "Lithuania", "Albania", "Bosnia and Herzegovina", "Montenegro", "North Macedonia", "Belarus", "Moldova"],
+    "Everest": ["Cyprus"]
+  },
+  "region-oceania": {
+    "Wycheproof": ["Australia", "New Zealand"],
+    "Fuji": ["Fiji", "Samoa"],
+    "Mont Blanc": ["Tonga", "Solomon Islands"],
+    "Kilimanjaro": ["Vanuatu", "Tuvalu"],
+    "Aconcagua": ["Nauru", "Kiribati", "Palau", "Marshall Islands", "Micronesia"],
+    "Everest": ["Papua New Guinea"]
+  },
+  "region-south-america": {
+    "Wycheproof": ["Brazil", "Argentina"],
+    "Fuji": ["Chile", "Peru", "Colombia"],
+    "Mont Blanc": ["Venezuela", "Bolivia"],
+    "Kilimanjaro": ["Ecuador", "Uruguay"],
+    "Aconcagua": ["Paraguay"],
+    "Everest": ["Suriname", "Guyana"]
+  },
+  "region-north-central-america": {
+    "Wycheproof": ["United States", "Canada", "Mexico"],
+    "Fuji": ["Cuba", "Jamaica", "Panama", "Costa Rica"],
+    "Mont Blanc": ["Guatemala", "Honduras", "Haiti", "Dominican Republic", "Bahamas"],
+    "Kilimanjaro": ["Nicaragua", "El Salvador", "Belize", "Barbados"],
+    "Aconcagua": ["Grenada", "Saint Lucia", "Antigua and Barbuda", "Dominica", "Saint Kitts and Nevis", "Saint Vincent and the Grenadines"],
+    "Everest": ["Trinidad and Tobago"]
+  },
+  "region-caribbean": {
+    "Wycheproof": ["Jamaica", "Cuba"],
+    "Fuji": ["Bahamas", "Barbados", "Dominican Republic", "Haiti"],
+    "Mont Blanc": ["Trinidad and Tobago", "Saint Lucia"],
+    "Kilimanjaro": ["Grenada"],
+    "Aconcagua": ["Antigua and Barbuda", "Dominica", "Saint Kitts and Nevis"],
+    "Everest": ["Saint Vincent and the Grenadines"]
+  },
+  "region-west-africa": {
+    "Wycheproof": ["Nigeria", "Ghana"],
+    "Fuji": ["Senegal", "Ivory Coast", "Liberia", "Sierra Leone", "Mali"],
+    "Mont Blanc": ["Niger", "Burkina Faso", "Guinea"],
+    "Kilimanjaro": ["Gambia", "Togo", "Benin"],
+    "Aconcagua": ["Guinea-Bissau", "Mauritania"],
+    "Everest": ["Cape Verde"]
+  },
+  "region-east-africa": {
+    "Wycheproof": ["Kenya", "Ethiopia"],
+    "Fuji": ["Tanzania", "Uganda", "Somalia", "Rwanda"],
+    "Mont Blanc": ["Madagascar", "Eritrea", "Djibouti"],
+    "Kilimanjaro": ["Burundi", "Mozambique"],
+    "Aconcagua": ["Malawi", "Seychelles", "Mauritius", "Comoros"],
+    "Everest": ["Zimbabwe", "Zambia"]
+  },
+  "region-central-africa": {
+    "Wycheproof": ["DR Congo", "Central African Republic"],
+    "Fuji": ["Republic of the Congo", "Cameroon", "Chad"],
+    "Mont Blanc": ["Gabon"],
+    "Kilimanjaro": ["Equatorial Guinea"],
+    "Aconcagua": ["São Tomé and Príncipe"],
+    "Everest": ["Angola"]
+  },
+  "region-western-asia": {
+    "Wycheproof": ["Israel", "Saudi Arabia", "Iraq", "Syria"],
+    "Fuji": ["Jordan", "Lebanon", "United Arab Emirates", "Türkiye", "Qatar", "Kuwait", "Yemen"],
+    "Mont Blanc": ["Oman", "Bahrain"],
+    "Kilimanjaro": ["Palestine"],
+    "Aconcagua": ["Armenia", "Azerbaijan"],
+    "Everest": ["Georgia"]
+  },
+  "region-southeast-asia": {
+    "Wycheproof": ["Thailand", "Vietnam"],
+    "Fuji": ["Indonesia", "Philippines", "Malaysia", "Singapore", "Cambodia"],
+    "Mont Blanc": ["Myanmar"],
+    "Kilimanjaro": ["Laos"],
+    "Aconcagua": ["Brunei"],
+    "Everest": ["Timor-Leste"]
+  },
+  "region-northern-europe": {
+    "Wycheproof": ["Sweden", "Norway", "Finland", "Denmark"],
+    "Fuji": ["Iceland"],
+    "Mont Blanc": ["Estonia", "Latvia"],
+    "Kilimanjaro": ["Lithuania"],
+    "Everest": ["United Kingdom", "Ireland"]
+  },
+  "borders-china": {
+    "Wycheproof": ["India", "Russia", "Mongolia", "North Korea"],
+    "Fuji": ["Vietnam", "Pakistan", "Nepal", "Kazakhstan"],
+    "Mont Blanc": ["Myanmar", "Laos"],
+    "Kilimanjaro": ["Bhutan"],
+    "Aconcagua": ["Kyrgyzstan", "Tajikistan"],
+    "Everest": ["Afghanistan"]
+  },
+  "borders-russia": {
+    "Wycheproof": ["China", "Ukraine", "Finland", "Kazakhstan", "Mongolia"],
+    "Fuji": ["Belarus", "Estonia", "Latvia", "Georgia", "Norway"],
+    "Mont Blanc": ["Azerbaijan"],
+    "Aconcagua": ["Poland", "Lithuania"],
+    "Everest": ["North Korea"]
+  },
+  "borders-germany-france": {
+    "Wycheproof": ["France", "Germany", "Spain", "Italy", "Belgium", "Switzerland"],
+    "Fuji": ["Netherlands", "Poland", "Austria", "Luxembourg"],
+    "Mont Blanc": ["Czechia"],
+    "Kilimanjaro": ["Monaco"],
+    "Aconcagua": ["Andorra"],
+    "Everest": ["Denmark"]
+  },
+  "borders-6-plus": {
+    "Wycheproof": ["China", "Russia", "Brazil"],
+    "Fuji": ["Germany", "DR Congo", "India"],
+    "Mont Blanc": ["Austria", "Tanzania", "Zambia", "Sudan", "Türkiye", "Serbia", "Hungary", "Poland", "Ukraine"],
+    "Kilimanjaro": ["Iran", "Saudi Arabia", "Afghanistan", "Iraq", "Libya", "Algeria", "Mali", "Niger", "Chad"],
+    "Aconcagua": ["Ethiopia", "Cameroon", "Central African Republic", "South Sudan", "Mozambique", "Guinea", "Burkina Faso", "South Africa"],
+    "Everest": ["France", "Italy"]
+  },
+  "borders-exactly-1": {
+    "Wycheproof": ["Portugal", "Canada", "Haiti", "Dominican Republic"],
+    "Fuji": ["South Korea", "Ireland", "United Kingdom"],
+    "Mont Blanc": ["Vatican City", "San Marino", "Monaco"],
+    "Kilimanjaro": ["Lesotho", "Gambia", "Qatar"],
+    "Aconcagua": ["Brunei", "Papua New Guinea", "Timor-Leste"],
+    "Everest": ["Sri Lanka", "Denmark"]
+  },
+  "language-english": {
+    "Wycheproof": ["United States", "United Kingdom", "Australia", "Canada", "New Zealand", "Ireland"],
+    "Fuji": ["India", "South Africa", "Jamaica", "Nigeria", "Kenya", "Singapore", "Philippines", "Ghana", "Malta", "Bahamas", "Barbados"],
+    "Mont Blanc": ["Pakistan", "Uganda", "Zimbabwe", "Zambia", "Fiji", "Belize", "Guyana", "Trinidad and Tobago", "Liberia", "Sierra Leone", "Botswana", "Namibia"],
+    "Kilimanjaro": ["Malawi", "Tanzania", "Papua New Guinea", "Mauritius", "Seychelles", "Samoa", "Tonga", "Malaysia", "Gambia", "Cameroon", "Grenada", "Saint Lucia"],
+    "Aconcagua": ["South Sudan", "Sudan", "Lesotho", "Eswatini", "Solomon Islands", "Vanuatu", "Kiribati", "Tuvalu", "Nauru", "Palau", "Micronesia", "Marshall Islands", "Antigua and Barbuda", "Dominica", "Saint Kitts and Nevis", "Saint Vincent and the Grenadines"],
+    "Everest": ["Rwanda", "Eritrea"]
+  },
+  "language-french": {
+    "Wycheproof": ["France", "Canada", "Belgium", "Switzerland"],
+    "Fuji": ["Haiti", "Monaco", "Luxembourg", "Senegal", "Ivory Coast", "Madagascar", "Cameroon", "DR Congo"],
+    "Mont Blanc": ["Mali", "Niger", "Chad", "Burkina Faso", "Guinea", "Benin", "Togo", "Gabon"],
+    "Kilimanjaro": ["Republic of the Congo", "Central African Republic", "Burundi", "Rwanda", "Djibouti", "Comoros", "Seychelles", "Mauritius"],
+    "Aconcagua": ["Equatorial Guinea"],
+    "Everest": ["Vanuatu", "Lebanon"]
+  },
+  "language-arabic": {
+    "Wycheproof": ["Saudi Arabia", "Egypt"],
+    "Fuji": ["United Arab Emirates", "Iraq", "Syria", "Jordan", "Lebanon", "Morocco", "Kuwait", "Qatar", "Yemen", "Oman"],
+    "Mont Blanc": ["Algeria", "Tunisia", "Libya", "Sudan"],
+    "Kilimanjaro": ["Bahrain", "Palestine", "Mauritania", "Somalia"],
+    "Aconcagua": ["Djibouti", "Eritrea"],
+    "Everest": ["Comoros", "Chad"]
+  },
+  "language-spanish": {
+    "Wycheproof": ["Spain", "Mexico"],
+    "Fuji": ["Argentina", "Colombia", "Peru", "Chile", "Cuba", "Venezuela"],
+    "Mont Blanc": ["Ecuador", "Bolivia", "Uruguay", "Paraguay", "Costa Rica", "Guatemala"],
+    "Kilimanjaro": ["Honduras", "Nicaragua", "El Salvador", "Panama", "Dominican Republic"],
+    "Aconcagua": ["Belize"],
+    "Everest": ["Equatorial Guinea"]
+  },
+  "currency-euro": {
+    "Wycheproof": ["Germany", "France", "Italy", "Spain"],
+    "Fuji": ["Netherlands", "Belgium", "Ireland", "Portugal", "Austria", "Greece", "Finland"],
+    "Mont Blanc": ["Luxembourg", "Malta", "Cyprus", "Slovakia", "Slovenia"],
+    "Kilimanjaro": ["Estonia", "Latvia", "Lithuania", "Croatia"],
+    "Aconcagua": ["Monaco", "Vatican City", "San Marino", "Andorra"],
+    "Everest": ["Montenegro", "Zimbabwe"]
+  },
+  "currency-dollar": {
+    "Wycheproof": ["United States", "Canada", "Australia"],
+    "Fuji": ["New Zealand", "Singapore", "Jamaica", "Bahamas", "Zimbabwe", "Fiji"],
+    "Mont Blanc": ["Barbados", "Trinidad and Tobago", "Belize", "Guyana", "Liberia", "Namibia", "Brunei", "Ecuador"],
+    "Kilimanjaro": ["Panama", "El Salvador", "Grenada", "Saint Lucia", "Antigua and Barbuda", "Dominica", "Saint Kitts and Nevis", "Saint Vincent and the Grenadines"],
+    "Aconcagua": ["Solomon Islands", "Kiribati", "Tuvalu", "Nauru", "Palau", "Marshall Islands", "Suriname"],
+    "Everest": ["Cambodia", "Timor-Leste"]
+  },
+  "currency-franc": {
+    "Wycheproof": ["Switzerland"],
+    "Fuji": ["Liechtenstein", "Senegal", "Ivory Coast", "Cameroon", "Mali"],
+    "Mont Blanc": ["DR Congo", "Rwanda", "Burundi", "Niger", "Chad", "Burkina Faso", "Benin"],
+    "Kilimanjaro": ["Togo", "Gabon", "Republic of the Congo", "Central African Republic", "Guinea", "Djibouti", "Comoros"],
+    "Aconcagua": ["Equatorial Guinea"],
+    "Everest": ["Guinea-Bissau"]
+  },
+  "starts-s": {
+    "Wycheproof": ["Spain", "Sweden", "Switzerland", "South Africa"],
+    "Fuji": ["South Korea", "Singapore", "Saudi Arabia", "Sri Lanka", "Syria", "Sudan"],
+    "Mont Blanc": ["Serbia", "Slovakia", "Slovenia", "Somalia", "Senegal"],
+    "Kilimanjaro": ["South Sudan", "Samoa", "San Marino", "Sierra Leone", "Seychelles"],
+    "Aconcagua": ["Suriname", "Solomon Islands", "Saint Lucia", "Saint Kitts and Nevis", "Saint Vincent and the Grenadines", "São Tomé and Príncipe"],
+    "Everest": ["Eswatini"]
+  },
+  "starts-m": {
+    "Wycheproof": ["Mexico", "Malaysia"],
+    "Fuji": ["Morocco", "Madagascar", "Mongolia", "Malta", "Monaco", "Maldives"],
+    "Mont Blanc": ["Mali", "Malawi", "Mozambique", "Mauritius"],
+    "Kilimanjaro": ["Moldova", "Montenegro", "Mauritania", "Myanmar"],
+    "Aconcagua": ["Marshall Islands", "Micronesia"],
+    "Everest": ["North Macedonia"]
+  },
+  "starts-b": {
+    "Wycheproof": ["Brazil", "Belgium"],
+    "Fuji": ["Bulgaria", "Bolivia", "Bangladesh", "Bahamas", "Barbados"],
+    "Mont Blanc": ["Belarus", "Bosnia and Herzegovina", "Botswana", "Bahrain"],
+    "Kilimanjaro": ["Bhutan", "Belize", "Brunei"],
+    "Aconcagua": ["Benin", "Burundi", "Burkina Faso"],
+    "Everest": ["United Kingdom", "Myanmar"]
+  },
+  "starts-c": {
+    "Wycheproof": ["China", "Canada"],
+    "Fuji": ["Chile", "Colombia", "Cuba", "Croatia", "Cyprus"],
+    "Mont Blanc": ["Cambodia", "Cameroon", "Costa Rica"],
+    "Kilimanjaro": ["Czechia", "Chad"],
+    "Aconcagua": ["Central African Republic", "Republic of the Congo", "DR Congo", "Comoros", "Cape Verde"],
+    "Everest": ["Ivory Coast"]
+  },
+  "starts-a": {
+    "Wycheproof": ["Australia", "Argentina"],
+    "Fuji": ["Austria", "Afghanistan", "Algeria"],
+    "Mont Blanc": ["Albania", "Angola", "Armenia"],
+    "Kilimanjaro": ["Azerbaijan", "Andorra"],
+    "Aconcagua": ["Antigua and Barbuda"],
+    "Everest": ["United States"]
+  },
+  "starts-g": {
+    "Wycheproof": ["Germany", "Greece"],
+    "Fuji": ["Ghana", "Georgia", "Guatemala"],
+    "Mont Blanc": ["Guinea", "Guyana", "Gambia"],
+    "Kilimanjaro": ["Grenada", "Gabon"],
+    "Aconcagua": ["Guinea-Bissau"],
+    "Everest": ["United Kingdom"]
+  },
+  "starts-n": {
+    "Wycheproof": ["Norway", "Netherlands", "New Zealand", "Nigeria"],
+    "Fuji": ["Nepal", "North Korea", "Niger"],
+    "Mont Blanc": ["Nicaragua", "Namibia"],
+    "Kilimanjaro": ["North Macedonia"],
+    "Everest": ["Nauru"]
+  },
+  "starts-t": {
+    "Wycheproof": ["Thailand", "Türkiye"],
+    "Fuji": ["Tunisia", "Tanzania", "Togo"],
+    "Mont Blanc": ["Tajikistan", "Turkmenistan"],
+    "Kilimanjaro": ["Trinidad and Tobago", "Tonga"],
+    "Aconcagua": ["Tuvalu"],
+    "Everest": ["Timor-Leste"]
+  },
+  "starts-p": {
+    "Wycheproof": ["Portugal", "Poland", "Peru"],
+    "Fuji": ["Pakistan", "Philippines", "Panama", "Paraguay"],
+    "Mont Blanc": ["Palestine"],
+    "Kilimanjaro": ["Papua New Guinea"],
+    "Everest": ["Palau"]
+  },
+  "ends-ia": {
+    "Wycheproof": ["Australia", "India", "Russia", "Colombia", "Austria", "Croatia"],
+    "Fuji": ["Indonesia", "Malaysia", "Nigeria", "Bulgaria", "Romania", "Serbia", "Syria", "Saudi Arabia", "Ethiopia", "Tanzania", "Bolivia", "Cambodia", "Georgia", "Mongolia"],
+    "Mont Blanc": ["Algeria", "Tunisia", "Albania", "Armenia", "Estonia", "Latvia", "Lithuania", "Slovenia", "Slovakia"],
+    "Kilimanjaro": ["Somalia", "Zambia", "Namibia", "Liberia", "Gambia", "Mauritania", "North Macedonia", "Bosnia and Herzegovina"],
+    "Aconcagua": ["Micronesia", "Saint Lucia"],
+    "Everest": ["Czechia"]
+  },
+  "two-words": {
+    "Wycheproof": ["United States", "United Kingdom", "South Africa", "New Zealand", "Saudi Arabia", "South Korea", "North Korea"],
+    "Fuji": ["Sri Lanka", "Costa Rica", "El Salvador", "United Arab Emirates", "Dominican Republic", "Sierra Leone", "Papua New Guinea", "Trinidad and Tobago"],
+    "Mont Blanc": ["San Marino", "Vatican City", "Burkina Faso", "Cape Verde", "Ivory Coast", "South Sudan", "Central African Republic", "Bosnia and Herzegovina"],
+    "Kilimanjaro": ["Marshall Islands", "Solomon Islands", "Saint Lucia", "Equatorial Guinea", "North Macedonia", "Antigua and Barbuda", "DR Congo", "Republic of the Congo"],
+    "Aconcagua": ["Saint Kitts and Nevis", "Saint Vincent and the Grenadines", "São Tomé and Príncipe", "Timor-Leste"],
+    "Everest": ["Guinea-Bissau"]
+  },
+  "contains-z": {
+    "Wycheproof": ["Brazil", "New Zealand", "Switzerland", "Zimbabwe"],
+    "Fuji": ["Venezuela", "Tanzania", "Zambia", "Kazakhstan", "Mozambique"],
+    "Mont Blanc": ["Belize", "Uzbekistan", "Azerbaijan"],
+    "Kilimanjaro": ["Kyrgyzstan", "Bosnia and Herzegovina"],
+    "Aconcagua": ["Czechia", "Eswatini"],
+    "Everest": ["Republic of the Congo"]
+  },
+  "contains-k": {
+    "Wycheproof": ["United Kingdom", "Pakistan", "Ukraine", "Kenya", "Denmark"],
+    "Fuji": ["South Korea", "North Korea", "Kazakhstan", "Kuwait", "Sri Lanka", "Türkiye"],
+    "Mont Blanc": ["Slovakia", "Uzbekistan", "Kyrgyzstan"],
+    "Kilimanjaro": ["Tajikistan", "Turkmenistan", "Kiribati"],
+    "Aconcagua": ["Burkina Faso", "Saint Kitts and Nevis"],
+    "Everest": ["DR Congo"]
+  },
+  "same-first-last": {
+    "Wycheproof": ["Australia", "Austria", "Argentina", "Algeria", "Albania", "Angola", "Armenia"],
+    "Fuji": ["Andorra", "Antigua and Barbuda"],
+    "Mont Blanc": ["Seychelles"],
+    "Kilimanjaro": ["Solomon Islands"],
+    "Aconcagua": ["Saint Kitts and Nevis", "Saint Vincent and the Grenadines", "Czechia"],
+    "Everest": ["Central African Republic", "United States"]
+  },
+  "five-letters-or-fewer": {
+    "Wycheproof": ["China", "India", "Japan", "Italy", "Spain", "Peru", "Chile", "Cuba", "Iran", "Iraq", "Egypt"],
+    "Fuji": ["Kenya", "Ghana", "Syria", "Nepal", "Libya", "Haiti", "Fiji", "Malta", "Chad", "Mali", "Togo", "Oman", "Laos", "Qatar", "Yemen", "Sudan", "Niger", "Samoa", "Tonga", "Gabon", "Benin", "Nauru", "Palau"],
+    "Aconcagua": ["North Korea", "DR Congo", "Republic of the Congo"],
+    "Everest": ["South Korea", "Myanmar", "Papua New Guinea"]
+  },
+  "capital-starts-b": {
+    "Wycheproof": ["Germany", "China", "Belgium"],
+    "Fuji": ["Hungary", "Argentina", "Thailand", "Romania", "Serbia", "Lebanon", "Iraq", "Colombia", "Switzerland"],
+    "Mont Blanc": ["Slovakia", "Azerbaijan", "Mali"],
+    "Kilimanjaro": ["Barbados", "Gambia", "Belize"],
+    "Aconcagua": ["Brunei", "Central African Republic", "Republic of the Congo", "Guinea-Bissau", "Kyrgyzstan", "Saint Kitts and Nevis"],
+    "Everest": ["Brazil"]
+  },
+  "capital-starts-m": {
+    "Wycheproof": ["Russia", "Spain", "Mexico"],
+    "Fuji": ["Philippines", "Uruguay", "Monaco"],
+    "Mont Blanc": ["Belarus", "Bahrain", "Somalia", "Nicaragua"],
+    "Kilimanjaro": ["Liberia", "Maldives", "Mozambique", "Oman"],
+    "Aconcagua": ["Lesotho", "Comoros", "Marshall Islands"],
+    "Everest": ["Equatorial Guinea"]
+  },
+  "capital-starts-s": {
+    "Wycheproof": ["South Korea", "Sweden", "Chile"],
+    "Fuji": ["Singapore", "Bulgaria", "Bosnia and Herzegovina", "Costa Rica", "Yemen"],
+    "Mont Blanc": ["Dominican Republic", "El Salvador", "North Macedonia"],
+    "Kilimanjaro": ["Fiji", "Bolivia"],
+    "Aconcagua": ["Grenada", "Antigua and Barbuda", "São Tomé and Príncipe"],
+    "Everest": ["Kiribati"]
+  },
+  "capital-starts-a": {
+    "Wycheproof": ["Greece", "Netherlands", "Türkiye"],
+    "Fuji": ["Jordan", "Ethiopia", "Ghana", "Nigeria", "Algeria", "United Arab Emirates"],
+    "Mont Blanc": ["Kazakhstan", "Paraguay", "Madagascar"],
+    "Kilimanjaro": ["Eritrea", "Turkmenistan"],
+    "Aconcagua": ["Andorra"],
+    "Everest": ["Samoa"]
+  },
+  "capital-starts-p": {
+    "Wycheproof": ["France", "Czechia"],
+    "Fuji": ["Panama", "Haiti", "North Korea", "Cambodia", "South Africa"],
+    "Mont Blanc": ["Montenegro", "Mauritius", "Trinidad and Tobago"],
+    "Kilimanjaro": ["Suriname", "Papua New Guinea"],
+    "Aconcagua": ["Benin", "Cape Verde", "Vanuatu"],
+    "Everest": ["Micronesia"]
+  },
+  "capital-starts-k": {
+    "Wycheproof": ["Ukraine", "Afghanistan", "Nepal"],
+    "Fuji": ["Malaysia", "Jamaica", "Kuwait", "Uganda", "Sudan", "DR Congo", "Rwanda"],
+    "Everest": ["Saint Vincent and the Grenadines"]
+  },
+  "capital-starts-l": {
+    "Wycheproof": ["United Kingdom", "Portugal", "Peru"],
+    "Fuji": ["Angola", "Zambia", "Slovenia", "Luxembourg"],
+    "Mont Blanc": ["Malawi", "Togo"],
+    "Kilimanjaro": ["Gabon"],
+    "Everest": ["Eswatini"]
+  },
+  "capital-starts-t": {
+    "Wycheproof": ["Japan", "Iran"],
+    "Fuji": ["Tunisia", "Georgia", "Albania", "Estonia", "Libya"],
+    "Mont Blanc": ["Uzbekistan"],
+    "Kilimanjaro": ["Honduras"],
+    "Everest": ["Bhutan"]
+  },
+  "capital-starts-n": {
+    "Wycheproof": ["India", "Kenya"],
+    "Fuji": ["Cyprus", "Bahamas", "Niger"],
+    "Mont Blanc": ["Chad", "Mauritania"],
+    "Kilimanjaro": ["Myanmar", "Tonga"],
+    "Everest": ["Palau"]
+  }
+}
