@@ -2,7 +2,8 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
-import { GameError, PACKS, getTodaysPrompts, isPackSlug, puzzleDate, type PackSlug } from "@/lib/game";
+import { DONE, GameError, PACKS, getDay, isPackSlug, puzzleDate, withTopAnswers, type DayRow } from "@/lib/game";
+import { readPlayerId } from "@/lib/player";
 import { Game } from "./game";
 
 async function Puzzle({ params }: { params: Promise<{ pack: string }> }) {
@@ -12,19 +13,21 @@ async function Puzzle({ params }: { params: Promise<{ pack: string }> }) {
     return <Notice title={`${PACKS[pack].name} isn't open yet`} body="Play Geography while it's being built." />;
   }
 
-  await connection(); // today's puzzle depends on the date, so render per request
+  await connection(); // depends on today's date and the player's cookie
   const date = puzzleDate();
-  let prompts: Awaited<ReturnType<typeof getTodaysPrompts>>;
+  let rows: DayRow[];
   try {
-    prompts = await getTodaysPrompts(pack as PackSlug, date);
+    const playerId = await readPlayerId();
+    rows = await getDay(pack, date, playerId);
+    if (rows.length > 0 && rows.every((r) => DONE.includes(r.status))) rows = await withTopAnswers(rows, date);
   } catch (e) {
     const message = e instanceof GameError ? e.message : "The database didn't respond. Try again in a moment.";
     return <Notice title="The puzzle couldn't load" body={message} />;
   }
-  if (prompts.length === 0) {
+  if (rows.length === 0) {
     return <Notice title="No questions loaded" body="Run supabase/data/geography.sql in the Supabase SQL editor." />;
   }
-  return <Game pack={pack} packName={PACKS[pack].name} date={date} prompts={prompts} />;
+  return <Game pack={pack} packName={PACKS[pack].name} date={date} initialRows={rows} />;
 }
 
 function Notice({ title, body }: { title: string; body: string }) {

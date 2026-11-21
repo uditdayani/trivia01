@@ -1,5 +1,6 @@
 // Rarity tiers, shortest mountain to tallest.
-// `maxShare` is the upper bound (exclusive) of an answer's share of correct answers.
+// An answer's share (computed in the database by answer_share(), blended with a
+// popularity prior) decides its tier. `maxShare` is the tier's upper bound (exclusive).
 export type Tier = {
   name: string;
   points: number;
@@ -18,20 +19,8 @@ export const TIERS: readonly Tier[] = [
   { name: "Wycheproof", points: 20, maxShare: Infinity, elevation: 148, emoji: "🟫" },
 ] as const;
 
-export const WRONG = { name: "Wrong", points: 0, emoji: "⬛" } as const;
-
-/** How many "virtual players" the seeded prior is worth (see design doc, Core logic). */
-export const PRIOR_STRENGTH = 50;
-
-/**
- * Blended share of an answer: (n_a + k * p_a) / (N + k).
- * @param n      players who gave this answer
- * @param total  all correct answers to the prompt
- * @param prior  seeded prior share for this answer (0..1)
- */
-export function blendedShare(n: number, total: number, prior: number, k = PRIOR_STRENGTH): number {
-  return (n + k * prior) / (total + k);
-}
+export const WRONG_EMOJI = "⬛";
+export const MAX_POINTS = TIERS[0].points;
 
 export function tierForShare(share: number): Tier {
   return TIERS.find((t) => share < t.maxShare) ?? TIERS[TIERS.length - 1];
@@ -45,4 +34,9 @@ export function shareLabel(i: number): string {
   if (lo === 0) return `under ${pct(hi)}%`;
   if (!Number.isFinite(hi)) return `over ${pct(lo)}%`;
   return `${pct(lo)}–${pct(hi)}%`;
+}
+
+export function formatShare(share: number): string {
+  if (share < 0.01) return "under 1%";
+  return `${Math.round(share * 100)}%`;
 }

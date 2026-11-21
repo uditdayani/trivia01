@@ -1,37 +1,27 @@
 import { NextResponse } from "next/server";
-import { GameError, getTodaysPrompts, isPackSlug, matchAnswer } from "@/lib/game";
+import { handleError, jsonError, parseGameFields, readJson } from "@/lib/api";
+import { submitAnswer } from "@/lib/game";
+import { readPlayerId } from "@/lib/player";
 
 const MAX_INPUT = 80;
 
+/** Checks and saves an answer. The database enforces the timer and one answer per question. */
 export async function POST(req: Request) {
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "Send JSON: { pack, promptId, input }" }, { status: 400 });
-  }
-
-  const { pack, promptId, input } = (body ?? {}) as Record<string, unknown>;
-  if (typeof pack !== "string" || !isPackSlug(pack)) {
-    return NextResponse.json({ error: "Unknown pack." }, { status: 400 });
-  }
-  if (typeof promptId !== "number" || !Number.isInteger(promptId)) {
-    return NextResponse.json({ error: "promptId must be a whole number." }, { status: 400 });
-  }
+  const body = await readJson(req);
+  if (!body) return jsonError("Send JSON: { pack, date, promptId, input }", 400);
+  const fields = parseGameFields(body);
+  if (fields instanceof NextResponse) return fields;
+  const { input } = body;
   if (typeof input !== "string" || input.length > MAX_INPUT) {
-    return NextResponse.json({ error: `Answers are text of up to ${MAX_INPUT} characters.` }, { status: 400 });
+    return jsonError(`Answers are text of up to ${MAX_INPUT} characters.`, 400);
   }
 
+  const playerId = await readPlayerId();
+  if (!playerId) return jsonError("Open the question before answering it.", 409);
+
   try {
-    // Only today's prompts can be answered, so the API can't be used to probe the whole bank.
-    const today = await getTodaysPrompts(pack);
-    if (!today.some((p) => p.id === promptId)) {
-      return NextResponse.json({ error: "That question isn't in today's puzzle." }, { status: 404 });
-    }
-    const result = await matchAnswer(promptId, input);
-    return NextResponse.json(result);
+    return NextResponse.json(await submitAnswer(playerId, fields.date, fields.promptId, input.trim()));
   } catch (e) {
-    const message = e instanceof GameError ? e.message : "Couldn't check that answer.";
-    return NextResponse.json({ error: message }, { status: 500 });
+    return handleError(e);
   }
 }

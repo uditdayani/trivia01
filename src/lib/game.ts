@@ -1,18 +1,6 @@
 import "server-only";
 import { getServerSupabase } from "@/lib/supabase/server";
 
-export type PuzzlePrompt = {
-  id: number;
-  text: string;
-  timeLimitS: number;
-  theme: string;
-};
-
-export type MatchResult =
-  | { status: "correct"; name: string }
-  | { status: "wrong-entity"; name: string }
-  | { status: "unrecognised" };
-
 export const PACKS = {
   geography: { name: "Geography", live: true },
   cricket: { name: "Cricket", live: false },
@@ -29,7 +17,43 @@ export function puzzleDate(now = new Date()): string {
   return now.toISOString().slice(0, 10);
 }
 
-export class GameError extends Error {}
+/** A game started just before midnight UTC can be finished just after it. */
+export function isPlayableDate(date: string, now = new Date()): boolean {
+  const today = puzzleDate(now);
+  const yesterday = puzzleDate(new Date(now.getTime() - 86_400_000));
+  return date === today || date === yesterday;
+}
+
+export type RowStatus = "unseen" | "in_progress" | "expired" | "answered" | "late";
+
+export type AnswerResult = {
+  input: string;
+  name: string | null;
+  correct: boolean;
+  share: number | null;
+  /** players who gave a correct answer to this question so far */
+  nCorrect: number | null;
+};
+
+export type DayRow = {
+  promptId: number;
+  timeLimitS: number;
+  status: RowStatus;
+  text: string | null;
+  result: AnswerResult | null;
+  topAnswers?: { name: string; n: number }[];
+};
+
+export const DONE: RowStatus[] = ["expired", "answered", "late"];
+
+export class GameError extends Error {
+  constructor(
+    message: string,
+    public readonly httpStatus = 500,
+  ) {
+    super(message);
+  }
+}
 
 function db() {
   const supabase = getServerSupabase();
@@ -37,23 +61,98 @@ function db() {
   return supabase;
 }
 
-export async function getTodaysPrompts(pack: PackSlug, date = puzzleDate()): Promise<PuzzlePrompt[]> {
-  const { data, error } = await db().rpc("todays_prompts", { p_pack_slug: pack, p_date: date });
-  if (error) throw new GameError(error.message);
-  return (data as { id: number; text: string; time_limit_s: number; theme: string }[]).map((r) => ({
-    id: Number(r.id),
-    text: r.text,
+const DB_ERRORS: Record<string, [string, number]> = {
+  P0002: ["You've already finished today's puzzle.", 409],
+  P0003: ["Answer the current question first.", 409],
+  P0004: ["That question hasn't been opened yet.", 409],
+};
+
+function fail(error: { code?: string; message: string }): never {
+  const known = error.code ? DB_ERRORS[error.code] : undefined;
+  if (known) throw new GameError(known[0], known[1]);
+  throw new GameError(error.message);
+}
+
+type DbDayRow = {
+  ord: number;
+  prompt_id: number;
+  time_limit_s: number;
+  status: RowStatus;
+  prompt_text: string | null;
+  remaining_ms: number | null;
+  raw_input: string | null;
+  canonical_name: string | null;
+  is_correct: boolean;
+  share: number | null;
+  n_answer: number | null;
+  n_correct: number | null;
+};
+
+/** The puzzle's questions for a player. Without a player, every question is unseen. */
+export async function getDay(pack: PackSlug, date: string, playerId: string | null): Promise<DayRow[]> {
+  if (!playerId) {
+    const { data, error } = await db().rpc("todays_prompts", { p_pack_slug: pack, p_date: date });
+    if (error) fail(error);
+    return (data as { id: number; time_limit_s: number }[]).map((r) => ({
+      promptId: Number(r.id),
+      timeLimitS: r.time_limit_s,
+      status: "unseen",
+      text: null,
+      result: null,
+    }));
+  }
+  const { data, error } = await db().rpc("player_day", { p_player_id: playerId, p_pack_slug: pack, p_date: date });
+  if (error) fail(error);
+  return (data as DbDayRow[]).map((r) => ({
+    promptId: Number(r.prompt_id),
     timeLimitS: r.time_limit_s,
-    theme: r.theme,
+    status: r.status,
+    text: r.prompt_text,
+    result:
+      r.status === "answered" || r.status === "late"
+        ? {
+            input: r.raw_input ?? "",
+            name: r.canonical_name,
+            correct: r.is_correct,
+            share: r.share,
+            nCorrect: r.n_correct,
+          }
+        : null,
   }));
 }
 
-export async function matchAnswer(promptId: number, input: string): Promise<MatchResult> {
-  const { data, error } = await db().rpc("match_answer", { p_prompt_id: promptId, p_input: input });
-  if (error) throw new GameError(error.message);
-  const row = (data as { canonical_name: string; is_correct: boolean }[] | null)?.[0];
-  if (!row) return { status: "unrecognised" };
-  return row.is_correct
-    ? { status: "correct", name: row.canonical_name }
-    : { status: "wrong-entity", name: row.canonical_name };
+export async function withTopAnswers(rows: DayRow[], date: string): Promise<DayRow[]> {
+  return Promise.all(
+    rows.map(async (row) => {
+      const { data, error } = await db().rpc("top_answers", { p_prompt_id: row.promptId, p_date: date, p_limit: 3 });
+      if (error) fail(error);
+      return { ...row, topAnswers: (data as { canonical_name: string; n: number }[]).map((t) => ({ name: t.canonical_name, n: t.n })) };
+    }),
+  );
+}
+
+export async function startPrompt(playerId: string, pack: PackSlug, date: string, promptId: number) {
+  const { data, error } = await db().rpc("start_prompt", {
+    p_player_id: playerId,
+    p_pack_slug: pack,
+    p_date: date,
+    p_prompt_id: promptId,
+  });
+  if (error) fail(error);
+  const row = (data as { prompt_text: string; time_limit_s: number; remaining_ms: number }[])[0];
+  return { text: row.prompt_text, timeLimitS: row.time_limit_s, remainingMs: row.remaining_ms };
+}
+
+export type SubmitResult = AnswerResult & { status: "answered" | "late" | "duplicate" };
+
+export async function submitAnswer(playerId: string, date: string, promptId: number, input: string): Promise<SubmitResult> {
+  const { data, error } = await db().rpc("submit_answer", {
+    p_player_id: playerId,
+    p_date: date,
+    p_prompt_id: promptId,
+    p_input: input,
+  });
+  if (error) fail(error);
+  const r = (data as { status: SubmitResult["status"]; canonical_name: string | null; is_correct: boolean; share: number | null; n_correct: number | null }[])[0];
+  return { status: r.status, input, name: r.canonical_name, correct: r.is_correct, share: r.share, nCorrect: r.n_correct };
 }

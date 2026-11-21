@@ -1,38 +1,34 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import type { PuzzlePrompt } from "@/lib/game";
+import type { AnswerResult, DayRow, RowStatus } from "@/lib/game";
+import { formatShare } from "@/lib/tiers";
+import { Results } from "./results";
+import { formatDate, tierOf } from "./scoring";
 
-type Verdict =
-  | { status: "correct"; name: string }
-  | { status: "wrong-entity"; name: string }
-  | { status: "unrecognised" }
-  | { status: "skipped" }
-  | { status: "error"; message: string };
+type Phase = "ready" | "opening" | "question" | "checking" | "feedback" | "finishing" | "done" | "error";
 
-type Result = { prompt: PuzzlePrompt; input: string; verdict: Verdict };
-
-type Phase = "ready" | "question" | "checking" | "feedback" | "done";
-
-const FEEDBACK_MS = 1600;
+const FEEDBACK_MS = 1800;
+const DONE: RowStatus[] = ["expired", "answered", "late"];
 
 export function Game({
   pack,
   packName,
   date,
-  prompts,
+  initialRows,
 }: {
   pack: string;
   packName: string;
   date: string;
-  prompts: PuzzlePrompt[];
+  initialRows: DayRow[];
 }) {
-  const [phase, setPhase] = useState<Phase>("ready");
-  const [index, setIndex] = useState(0);
+  const allDone = initialRows.every((r) => DONE.includes(r.status));
+  const [rows, setRows] = useState<DayRow[]>(initialRows);
+  const [phase, setPhase] = useState<Phase>(allDone ? "done" : "ready");
+  const [index, setIndex] = useState(() => Math.max(0, initialRows.findIndex((r) => !DONE.includes(r.status))));
   const [input, setInput] = useState("");
   const [remainingMs, setRemainingMs] = useState(0);
-  const [results, setResults] = useState<Result[]>([]);
+  const [error, setError] = useState("");
 
   const inputRef = useRef<HTMLInputElement>(null);
   const deadline = useRef(0);
@@ -42,56 +38,85 @@ export function Game({
     inputValue.current = input;
   }, [input]);
 
-  const prompt = prompts[index];
-  const limitMs = (prompt?.timeLimitS ?? 30) * 1000;
+  const row = rows[index];
+  const answeredCount = rows.filter((r) => DONE.includes(r.status)).length;
 
-  const startQuestion = useCallback(
-    (i: number) => {
+  const finish = useCallback(async () => {
+    setPhase("finishing");
+    try {
+      const res = await fetch(`/api/results?pack=${pack}&date=${date}`);
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
+      setRows(json.rows);
+    } catch {
+      // keep the rows we have; points shown are from when each answer was given
+    }
+    setPhase("done");
+  }, [pack, date]);
+
+  const openQuestion = useCallback(
+    async (i: number) => {
+      const target = rows[i];
+      if (!target) return finish();
       setIndex(i);
       setInput("");
-      submitting.current = false;
-      deadline.current = performance.now() + (prompts[i].timeLimitS ?? 30) * 1000;
-      setRemainingMs((prompts[i].timeLimitS ?? 30) * 1000);
-      setPhase("question");
+      setPhase("opening");
+      try {
+        const res = await fetch("/api/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pack, date, promptId: target.promptId }),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error ?? "Couldn't open the question.");
+        setRows((rs) => rs.map((r, j) => (j === i ? { ...r, text: json.text, status: "in_progress" } : r)));
+        submitting.current = false;
+        deadline.current = performance.now() + json.remainingMs;
+        setRemainingMs(json.remainingMs);
+        setPhase("question");
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Couldn't open the question.");
+        setPhase("error");
+      }
     },
-    [prompts],
+    [rows, pack, date, finish],
   );
 
   const submit = useCallback(
     async (raw: string) => {
-      if (submitting.current || !prompt) return;
+      if (submitting.current || !row) return;
       submitting.current = true;
-      const answer = raw.trim();
-      if (!answer) {
-        setResults((r) => [...r, { prompt, input: "", verdict: { status: "skipped" } }]);
-        setPhase("feedback");
-        return;
-      }
       setPhase("checking");
-      let verdict: Verdict;
+      let result: AnswerResult;
+      let status: RowStatus = "answered";
       try {
         const res = await fetch("/api/answer", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pack, promptId: prompt.id, input: answer }),
+          body: JSON.stringify({ pack, date, promptId: row.promptId, input: raw.trim() }),
         });
         const json = await res.json();
-        verdict = res.ok ? (json as Verdict) : { status: "error", message: json.error ?? "Couldn't check that answer." };
-      } catch {
-        verdict = { status: "error", message: "No connection. Your answer wasn't checked." };
+        if (!res.ok) throw new Error(json.error ?? "Couldn't check that answer.");
+        result = { input: json.input, name: json.name, correct: json.correct, share: json.share, nCorrect: json.nCorrect };
+        if (json.status === "late") status = "late";
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Couldn't check that answer.");
+        setPhase("error");
+        return;
       }
-      setResults((r) => [...r, { prompt, input: answer, verdict }]);
+      setRows((rs) => rs.map((r, j) => (j === index ? { ...r, status, result } : r)));
       setPhase("feedback");
     },
-    [pack, prompt],
+    [row, index, pack, date],
   );
 
   const next = useCallback(() => {
-    if (index + 1 < prompts.length) startQuestion(index + 1);
-    else setPhase("done");
-  }, [index, prompts.length, startQuestion]);
+    const i = rows.findIndex((r, j) => j > index && !DONE.includes(r.status));
+    if (i === -1) void finish();
+    else void openQuestion(i);
+  }, [rows, index, finish, openQuestion]);
 
-  // countdown
+  // countdown, driven by the server's remaining time
   useEffect(() => {
     if (phase !== "question") return;
     inputRef.current?.focus();
@@ -106,56 +131,76 @@ export function Game({
     return () => window.clearInterval(id);
   }, [phase, submit]);
 
-  // auto-advance after feedback
   useEffect(() => {
     if (phase !== "feedback") return;
     const id = window.setTimeout(next, FEEDBACK_MS);
     return () => window.clearTimeout(id);
   }, [phase, next]);
 
+  if (phase === "done") return <Results packName={packName} date={date} rows={rows} />;
+
+  if (phase === "finishing") return <p className="text-stone">Adding up your points…</p>;
+
+  if (phase === "error") {
+    return (
+      <div>
+        <h1 className="font-sign text-4xl font-bold">Something got in the way</h1>
+        <p className="mt-3 text-stone">{error}</p>
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          className="mt-6 rounded-md bg-slate px-5 py-3 font-medium text-snow hover:bg-glacier"
+        >
+          Reload the puzzle
+        </button>
+      </div>
+    );
+  }
+
   if (phase === "ready") {
+    const resuming = answeredCount > 0 || rows.some((r) => r.status === "in_progress");
     return (
       <section aria-labelledby="ready-title">
         <p className="text-stone">
           {packName} · {formatDate(date)}
         </p>
         <h1 id="ready-title" className="mt-1 font-sign text-5xl font-bold leading-none sm:text-6xl">
-          {prompts.length} questions, {prompts[0]?.timeLimitS ?? 30} seconds each
+          {resuming
+            ? `${answeredCount} of ${rows.length} answered`
+            : `${rows.length} questions, ${rows[0]?.timeLimitS ?? 30} seconds each`}
         </h1>
         <p className="mt-4 max-w-prose text-lg text-stone">
-          Type one answer per question and press Enter. Spelling doesn&apos;t have to be perfect. The clock
-          starts as soon as you begin.
+          {resuming
+            ? "Pick up where you left off. A question you opened keeps its own clock, even if you left the page."
+            : "One answer per question, one try per day. Each question appears only when you reach it, and its clock starts straight away."}
         </p>
         <button
           type="button"
-          onClick={() => startQuestion(0)}
+          onClick={() => openQuestion(index)}
           className="mt-8 rounded-md bg-slate px-6 py-3 text-lg font-medium text-snow hover:bg-glacier"
         >
-          Start
+          {resuming ? "Continue" : "Start"}
         </button>
       </section>
     );
   }
 
-  if (phase === "done") {
-    return <Results packName={packName} date={date} results={results} />;
-  }
-
-  const current = results[index];
-  const fraction = remainingMs / limitMs;
-  const seconds = Math.ceil(remainingMs / 1000);
+  const limitMs = (row?.timeLimitS ?? 30) * 1000;
+  // after answering, the bar holds the time that was left
+  const fraction = phase === "opening" ? 1 : remainingMs / limitMs;
+  const seconds = phase === "opening" ? row?.timeLimitS ?? 30 : Math.ceil(remainingMs / 1000);
 
   return (
     <section aria-labelledby="prompt-text">
       <div className="flex items-center justify-between text-stone">
         <span>
-          Question {index + 1} of {prompts.length}
+          Question {index + 1} of {rows.length}
         </span>
-        <Progress total={prompts.length} results={results} index={index} />
+        <Progress rows={rows} index={index} />
       </div>
 
-      <h1 id="prompt-text" className="mt-6 font-sign text-4xl font-bold leading-tight sm:text-5xl">
-        {prompt.text}
+      <h1 id="prompt-text" className="mt-6 min-h-[2.5em] font-sign text-4xl font-bold leading-tight sm:text-5xl">
+        {phase === "opening" ? <span className="text-stone">…</span> : row?.text}
       </h1>
 
       {/* horizon line: drains as time runs out */}
@@ -163,14 +208,12 @@ export function Game({
         <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-mist">
           <div
             className={`h-full rounded-full transition-[width] duration-100 ease-linear ${
-              fraction < 0.25 ? "bg-flag" : "bg-glacier"
+              phase !== "question" ? "bg-stone/40" : fraction < 0.25 ? "bg-flag" : "bg-glacier"
             }`}
-            style={{ width: `${(phase === "question" ? fraction : 0) * 100}%` }}
+            style={{ width: `${fraction * 100}%` }}
           />
         </div>
-        <span className="w-8 text-right font-sign text-xl font-semibold tabular-nums">
-          {phase === "question" ? seconds : 0}
-        </span>
+        <span className="w-8 text-right font-sign text-xl font-semibold tabular-nums">{seconds}</span>
       </div>
       <p className="sr-only" aria-live="polite">
         {phase === "question" && seconds <= 5 ? `${seconds} seconds left` : ""}
@@ -208,13 +251,13 @@ export function Game({
         </button>
       </form>
 
-      <div className="mt-5 min-h-24" aria-live="assertive">
+      <div className="mt-5 min-h-28" aria-live="assertive">
         {phase === "checking" && <p className="text-stone">Checking…</p>}
-        {phase === "feedback" && current && (
+        {phase === "feedback" && row?.result && (
           <div>
-            <Feedback verdict={current.verdict} />
+            <Feedback result={row.result} late={row.status === "late"} />
             <button type="button" onClick={next} className="mt-3 text-glacier underline">
-              {index + 1 < prompts.length ? "Next question" : "See results"}
+              {rows.some((r, j) => j > index && !DONE.includes(r.status)) ? "Next question" : "See results"}
             </button>
           </div>
         )}
@@ -223,48 +266,47 @@ export function Game({
   );
 }
 
-function Feedback({ verdict }: { verdict: Verdict }) {
-  switch (verdict.status) {
-    case "correct":
-      return (
-        <p className="rounded-md bg-moss-soft px-4 py-3 text-lg text-moss">
-          <strong className="font-semibold">{verdict.name}</strong> is correct.
-        </p>
-      );
-    case "wrong-entity":
-      return (
-        <p className="rounded-md bg-flag-soft px-4 py-3 text-lg text-flag">
-          <strong className="font-semibold">{verdict.name}</strong> is a real country, but not a correct answer here.
-        </p>
-      );
-    case "unrecognised":
-      return (
-        <p className="rounded-md bg-flag-soft px-4 py-3 text-lg text-flag">
-          That isn&apos;t a country on our list. Check the spelling next time.
-        </p>
-      );
-    case "skipped":
-      return <p className="rounded-md bg-mist px-4 py-3 text-lg">Time&apos;s up, no answer given.</p>;
-    case "error":
-      return <p className="rounded-md bg-flag-soft px-4 py-3 text-lg text-flag">{verdict.message}</p>;
+function Feedback({ result, late }: { result: AnswerResult; late: boolean }) {
+  const tier = tierOf(result);
+  if (late) {
+    return <p className="rounded-md bg-mist px-4 py-3 text-lg">Time ran out before that answer arrived.</p>;
   }
+  if (tier && result.share != null) {
+    return (
+      <div className="rounded-md bg-moss-soft px-4 py-3 text-moss">
+        <p className="text-lg">
+          <strong className="font-semibold">{result.name}</strong> is correct.
+        </p>
+        <p>
+          {tier.name}, {tier.points} points for now. {formatShare(result.share)} of players gave it.
+        </p>
+      </div>
+    );
+  }
+  if (result.name) {
+    return (
+      <p className="rounded-md bg-flag-soft px-4 py-3 text-lg text-flag">
+        <strong className="font-semibold">{result.name}</strong> is a real country, but not a correct answer here.
+      </p>
+    );
+  }
+  if (!result.input) return <p className="rounded-md bg-mist px-4 py-3 text-lg">Time&apos;s up, no answer given.</p>;
+  return (
+    <p className="rounded-md bg-flag-soft px-4 py-3 text-lg text-flag">
+      That isn&apos;t a country on our list. Check the spelling next time.
+    </p>
+  );
 }
 
-function Progress({ total, results, index }: { total: number; results: Result[]; index: number }) {
+function Progress({ rows, index }: { rows: DayRow[]; index: number }) {
   return (
     <ol className="flex gap-1.5" aria-label="Progress">
-      {Array.from({ length: total }, (_, i) => {
-        const r = results[i];
-        const color = r
-          ? r.verdict.status === "correct"
-            ? "bg-moss"
-            : "bg-flag"
-          : i === index
-            ? "bg-slate"
-            : "bg-mist";
-        const label = r ? (r.verdict.status === "correct" ? "correct" : "wrong") : i === index ? "current" : "to come";
+      {rows.map((r, i) => {
+        const done = DONE.includes(r.status);
+        const color = done ? (r.result?.correct ? "bg-moss" : "bg-flag") : i === index ? "bg-slate" : "bg-mist";
+        const label = done ? (r.result?.correct ? "correct" : "wrong") : i === index ? "current" : "to come";
         return (
-          <li key={i} className={`h-2.5 w-5 rounded-sm ${color}`}>
+          <li key={r.promptId} className={`h-2.5 w-5 rounded-sm ${color}`}>
             <span className="sr-only">
               Question {i + 1}: {label}
             </span>
@@ -273,72 +315,4 @@ function Progress({ total, results, index }: { total: number; results: Result[];
       })}
     </ol>
   );
-}
-
-function Results({ packName, date, results }: { packName: string; date: string; results: Result[] }) {
-  const correct = results.filter((r) => r.verdict.status === "correct").length;
-  return (
-    <section aria-labelledby="results-title">
-      <p className="text-stone">
-        {packName} · {formatDate(date)}
-      </p>
-      <h1 id="results-title" className="mt-1 font-sign text-5xl font-bold leading-none sm:text-6xl">
-        {correct} of {results.length} correct
-      </h1>
-      <p className="mt-3 max-w-prose text-stone">
-        Rarity points come next: once enough people play, each correct answer will show how high it climbed.
-      </p>
-
-      <ol className="mt-8 divide-y divide-mist border-y border-mist">
-        {results.map((r, i) => (
-          <li key={r.prompt.id} className="grid grid-cols-[1.75rem_1fr] gap-x-3 py-4">
-            <span className="font-sign text-lg font-semibold text-stone tabular-nums">{i + 1}</span>
-            <div>
-              <p className="font-medium">{r.prompt.text}</p>
-              <p className={r.verdict.status === "correct" ? "text-moss" : "text-flag"}>
-                {describe(r)}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ol>
-
-      <div className="mt-8 flex flex-wrap gap-4">
-        <button
-          type="button"
-          onClick={() => window.location.reload()}
-          className="rounded-md bg-slate px-5 py-3 font-medium text-snow hover:bg-glacier"
-        >
-          Play again
-        </button>
-        <Link href="/" className="self-center underline">
-          Back to the start
-        </Link>
-      </div>
-    </section>
-  );
-}
-
-function describe({ input, verdict }: Result): string {
-  switch (verdict.status) {
-    case "correct":
-      return `✓ ${verdict.name}`;
-    case "wrong-entity":
-      return `✗ ${verdict.name}: not a correct answer here`;
-    case "unrecognised":
-      return `✗ “${input}” wasn't recognised`;
-    case "skipped":
-      return "✗ No answer";
-    case "error":
-      return `✗ Not checked: ${verdict.message}`;
-  }
-}
-
-function formatDate(iso: string) {
-  return new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-GB", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    timeZone: "UTC",
-  });
 }
