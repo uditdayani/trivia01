@@ -16,7 +16,7 @@ export type Tier = {
 
 export const TIERS: readonly Tier[] = [
   { name: "Everest", points: 100, blurb: "Correct, but nobody expects it here", elevation: 8849, emoji: "🟪", color: "var(--color-everest)" },
-  { name: "Aconcagua", points: 85, blurb: "Deep cuts: the long tail", elevation: 6961, emoji: "🟦", color: "var(--color-aconcagua)" },
+  { name: "Aconcagua", points: 85, blurb: "Few players think of it", elevation: 6961, emoji: "🟦", color: "var(--color-aconcagua)" },
   { name: "Kilimanjaro", points: 70, blurb: "Known, but rarely said first", elevation: 5895, emoji: "🟩", color: "var(--color-kilimanjaro)" },
   { name: "Mont Blanc", points: 55, blurb: "Familiar, a step past obvious", elevation: 4806, emoji: "🟨", color: "var(--color-montblanc)" },
   { name: "Fuji", points: 40, blurb: "Close to obvious", elevation: 3776, emoji: "🟧", color: "var(--color-fuji)" },
