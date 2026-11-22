@@ -48,7 +48,7 @@ export default function Home() {
         </h2>
         <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-haze marker:font-sign marker:text-ink">
           <li>Each question appears when you reach it, and its 30-second clock starts straight away.</li>
-          <li>Type one answer and press Enter. Small spelling mistakes are fine.</li>
+          <li>Type an answer and press Enter. Wrong? Keep guessing until you get one right or the clock runs out (up to 10 tries). Small spelling mistakes are fine.</li>
           <li>Every correct answer scores. The less expected it is for that question, the more it&apos;s worth.</li>
           <li>One game per pack per day. New questions every midnight UTC.</li>
         </ol>

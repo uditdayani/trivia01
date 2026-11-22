@@ -29,6 +29,8 @@ export function Game({
   const [input, setInput] = useState("");
   const [remainingMs, setRemainingMs] = useState(0);
   const [error, setError] = useState("");
+  const [endedByTime, setEndedByTime] = useState(false);
+  const [retry, setRetry] = useState<{ name: string | null; input: string; guessesLeft: number } | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const deadline = useRef(0);
@@ -82,6 +84,8 @@ export function Game({
         if (!res.ok) throw new Error(json.error ?? "Couldn't open the question.");
         setRows((rs) => rs.map((r, j) => (j === i ? { ...r, text: json.text, status: "in_progress" } : r)));
         submitting.current = false;
+        timeUp.current = false;
+        setRetry(null);
         deadline.current = performance.now() + json.remainingMs;
         setRemainingMs(json.remainingMs);
         setPhase("question");
@@ -93,41 +97,75 @@ export function Game({
     [rows, pack, date, finish],
   );
 
+  const timeUp = useRef(false);
+  const submitRef = useRef<((raw: string, final?: boolean) => Promise<void>) | null>(null);
+
+  /** Send a guess. final = the clock ran out, so this guess ends the question. */
   const submit = useCallback(
-    async (raw: string) => {
+    async (raw: string, final = false) => {
       if (submitting.current || !row) return;
+      const guess = raw.trim();
+      if (!guess && !final) return; // ignore Enter on an empty box
       submitting.current = true;
       setPhase("checking");
-      let result: AnswerResult;
-      let status: RowStatus = "answered";
+      let json: {
+        status: "answered" | "retry" | "late" | "duplicate";
+        input: string;
+        name: string | null;
+        correct: boolean;
+        tier: string | null;
+        points: number;
+        nAnswer: number | null;
+        nCorrect: number | null;
+        guessesLeft: number;
+      };
       try {
         const res = await fetch("/api/answer", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pack, date, promptId: row.promptId, input: raw.trim() }),
+          body: JSON.stringify({ pack, date, promptId: row.promptId, input: guess, final }),
         });
-        const json = await res.json();
-        if (!res.ok) throw new Error(json.error ?? "Couldn't check that answer.");
-        result = {
-          input: json.input,
-          name: json.name,
-          correct: json.correct,
-          tier: json.tier,
-          points: json.points,
-          nAnswer: json.nAnswer,
-          nCorrect: json.nCorrect,
-        };
-        if (json.status === "late") status = "late";
+        json = await res.json();
+        if (!res.ok) throw new Error((json as unknown as { error?: string }).error ?? "Couldn't check that answer.");
       } catch (e) {
         setError(e instanceof Error ? e.message : "Couldn't check that answer.");
         setPhase("error");
         return;
       }
+
+      if (json.status === "retry") {
+        setRows((rs) => rs.map((r, j) => (j === index ? { ...r, tried: [...r.tried, json.name ?? guess] } : r)));
+        setRetry({ name: json.name, input: guess, guessesLeft: json.guessesLeft });
+        setInput("");
+        submitting.current = false;
+        if (timeUp.current || deadline.current - performance.now() <= 0) {
+          void submitRef.current?.("", true); // time ran out while we were checking
+        } else {
+          setPhase("question");
+        }
+        return;
+      }
+
+      const result: AnswerResult = {
+        input: json.input,
+        name: json.name,
+        correct: json.correct,
+        tier: json.tier,
+        points: json.points,
+        nAnswer: json.nAnswer,
+        nCorrect: json.nCorrect,
+      };
+      const status: RowStatus = json.status === "late" ? "late" : "answered";
       setRows((rs) => rs.map((r, j) => (j === index ? { ...r, status, result } : r)));
+      setRetry(null);
+      setEndedByTime(final && !result.correct);
       setPhase("feedback");
     },
     [row, index, pack, date],
   );
+  useEffect(() => {
+    submitRef.current = submit;
+  }, [submit]);
 
   const next = useCallback(() => {
     const i = rows.findIndex((r, j) => j > index && !DONE.includes(r.status));
@@ -137,14 +175,16 @@ export function Game({
 
   // countdown, driven by the server's remaining time
   useEffect(() => {
-    if (phase !== "question") return;
-    inputRef.current?.focus();
+    if (phase !== "question" && phase !== "checking") return;
+    if (phase === "question") inputRef.current?.focus();
     const id = window.setInterval(() => {
       const left = Math.max(0, deadline.current - performance.now());
       setRemainingMs(left);
       if (left === 0) {
         window.clearInterval(id);
-        void submit(inputValue.current);
+        timeUp.current = true;
+        // if a guess is being checked, its reply handles the time-up
+        if (phase === "question") void submit(inputValue.current, true);
       }
     }, 100);
     return () => window.clearInterval(id);
@@ -230,7 +270,7 @@ export function Game({
         <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-rule">
           <div
             className={`h-full rounded-full transition-[width] duration-100 ease-linear ${
-              phase !== "question" ? "bg-haze/40" : fraction < 0.25 ? "bg-flag" : "bg-glacier"
+              phase !== "question" && phase !== "checking" ? "bg-haze/40" : fraction < 0.25 ? "bg-flag" : "bg-glacier"
             }`}
             style={{ width: `${fraction * 100}%` }}
           />
@@ -274,10 +314,44 @@ export function Game({
       </form>
 
       <div className="mt-5 min-h-28" aria-live="assertive">
-        {phase === "checking" && <p className="text-haze">Checking…</p>}
+        {(phase === "question" || phase === "checking") && (
+          <div>
+            {retry && (
+              <p className="rounded-md border-l-4 border-flag bg-flag-soft px-4 py-3 text-lg">
+                {retry.name ? (
+                  <>
+                    <strong className="font-semibold text-flag">{retry.name}</strong> isn&apos;t a correct answer.
+                  </>
+                ) : (
+                  <>
+                    <strong className="font-semibold text-flag">“{retry.input}”</strong> isn&apos;t a country on our list.
+                  </>
+                )}{" "}
+                Try again.
+                {retry.guessesLeft <= 3 && (
+                  <span className="text-haze">
+                    {" "}
+                    {retry.guessesLeft} {retry.guessesLeft === 1 ? "guess" : "guesses"} left.
+                  </span>
+                )}
+              </p>
+            )}
+            {row && row.tried.length > 0 && (
+              <p className="mt-3 text-sm text-haze">
+                Tried:{" "}
+                {row.tried.map((t, i) => (
+                  <span key={i} className="mr-1.5 inline-block rounded bg-panel px-2 py-0.5 text-ink line-through decoration-flag/70">
+                    {t}
+                  </span>
+                ))}
+              </p>
+            )}
+            {phase === "checking" && !retry && <p className="text-haze">Checking…</p>}
+          </div>
+        )}
         {phase === "feedback" && row?.result && (
           <div>
-            <Feedback result={row.result} late={row.status === "late"} />
+            <Feedback result={row.result} late={row.status === "late"} timeUp={endedByTime} />
             <button type="button" onClick={next} className="mt-3 text-glacier underline">
               {rows.some((r, j) => j > index && !DONE.includes(r.status)) ? "Next question" : "See results"}
             </button>
@@ -288,8 +362,9 @@ export function Game({
   );
 }
 
-function Feedback({ result, late }: { result: AnswerResult; late: boolean }) {
+function Feedback({ result, late, timeUp }: { result: AnswerResult; late: boolean; timeUp: boolean }) {
   const tier = tierOf(result);
+  const prefix = timeUp && result.input ? "Time's up. " : "";
   if (late) {
     return <p className="rounded-md border-l-4 border-haze bg-panel px-4 py-3 text-lg">Time ran out before that answer arrived.</p>;
   }
@@ -318,6 +393,7 @@ function Feedback({ result, late }: { result: AnswerResult; late: boolean }) {
   if (result.name) {
     return (
       <p className="rounded-md border-l-4 border-flag bg-flag-soft px-4 py-3 text-lg">
+        {prefix}
         <strong className="font-semibold text-flag">{result.name}</strong> is a real country, but not a correct answer here.
       </p>
     );
@@ -325,7 +401,8 @@ function Feedback({ result, late }: { result: AnswerResult; late: boolean }) {
   if (!result.input) return <p className="rounded-md border-l-4 border-haze bg-panel px-4 py-3 text-lg">Time&apos;s up, no answer given.</p>;
   return (
     <p className="rounded-md border-l-4 border-flag bg-flag-soft px-4 py-3 text-lg">
-      That isn&apos;t a country on our list. Check the spelling next time.
+      {prefix}
+      <strong className="font-semibold text-flag">“{result.input}”</strong> isn&apos;t a country on our list.
     </p>
   );
 }

@@ -44,6 +44,8 @@ export type DayRow = {
   status: RowStatus;
   text: string | null;
   result: AnswerResult | null;
+  /** wrong guesses made on this question, oldest first */
+  tried: string[];
   topAnswers?: { name: string; n: number }[];
 };
 
@@ -90,6 +92,7 @@ type DbDayRow = {
   points: number;
   n_answer: number | null;
   n_correct: number | null;
+  tried: string[] | null;
 };
 
 /** The puzzle's questions for a player. Without a player, every question is unseen. */
@@ -103,6 +106,7 @@ export async function getDay(pack: PackSlug, date: string, playerId: string | nu
       status: "unseen",
       text: null,
       result: null,
+      tried: [],
     }));
   }
   const { data, error } = await db().rpc("player_day", { p_player_id: playerId, p_pack_slug: pack, p_date: date });
@@ -112,6 +116,7 @@ export async function getDay(pack: PackSlug, date: string, playerId: string | nu
     timeLimitS: r.time_limit_s,
     status: r.status,
     text: r.prompt_text,
+    tried: r.tried ?? [],
     result:
       r.status === "answered" || r.status === "late"
         ? {
@@ -149,14 +154,26 @@ export async function startPrompt(playerId: string, pack: PackSlug, date: string
   return { text: row.prompt_text, timeLimitS: row.time_limit_s, remainingMs: row.remaining_ms };
 }
 
-export type SubmitResult = AnswerResult & { status: "answered" | "late" | "duplicate" };
+export type SubmitResult = AnswerResult & {
+  /** retry = wrong but the question is still open */
+  status: "answered" | "retry" | "late" | "duplicate";
+  guessesLeft: number;
+};
 
-export async function submitAnswer(playerId: string, date: string, promptId: number, input: string): Promise<SubmitResult> {
+/** final = the clock ran out, so this guess ends the question either way. */
+export async function submitAnswer(
+  playerId: string,
+  date: string,
+  promptId: number,
+  input: string,
+  final: boolean,
+): Promise<SubmitResult> {
   const { data, error } = await db().rpc("submit_answer", {
     p_player_id: playerId,
     p_date: date,
     p_prompt_id: promptId,
     p_input: input,
+    p_final: final,
   });
   if (error) fail(error);
   const r = (
@@ -168,6 +185,7 @@ export async function submitAnswer(playerId: string, date: string, promptId: num
       points: number;
       n_answer: number | null;
       n_correct: number | null;
+      guesses_left: number;
     }[]
   )[0];
   return {
@@ -179,5 +197,6 @@ export async function submitAnswer(playerId: string, date: string, promptId: num
     points: r.points,
     nAnswer: r.n_answer,
     nCorrect: r.n_correct,
+    guessesLeft: r.guesses_left,
   };
 }
