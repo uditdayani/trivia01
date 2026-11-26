@@ -3,7 +3,7 @@
 import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import type { DayRow } from "@/lib/game";
-import { MAX_POINTS } from "@/lib/tiers";
+import { MAX_POINTS, TIERS } from "@/lib/tiers";
 import { track } from "@/lib/track";
 import { colorOf, emojiOf, formatDate, pointsOf, statLine, tierOf, untilNextPuzzle } from "./scoring";
 
@@ -71,6 +71,7 @@ function ResultRow({ row, n }: { row: DayRow; n: number }) {
         {row.topAnswers && row.topAnswers.length > 0 && (
           <p className="text-sm text-haze">Most given: {row.topAnswers.map((t) => t.name).join(", ")}</p>
         )}
+        <BetterAnswers row={row} />
       </div>
       <span className="text-right">
         <span className="block font-sign text-2xl font-bold tabular-nums" style={{ color: tier ? tier.color : undefined }}>
@@ -83,6 +84,34 @@ function ResultRow({ row, n }: { row: DayRow; n: number }) {
 }
 
 const noSubscribe = () => () => {};
+
+/** Example answers from every tier above what the player scored, grouped by tier. */
+function BetterAnswers({ row }: { row: DayRow }) {
+  const scored = pointsOf(row.result);
+  const mine = row.result?.name;
+  const higher = TIERS.filter((t) => t.points > scored)
+    .map((t) => ({ tier: t, names: (row.examples ?? []).filter((e) => e.tier === t.name && e.name !== mine) }))
+    .filter((g) => g.names.length > 0);
+  if (higher.length === 0) return null;
+  return (
+    <details className="group mt-2">
+      <summary className="cursor-pointer list-none text-sm text-glacier underline-offset-2 hover:underline">
+        <span className="group-open:hidden">See better answers</span>
+        <span className="hidden group-open:inline">Hide better answers</span>
+      </summary>
+      <dl className="mt-2 space-y-1.5 rounded-md bg-panel px-3 py-2.5 text-sm">
+        {higher.map(({ tier, names }) => (
+          <div key={tier.name} className="grid grid-cols-[6.5rem_1fr] gap-2">
+            <dt className="font-semibold" style={{ color: tier.color }}>
+              {tier.name} <span className="font-normal text-haze">{tier.points}</span>
+            </dt>
+            <dd>{names.map((n) => n.name).join(", ")}</dd>
+          </div>
+        ))}
+      </dl>
+    </details>
+  );
+}
 
 function NextPuzzle() {
   // recomputed on render; a minute-level countdown is enough here

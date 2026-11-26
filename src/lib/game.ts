@@ -52,6 +52,8 @@ export type DayRow = {
   /** wrong guesses made on this question, oldest first */
   tried: string[];
   topAnswers?: { name: string; n: number }[];
+  /** up to 5 example answers per tier, revealed only after the whole puzzle is done */
+  examples?: { tier: string; points: number; name: string }[];
 };
 
 export const DONE: RowStatus[] = ["expired", "answered", "late"];
@@ -137,12 +139,27 @@ export async function getDay(pack: PackSlug, date: string, playerId: string | nu
   }));
 }
 
+export const EXAMPLES_PER_TIER = 5;
+
+/** Adds what's only shown after finishing: the most given answers and example answers per tier. */
 export async function withTopAnswers(rows: DayRow[], date: string): Promise<DayRow[]> {
   return Promise.all(
     rows.map(async (row) => {
-      const { data, error } = await db().rpc("top_answers", { p_prompt_id: row.promptId, p_date: date, p_limit: 3 });
-      if (error) fail(error);
-      return { ...row, topAnswers: (data as { canonical_name: string; n: number }[]).map((t) => ({ name: t.canonical_name, n: t.n })) };
+      const [top, ex] = await Promise.all([
+        db().rpc("top_answers", { p_prompt_id: row.promptId, p_date: date, p_limit: 3 }),
+        db().rpc("tier_examples", { p_prompt_id: row.promptId, p_per_tier: EXAMPLES_PER_TIER }),
+      ]);
+      if (top.error) fail(top.error);
+      if (ex.error) fail(ex.error);
+      return {
+        ...row,
+        topAnswers: (top.data as { canonical_name: string; n: number }[]).map((t) => ({ name: t.canonical_name, n: t.n })),
+        examples: (ex.data as { tier: string; points: number; canonical_name: string }[]).map((e) => ({
+          tier: e.tier,
+          points: e.points,
+          name: e.canonical_name,
+        })),
+      };
     }),
   );
 }
