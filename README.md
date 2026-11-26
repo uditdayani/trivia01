@@ -13,6 +13,7 @@ Stack: Next.js (App Router) + TypeScript + Tailwind · Supabase (Postgres, auth)
 - [x] **M2 Playable loop:** daily 7-question game, 30s timer, server-side answer matching, results
 - [x] **M3 Rarity scoring and sharing:** answers saved, fixed tier points (set in the pipeline), one play per day (cookie), server-kept timer, share card
 - [x] **M4 Daily operations:** 30-day puzzle schedule, daily rollover job (Vercel Cron), analytics events, `daily_stats` and `answer_review` views, dark colour-coded UI
+- [x] **M5 Cricket (IPL) pack:** 34 questions from Cricsheet data, player-name matching, pack switcher
 - [ ] Public beta: deploy, run 14 days unattended, share
 
 ## Setup
@@ -20,7 +21,8 @@ Stack: Next.js (App Router) + TypeScript + Tailwind · Supabase (Postgres, auth)
 1. **Install:** `npm install`
 2. **Supabase:** create a free project at supabase.com. In **SQL Editor**, run each
    file in `supabase/migrations/` in date order, then `supabase/seed.sql`, then
-   `supabase/data/geography.sql`. Optionally run `supabase/tests/match_answer_test.sql`.
+   `supabase/data/geography.sql` and `supabase/data/cricket.sql`. Optionally run the
+   checks in `supabase/tests/`.
    To check how tiers spread, run `pip install -r pipeline/requirements.txt`, then
    `python pipeline/simulate_players.py`.
 3. **Env:** copy `.env.example` to `.env.local` and fill in `SUPABASE_URL` and

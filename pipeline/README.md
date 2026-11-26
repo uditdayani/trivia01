@@ -6,6 +6,8 @@ Builds pack content and writes SQL you run in the Supabase SQL editor.
 | --- | --- | --- |
 | Refresh raw data (optional) | `python pipeline/refresh_sources.py` | `pipeline/data/*.json` |
 | Build Geography | `python pipeline/build_geography.py` | `supabase/data/geography.sql`, `pipeline/out/geography_prompts.md` |
+| Refresh IPL data (after a season) | `python pipeline/refresh_cricket.py` | `pipeline/data/ipl_json.zip` |
+| Build Cricket (IPL) | `python pipeline/build_cricket.py` | `supabase/data/cricket.sql`, `pipeline/out/cricket_prompts.md`, `pipeline/out/cricket_tiers_review.csv` |
 | Check tiers | `python pipeline/simulate_players.py` | `pipeline/out/simulation.md` |
 | Review tiers | open `pipeline/out/geography_tiers_review.csv` in Excel | one row per question and answer |
 
@@ -44,3 +46,23 @@ Python 3.10+. `pip install -r pipeline/requirements.txt` (wordfreq).
 `supabase/tests/match_answer_test.sql` checks typos, alternative names and
 wrong-country cases against the loaded data. Run it in the SQL editor; it ends
 with "all N cases passed" or stops at the first failure.
+
+## Cricket (IPL)
+
+- Every answer list is computed from Cricsheet ball-by-ball data for every IPL
+  match (2008 to the 2026 final), so it is exact as of the date on each question.
+  Super overs are left out, as in official stats. Checked against known records:
+  every Orange and Purple Cap winner, every champion, and career figures such as
+  Gayle's 357 sixes and Mishra's 3 hat-tricks.
+- Questions live in `cricket_prompts.py`. A question needs at least 10 answers.
+- Tiers: a baseline from how prominent each answer is for that question
+  (centuries for the century question, times dismissing Kohli for the Kohli one),
+  plus `data/cricket_tiers.json`, which names each question's Everest answers
+  (correct but logically unexpected) and any overrides.
+- Names: players type "Virat Kohli", Cricsheet says "V Kohli". Matching handles
+  first names (initials + surname), a surname alone when one player clearly owns
+  it ("Kohli" yes, "Sharma" no: Rohit and Sandeep both have long careers), typos
+  ("Virat Kholi"), and nicknames from `data/cricket_aliases.json` ("Mahi", "Bhuvi").
+  Tests: `supabase/tests/cricket_names_test.sql`.
+- Sources: IPL data from [Cricsheet](https://cricsheet.org) (ODC Attribution), via the
+  [ritesh-ojha/IPL-DATASET](https://github.com/ritesh-ojha/IPL-DATASET) mirror (MIT).

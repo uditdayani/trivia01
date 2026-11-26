@@ -14,11 +14,14 @@ const DONE: RowStatus[] = ["expired", "answered", "late"];
 export function Game({
   pack,
   packName,
+  noun,
   date,
   initialRows,
 }: {
   pack: string;
   packName: string;
+  /** what an answer is: "country", "player" */
+  noun: string;
   date: string;
   initialRows: DayRow[];
 }) {
@@ -301,7 +304,7 @@ export function Game({
           autoCapitalize="words"
           spellCheck={false}
           maxLength={80}
-          placeholder={pack === "geography" ? "Type a country" : "Type an answer"}
+          placeholder={`Type a ${noun}`}
           className="min-w-0 flex-1 rounded-md border-2 border-rule bg-panel px-4 py-3 text-xl outline-none focus:border-glacier disabled:opacity-60"
         />
         <button
@@ -324,7 +327,7 @@ export function Game({
                   </>
                 ) : (
                   <>
-                    <strong className="font-semibold text-flag">“{retry.input}”</strong> isn&apos;t a country on our list.
+                    <strong className="font-semibold text-flag">“{retry.input}”</strong> isn&apos;t a {noun} we know.
                   </>
                 )}{" "}
                 Try again.
@@ -351,7 +354,13 @@ export function Game({
         )}
         {phase === "feedback" && row?.result && (
           <div>
-            <Feedback result={row.result} late={row.status === "late"} timeUp={endedByTime} />
+            <Feedback
+              result={row.result}
+              late={row.status === "late"}
+              timeUp={endedByTime}
+              noun={noun}
+              guesses={row.tried.length}
+            />
             <button type="button" onClick={next} className="mt-3 text-glacier underline">
               {rows.some((r, j) => j > index && !DONE.includes(r.status)) ? "Next question" : "See results"}
             </button>
@@ -362,7 +371,20 @@ export function Game({
   );
 }
 
-function Feedback({ result, late, timeUp }: { result: AnswerResult; late: boolean; timeUp: boolean }) {
+function Feedback({
+  result,
+  late,
+  timeUp,
+  noun,
+  guesses,
+}: {
+  result: AnswerResult;
+  late: boolean;
+  timeUp: boolean;
+  noun: string;
+  /** wrong guesses already made on this question */
+  guesses: number;
+}) {
   const tier = tierOf(result);
   const prefix = timeUp && result.input ? "Time's up. " : "";
   if (late) {
@@ -394,15 +416,23 @@ function Feedback({ result, late, timeUp }: { result: AnswerResult; late: boolea
     return (
       <p className="rounded-md border-l-4 border-flag bg-flag-soft px-4 py-3 text-lg">
         {prefix}
-        <strong className="font-semibold text-flag">{result.name}</strong> is a real country, but not a correct answer here.
+        <strong className="font-semibold text-flag">{result.name}</strong> is a real {noun}, but not a correct answer here.
       </p>
     );
   }
-  if (!result.input) return <p className="rounded-md border-l-4 border-haze bg-panel px-4 py-3 text-lg">Time&apos;s up, no answer given.</p>;
+  if (!result.input) {
+    return (
+      <p className="rounded-md border-l-4 border-haze bg-panel px-4 py-3 text-lg">
+        {guesses > 0
+          ? `Time's up. None of your ${guesses} ${guesses === 1 ? "guess was" : "guesses were"} right.`
+          : "Time's up, no answer given."}
+      </p>
+    );
+  }
   return (
     <p className="rounded-md border-l-4 border-flag bg-flag-soft px-4 py-3 text-lg">
       {prefix}
-      <strong className="font-semibold text-flag">“{result.input}”</strong> isn&apos;t a country on our list.
+      <strong className="font-semibold text-flag">“{result.input}”</strong> isn&apos;t a {noun} we know.
     </p>
   );
 }

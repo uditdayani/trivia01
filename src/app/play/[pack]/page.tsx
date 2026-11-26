@@ -25,9 +25,9 @@ async function Puzzle({ params }: { params: Promise<{ pack: string }> }) {
     return <Notice title="The puzzle couldn't load" body={message} />;
   }
   if (rows.length === 0) {
-    return <Notice title="No questions loaded" body="Run supabase/data/geography.sql in the Supabase SQL editor." />;
+    return <Notice title="No questions loaded" body={`Run supabase/data/${pack}.sql in the Supabase SQL editor.`} />;
   }
-  return <Game pack={pack} packName={PACKS[pack].name} date={date} initialRows={rows} />;
+  return <Game pack={pack} packName={PACKS[pack].name} noun={PACKS[pack].noun} date={date} initialRows={rows} />;
 }
 
 function Notice({ title, body }: { title: string; body: string }) {

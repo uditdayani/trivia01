@@ -31,7 +31,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <a className="underline" href="https://github.com/rspeer/wordfreq">
             wordfreq
           </a>{" "}
-          (CC BY-SA 4.0).
+          (CC BY-SA 4.0). IPL match data from{" "}
+          <a className="underline" href="https://cricsheet.org">
+            Cricsheet
+          </a>
+          .
         </footer>
       </body>
     </html>

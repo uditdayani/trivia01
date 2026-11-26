@@ -2,8 +2,13 @@ import "server-only";
 import { getServerSupabase } from "@/lib/supabase/server";
 
 export const PACKS = {
-  geography: { name: "Geography", live: true },
-  cricket: { name: "Cricket", live: false },
+  geography: { name: "Geography", live: true, noun: "country", blurb: "195 countries, a new set of questions every day" },
+  cricket: {
+    name: "Cricket (IPL)",
+    live: true,
+    noun: "player",
+    blurb: "Every IPL season, 2008 to the 2026 final",
+  },
 } as const;
 
 export type PackSlug = keyof typeof PACKS;

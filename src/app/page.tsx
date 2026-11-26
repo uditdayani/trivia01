@@ -18,27 +18,22 @@ export default function Home() {
           Choose a pack
         </h2>
         <ul className="divide-y divide-rule border-y border-rule">
-          <li>
-            <Link
-              href="/play/geography"
-              className="group -mx-3 flex items-baseline justify-between gap-4 rounded-md px-3 py-5 hover:bg-panel"
-            >
-              <span>
-                <span className="block font-sign text-3xl font-bold">{PACKS.geography.name}</span>
-                <span className="text-haze">195 countries, a new set of questions every day</span>
-              </span>
-              <span className="shrink-0 rounded-md bg-glacier px-4 py-2 font-semibold text-night group-hover:bg-ink">
-                Play today
-              </span>
-            </Link>
-          </li>
-          <li className="flex items-baseline justify-between gap-4 py-5 text-haze">
-            <span>
-              <span className="block font-sign text-3xl font-bold">{PACKS.cricket.name}</span>
-              <span>Players, records and teams</span>
-            </span>
-            <span className="shrink-0 text-sm">Coming soon</span>
-          </li>
+          {(Object.keys(PACKS) as (keyof typeof PACKS)[]).map((slug) => (
+            <li key={slug}>
+              <Link
+                href={`/play/${slug}`}
+                className="group -mx-3 flex items-baseline justify-between gap-4 rounded-md px-3 py-5 hover:bg-panel"
+              >
+                <span>
+                  <span className="block font-sign text-3xl font-bold">{PACKS[slug].name}</span>
+                  <span className="text-haze">{PACKS[slug].blurb}</span>
+                </span>
+                <span className="shrink-0 rounded-md bg-glacier px-4 py-2 font-semibold text-night group-hover:bg-ink">
+                  Play today
+                </span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </section>
 
@@ -50,7 +45,7 @@ export default function Home() {
           <li>Each question appears when you reach it, and its 30-second clock starts straight away.</li>
           <li>Type an answer and press Enter. Wrong? Keep guessing until you get one right or the clock runs out (up to 10 tries). Small spelling mistakes are fine.</li>
           <li>Every correct answer scores. The less expected it is for that question, the more it&apos;s worth.</li>
-          <li>One game per pack per day. New questions every midnight UTC.</li>
+          <li>One game per pack per day: play Geography and Cricket separately. New questions every midnight UTC.</li>
         </ol>
       </section>
 

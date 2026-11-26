@@ -100,7 +100,10 @@ function NextPuzzle() {
 
 function describe(row: DayRow): string {
   const r = row.result;
-  if (row.status === "expired" || (r && !r.input && !r.name)) return "No answer";
+  const tried = row.tried?.length ?? 0;
+  if (row.status === "expired" || (r && !r.input && !r.name)) {
+    return tried > 0 ? `No correct answer (${tried} wrong ${tried === 1 ? "guess" : "guesses"})` : "No answer";
+  }
   if (row.status === "late") return `“${r?.input}” arrived after time ran out`;
   if (!r) return "No answer";
   if (r.correct) return `✓ ${r.name}`;
