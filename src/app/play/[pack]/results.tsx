@@ -127,7 +127,7 @@ function ShareCard({
   // the site's address, read only in the browser (empty during server render)
   const url = useSyncExternalStore(noSubscribe, () => window.location.origin, () => "");
   const text = [
-    `Rare-Answer Trivia: ${packName}, ${formatDate(date, "short")}`,
+    `TriviaSummit: ${packName}, ${formatDate(date, "short")}`,
     `${rows.map((r) => emojiOf(r.result)).join("")} ${total}/${max}`,
     url,
   ]

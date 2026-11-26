@@ -8,8 +8,8 @@ import "@fontsource/barlow-condensed/700.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Rare-Answer Trivia",
-  description: "A daily trivia game where the rarest correct answers score the most.",
+  title: "TriviaSummit",
+  description: "TriviaSummit: a daily trivia game where the least expected correct answers climb highest.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -18,7 +18,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col font-sans text-[17px] leading-relaxed">
         <header className="mx-auto w-full max-w-2xl px-5 pt-6">
           <Link href="/" className="font-sign text-xl font-bold tracking-tight text-ink">
-            Rare-Answer Trivia
+            TriviaSummit
           </Link>
         </header>
         <div className="flex flex-1 flex-col">{children}</div>

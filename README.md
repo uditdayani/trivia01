@@ -1,4 +1,4 @@
-# Rare-Answer Trivia
+# TriviaSummit
 
 A daily browser trivia game: 7 open-answer prompts, ~30 seconds each, and every
 correct answer scores by how few other players gave it. Packs: Geography first,
