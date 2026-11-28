@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { AnswerResult, DayRow, RowStatus } from "@/lib/game";
 import { Results } from "./results";
 import { track } from "@/lib/track";
-import { colorOf, formatDate, pointsOf, statLine, tierOf } from "./scoring";
+import { formatDate, pointsOf, statLine, tierOf } from "./scoring";
 
 type Phase = "ready" | "opening" | "question" | "checking" | "feedback" | "finishing" | "done" | "error";
 
@@ -211,7 +211,7 @@ export function Game({
         <button
           type="button"
           onClick={() => window.location.reload()}
-          className="mt-6 rounded-md bg-glacier px-5 py-3 font-semibold text-night hover:bg-ink"
+          className="mt-6 rounded-md bg-ink px-5 py-3 font-semibold text-night hover:bg-sign"
         >
           Reload the puzzle
         </button>
@@ -224,27 +224,28 @@ export function Game({
     return (
       <section aria-labelledby="ready-title">
         <p className="text-haze">
-          {packName} · {formatDate(date)}
+          {packName}, {formatDate(date)}
         </p>
-        <h1 id="ready-title" className="mt-1 font-sign text-5xl font-bold leading-none sm:text-6xl">
-          {resuming
-            ? `${answeredCount} of ${rows.length} answered`
-            : `${rows.length} questions, ${rows[0]?.timeLimitS ?? 30} seconds each`}
+        <h1 id="ready-title" className="mt-1 font-sign text-6xl font-bold leading-none sm:text-7xl">
+          {resuming ? `Camp ${answeredCount + 1}` : "Base camp"}
         </h1>
         <p className="mt-4 max-w-prose text-lg text-haze">
           {resuming
-            ? "Pick up where you left off. A question you opened keeps its own clock, even if you left the page."
-            : "One answer per question, one try per day. Each question appears only when you reach it, and its clock starts straight away."}
+            ? `${answeredCount} of ${rows.length} answered. A question you opened keeps its own clock, even if you left the page.`
+            : `${rows.length} questions, ${rows[0]?.timeLimitS ?? 30} seconds each, one climb a day. Each question appears only when you reach its camp, and its clock starts straight away.`}
         </p>
+        <div className="mt-8">
+          <Route rows={rows} index={resuming ? index : -1} />
+        </div>
         <button
           type="button"
           onClick={() => {
             if (!resuming) track("game_start", pack, date);
             void openQuestion(index);
           }}
-          className="mt-8 rounded-md bg-glacier px-6 py-3 text-lg font-semibold text-night hover:bg-ink"
+          className="mt-8 rounded-md bg-sign px-6 py-3 text-lg font-semibold text-sign-ink hover:bg-ink"
         >
-          {resuming ? "Continue" : "Start"}
+          {resuming ? "Continue the climb" : "Start the climb"}
         </button>
       </section>
     );
@@ -257,11 +258,14 @@ export function Game({
 
   return (
     <section aria-labelledby="prompt-text">
-      <div className="flex items-center justify-between text-haze">
-        <span>
-          Question {index + 1} of {rows.length}
+      <div className="flex items-baseline justify-between">
+        <span className="font-sign text-2xl font-bold">Camp {index + 1}</span>
+        <span className="text-haze">
+          {index + 1} of {rows.length}
         </span>
-        <Progress rows={rows} index={index} />
+      </div>
+      <div className="mt-3">
+        <Route rows={rows} index={index} />
       </div>
 
       <h1 id="prompt-text" className="mt-6 min-h-[2.5em] font-sign text-4xl font-bold leading-tight sm:text-5xl">
@@ -310,7 +314,7 @@ export function Game({
         <button
           type="submit"
           disabled={phase !== "question"}
-          className="rounded-md bg-glacier px-5 py-3 font-semibold text-night hover:bg-ink disabled:opacity-50"
+          className="rounded-md bg-ink px-5 py-3 font-semibold text-night hover:bg-sign disabled:opacity-50"
         >
           Answer
         </button>
@@ -397,8 +401,14 @@ function Feedback({
         className="flex items-center gap-4 rounded-md border-l-4 bg-panel px-4 py-3"
         style={{ borderColor: tier.color }}
       >
-        <span className="font-sign text-4xl font-bold tabular-nums" style={{ color: tier.color }}>
-          +{result.points}
+        <span className="flex flex-col items-center">
+          <svg viewBox="0 0 24 16" className="h-5 w-8" aria-hidden="true">
+            <path d="M1 15 L12 2 L23 15 Z" fill={tier.color} />
+            <path d="M12 2 L23 15 L15 15 Z" fill="#000" opacity="0.2" />
+          </svg>
+          <span className="font-sign text-3xl font-bold leading-none tabular-nums" style={{ color: tier.color }}>
+            +{result.points}
+          </span>
         </span>
         <div>
           <p className="text-lg">
@@ -437,19 +447,41 @@ function Feedback({
   );
 }
 
-function Progress({ rows, index }: { rows: DayRow[]; index: number }) {
+/** The day's route: seven camps on a trail. Done camps take their tier's colour. */
+function Route({ rows, index }: { rows: DayRow[]; index: number }) {
   return (
-    <ol className="flex gap-1.5" aria-label="Progress">
+    <ol className="relative flex items-center justify-between" aria-label="Route">
+      <span className="absolute inset-x-2 top-1/2 h-0 border-t-2 border-dashed border-rule" aria-hidden="true" />
       {rows.map((r, i) => {
         const done = DONE.includes(r.status);
         const tier = done ? tierOf(r.result) : null;
-        const style = done ? { background: colorOf(r.result) } : undefined;
-        const cls = done ? "" : i === index ? "bg-ink" : "bg-rule";
-        const label = done ? (tier ? `${tier.name}, ${r.result?.points} points` : "wrong") : i === index ? "current" : "to come";
+        const current = i === index && !done;
+        const label = done
+          ? tier
+            ? `${tier.name}, ${r.result?.points} points`
+            : "no points"
+          : current
+            ? "you are here"
+            : "to come";
         return (
-          <li key={r.promptId} className={`h-2.5 w-5 rounded-sm ${cls}`} style={style}>
+          <li key={r.promptId} className="relative z-10 flex h-8 w-8 items-center justify-center">
+            {done && tier ? (
+              <svg viewBox="0 0 24 20" className="h-7 w-8" aria-hidden="true">
+                <path d="M1 19 L12 2 L23 19 Z" fill={tier.color} stroke="var(--color-night)" strokeWidth="1.5" />
+                <path d="M12 2 L23 19 L15 19 Z" fill="#000" opacity="0.22" />
+              </svg>
+            ) : done ? (
+              <span className="h-2.5 w-4 rounded-full bg-flag" aria-hidden="true" />
+            ) : (
+              <span
+                className={`h-3.5 w-3.5 rotate-45 border-2 ${
+                  current ? "camp-current border-sign bg-sign" : "border-haze/60 bg-night"
+                }`}
+                aria-hidden="true"
+              />
+            )}
             <span className="sr-only">
-              Question {i + 1}: {label}
+              Camp {i + 1}: {label}
             </span>
           </li>
         );

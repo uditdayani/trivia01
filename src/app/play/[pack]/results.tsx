@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { DayRow } from "@/lib/game";
 import { MAX_POINTS, TIERS } from "@/lib/tiers";
 import { track } from "@/lib/track";
+import { RidgeProfile, altitudeOf } from "@/components/mountains";
 import { colorOf, emojiOf, formatDate, pointsOf, statLine, tierOf, untilNextPuzzle } from "./scoring";
 
 export function Results({
@@ -21,18 +22,36 @@ export function Results({
   const total = rows.reduce((sum, r) => sum + pointsOf(r.result), 0);
   const correct = rows.filter((r) => r.result?.correct).length;
   const max = rows.length * MAX_POINTS;
+  const altitude = altitudeOf(total, max);
+  // the highest of the six summits this climb got above
+  const passed = [...TIERS].reverse().filter((t) => altitude >= t.elevation).pop();
 
   return (
     <section aria-labelledby="results-title">
       <p className="text-haze">
-        {packName} · {formatDate(date)}
+        {packName}, {formatDate(date)}
       </p>
-      <h1 id="results-title" className="mt-1 font-sign text-6xl font-bold leading-none sm:text-7xl">
-        {total} <span className="text-3xl text-haze sm:text-4xl">/ {max} points</span>
+      <h1 id="results-title" className="mt-1 font-sign text-6xl font-bold leading-none tabular-nums sm:text-8xl">
+        {altitude.toLocaleString("en-GB")} m
       </h1>
-      <p className="mt-3 text-haze">
-        {correct} of {rows.length} correct. Every answer&apos;s points were set before the day began.
+      <p className="mt-3 text-lg text-haze">
+        {total} of {max} points, {correct} of {rows.length} correct.{" "}
+        {passed ? (
+          <>
+            You climbed higher than{" "}
+            <span className="font-semibold" style={{ color: passed.color }}>
+              {passed.name}
+            </span>{" "}
+            ({passed.elevation.toLocaleString("en-GB")} m).
+          </>
+        ) : (
+          "Still at base camp today."
+        )}
       </p>
+
+      <div className="mt-6">
+        <RidgeProfile results={rows.map((r) => ({ tier: r.result?.correct ? r.result.tier : null, points: pointsOf(r.result) }))} />
+      </div>
 
       <ShareCard pack={pack} packName={packName} date={date} rows={rows} total={total} max={max} />
 
@@ -160,7 +179,7 @@ function ShareCard({
   const url = useSyncExternalStore(noSubscribe, () => window.location.origin, () => "");
   const text = [
     `TriviaSummit: ${packName}, ${formatDate(date, "short")}`,
-    `${rows.map((r) => emojiOf(r.result)).join("")} ${total}/${max}`,
+    `${rows.map((r) => emojiOf(r.result)).join("")} ${total}/${max}, ${altitudeOf(total, max).toLocaleString("en-GB")} m`,
     url,
   ]
     .filter(Boolean)
@@ -185,7 +204,7 @@ function ShareCard({
         <button
           type="button"
           onClick={copy}
-          className="rounded-md bg-glacier px-5 py-2.5 font-semibold text-night hover:bg-ink"
+          className="rounded-md bg-sign px-5 py-2.5 font-semibold text-sign-ink hover:bg-ink"
         >
           Copy result
         </button>

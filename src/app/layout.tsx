@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SummitMark } from "@/components/mountains";
 import "@fontsource/barlow/400.css";
 import "@fontsource/barlow/500.css";
 import "@fontsource/barlow/600.css";
@@ -16,13 +17,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full antialiased">
       <body className="flex min-h-full flex-col font-sans text-[17px] leading-relaxed">
-        <header className="mx-auto w-full max-w-2xl px-5 pt-6">
-          <Link href="/" className="font-sign text-xl font-bold tracking-tight text-ink">
+        <header className="relative z-10 mx-auto flex h-20 w-full max-w-2xl items-center px-5">
+          <Link href="/" className="flex items-end gap-2 font-sign text-2xl font-bold tracking-tight text-ink">
+            <SummitMark className="mb-1 h-6 w-8" />
             TriviaSummit
           </Link>
         </header>
         <div className="flex flex-1 flex-col">{children}</div>
-        <footer className="mx-auto w-full max-w-2xl px-5 py-8 text-sm text-haze">
+        <footer className="mx-auto w-full max-w-2xl border-t border-rule px-5 py-8 text-sm text-haze">
           Country data from{" "}
           <a className="underline" href="https://github.com/mledoze/countries">
             mledoze/countries

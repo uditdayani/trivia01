@@ -1,17 +1,24 @@
 @import "tailwindcss";
 
-/* Night on the mountain: deep blue-black, pale ink, glacier accent.
+/* Dusk on the mountain. Indigo sky, layered ridges, snow-white type,
+   trail-sign yellow for wayfinding, a touch of alpenglow on the peaks.
    Colour carries meaning: each rarity tier has its own colour (matching its
-   share-card square), red is a wrong answer, and nothing else is coloured. */
+   share-card square), red is a wrong answer. */
 @theme {
-  --color-night: #0d1821;
-  --color-panel: #142431;
-  --color-rule: #26394a;
-  --color-haze: #97abb8;
-  --color-ink: #e8eff3;
-  --color-glacier: #7cc4e4;
-  --color-flag: #f2707e;
-  --color-flag-soft: #3a1f29;
+  --color-night: #121a2b;
+  --color-panel: #1a2439;
+  --color-rule: #2c3853;
+  --color-ridge-far: #1f2a44;
+  --color-ridge-mid: #283553;
+  --color-ridge-near: #334264;
+  --color-haze: #a4afc4;
+  --color-ink: #eef1ec;
+  --color-glacier: #93c9e2;
+  --color-sign: #f4c543;
+  --color-sign-ink: #1d1a12;
+  --color-alpenglow: #f1a08f;
+  --color-flag: #ef5d6a;
+  --color-flag-soft: #3b2030;
 
   /* tiers, rarest first */
   --color-everest: #b794f6;
@@ -30,13 +37,40 @@
 }
 
 body {
-  background: var(--color-night);
   color: var(--color-ink);
+  background-color: var(--color-night);
+  /* faint contour lines, like the paper map in your pocket */
+  background-image: url("/topo.svg");
+  background-size: 900px 900px;
+  background-attachment: fixed;
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-glacier);
+  outline: 3px solid var(--color-sign);
   outline-offset: 2px;
+}
+
+/* A trail sign: a plate with an arrow point, like a Swiss hiking signpost. */
+.trail-sign {
+  clip-path: polygon(0 0, calc(100% - 1.6rem) 0, 100% 50%, calc(100% - 1.6rem) 100%, 0 100%);
+}
+
+/* The red-white-red waymark painted on rocks along alpine routes. */
+.waymark {
+  background: linear-gradient(
+    to bottom,
+    var(--color-flag) 0 33%,
+    var(--color-ink) 33% 67%,
+    var(--color-flag) 67% 100%
+  );
+}
+
+@keyframes camp-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(244 197 67 / 0.55); }
+  50% { box-shadow: 0 0 0 6px rgb(244 197 67 / 0); }
+}
+.camp-current {
+  animation: camp-glow 2.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -45,5 +79,6 @@ body {
   *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
