@@ -101,3 +101,31 @@ body {
 /* Keep paragraphs from ending on a lone word, and balance headings. */
 p, li, dd { text-wrap: pretty; }
 h1, h2, h3 { text-wrap: balance; }
+
+/* Clouds that roll in as the question clock runs down. Mid-dark blue-grey,
+   soft-edged, drifting slowly; they sit under the page text. */
+.cloud {
+  position: absolute;
+  border-radius: 50%;
+  background: #44516e;
+  filter: blur(36px);
+  transition: opacity 0.8s ease-out;
+}
+.cloud-west { animation: drift-west 14s ease-in-out infinite alternate; }
+.cloud-east { animation: drift-east 17s ease-in-out infinite alternate; }
+@keyframes drift-west { from { transform: translateX(6%); } to { transform: translateX(-6%); } }
+@keyframes drift-east { from { transform: translateX(-6%); } to { transform: translateX(6%); } }
+@media (prefers-reduced-motion: reduce) {
+  .cloud-west, .cloud-east { animation: none; }
+  .cloud { transition: none; }
+}
+
+/* Text that the clouds pass behind keeps a dark halo of the night sky, so it
+   reads against cloud as well as it does against the clear page. */
+.over-cloud {
+  --halo: color-mix(in srgb, var(--color-night) calc(var(--cloud, 0) * 100%), transparent);
+  text-shadow:
+    0 0 3px var(--halo),
+    0 0 12px var(--halo),
+    0 0 22px var(--halo);
+}

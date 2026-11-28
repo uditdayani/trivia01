@@ -5,8 +5,24 @@ import Link from "next/link";
 import type { DayRow } from "@/lib/game";
 import { MAX_POINTS, TIERS } from "@/lib/tiers";
 import { track } from "@/lib/track";
-import { RidgeProfile, altitudeOf } from "@/components/mountains";
-import { colorOf, emojiOf, formatDate, pointsOf, statLine, tierOf, untilNextPuzzle } from "./scoring";
+import { ClimbScene } from "@/components/climb";
+import {
+  altitudeOn,
+  campAt,
+  formatMetres,
+  routeFor,
+  summitOf,
+  zoneAt,
+} from "@/lib/routes";
+import {
+  colorOf,
+  emojiOf,
+  formatDate,
+  pointsOf,
+  statLine,
+  tierOf,
+  untilNextPuzzle,
+} from "./scoring";
 
 export function Results({
   pack,
@@ -22,38 +38,62 @@ export function Results({
   const total = rows.reduce((sum, r) => sum + pointsOf(r.result), 0);
   const correct = rows.filter((r) => r.result?.correct).length;
   const max = rows.length * MAX_POINTS;
-  const altitude = altitudeOf(total, max);
-  // the highest of the six summits this climb got above
-  const passed = [...TIERS].reverse().filter((t) => altitude >= t.elevation).pop();
+  const route = routeFor(pack, date);
+  const altitude = altitudeOn(route, total, max);
+  const camp = campAt(route, altitude);
+  const summit = summitOf(route);
+  const zone = zoneAt(route, altitude);
 
   return (
     <section aria-labelledby="results-title">
       <p className="text-haze">
         {packName}, {formatDate(date)}
       </p>
-      <h1 id="results-title" className="mt-1 font-sign text-6xl font-bold leading-none tabular-nums sm:text-8xl">
-        {altitude.toLocaleString("en-GB")} m
+      <h1
+        id="results-title"
+        className="mt-1 font-sign text-6xl font-bold leading-none tabular-nums sm:text-8xl"
+      >
+        {formatMetres(altitude)}
       </h1>
       <p className="mt-3 text-lg text-haze">
         {total} of {max} points, {correct} of {rows.length} correct.{" "}
-        {passed ? (
+        {altitude >= summit.alt ? (
           <>
-            You climbed higher than{" "}
-            <span className="font-semibold" style={{ color: passed.color }}>
-              {passed.name}
-            </span>{" "}
-            ({passed.elevation.toLocaleString("en-GB")} m).
+            You reached <strong className="text-sign">{summit.name}</strong>.
           </>
+        ) : camp === route.start ? (
+          <>You stayed at {camp.name}, the trailhead.</>
         ) : (
-          "Still at base camp today."
+          <>
+            You made it to <strong className="text-ink">{camp.name}</strong> (
+            {formatMetres(camp.alt)}).
+          </>
         )}
       </p>
 
-      <div className="mt-6">
-        <RidgeProfile results={rows.map((r) => ({ tier: r.result?.correct ? r.result.tier : null, points: pointsOf(r.result) }))} />
-      </div>
+      <figure className="mt-6">
+        <div className="border-y border-rule">
+          <ClimbScene
+            route={route}
+            altitude={altitude}
+            from={route.start.alt}
+            label={`${route.title}. You climbed from ${route.start.name} to ${formatMetres(altitude)}, in ${zone.name.toLowerCase()}.`}
+          />
+        </div>
+        <figcaption className="mt-2 text-haze">
+          {route.title}, {route.region}. {zone.name} at {formatMetres(altitude)}
+          .
+        </figcaption>
+      </figure>
 
-      <ShareCard pack={pack} packName={packName} date={date} rows={rows} total={total} max={max} />
+      <ShareCard
+        pack={pack}
+        packName={packName}
+        date={date}
+        rows={rows}
+        total={total}
+        max={max}
+      />
 
       <NextPuzzle />
 
@@ -75,7 +115,9 @@ function ResultRow({ row, n }: { row: DayRow; n: number }) {
   const r = row.result;
   return (
     <li className="grid grid-cols-[1.75rem_1fr_auto] gap-x-3 py-4">
-      <span className="font-sign text-lg font-semibold text-haze tabular-nums">{n}</span>
+      <span className="font-sign text-lg font-semibold text-haze tabular-nums">
+        {n}
+      </span>
       <div>
         <p className="font-medium">{row.text ?? "Question not opened"}</p>
         <p style={{ color: colorOf(r) }}>{describe(row)}</p>
@@ -88,12 +130,17 @@ function ResultRow({ row, n }: { row: DayRow; n: number }) {
           </p>
         )}
         {row.topAnswers && row.topAnswers.length > 0 && (
-          <p className="text-sm text-haze">Most given: {row.topAnswers.map((t) => t.name).join(", ")}</p>
+          <p className="text-sm text-haze">
+            Most given: {row.topAnswers.map((t) => t.name).join(", ")}
+          </p>
         )}
         <BetterAnswers row={row} />
       </div>
       <span className="text-right">
-        <span className="block font-sign text-2xl font-bold tabular-nums" style={{ color: tier ? tier.color : undefined }}>
+        <span
+          className="block font-sign text-2xl font-bold tabular-nums"
+          style={{ color: tier ? tier.color : undefined }}
+        >
           {pointsOf(r)}
         </span>
         <span aria-hidden="true">{emojiOf(r)}</span>
@@ -109,7 +156,12 @@ function BetterAnswers({ row }: { row: DayRow }) {
   const scored = pointsOf(row.result);
   const mine = row.result?.name;
   const higher = TIERS.filter((t) => t.points > scored)
-    .map((t) => ({ tier: t, names: (row.examples ?? []).filter((e) => e.tier === t.name && e.name !== mine) }))
+    .map((t) => ({
+      tier: t,
+      names: (row.examples ?? []).filter(
+        (e) => e.tier === t.name && e.name !== mine,
+      ),
+    }))
     .filter((g) => g.names.length > 0);
   if (higher.length === 0) return null;
   return (
@@ -122,7 +174,8 @@ function BetterAnswers({ row }: { row: DayRow }) {
         {higher.map(({ tier, names }) => (
           <div key={tier.name} className="grid grid-cols-[6.5rem_1fr] gap-2">
             <dt className="font-semibold" style={{ color: tier.color }}>
-              {tier.name} <span className="font-normal text-haze">{tier.points}</span>
+              {tier.name}{" "}
+              <span className="font-normal text-haze">{tier.points}</span>
             </dt>
             <dd>{names.map((n) => n.name).join(", ")}</dd>
           </div>
@@ -143,14 +196,18 @@ function NextPuzzle() {
     () => "",
   );
   if (!label) return null;
-  return <p className="mt-4 text-haze">Next puzzle in {label} (midnight UTC).</p>;
+  return (
+    <p className="mt-4 text-haze">Next puzzle in {label} (midnight UTC).</p>
+  );
 }
 
 function describe(row: DayRow): string {
   const r = row.result;
   const tried = row.tried?.length ?? 0;
   if (row.status === "expired" || (r && !r.input && !r.name)) {
-    return tried > 0 ? `No correct answer (${tried} wrong ${tried === 1 ? "guess" : "guesses"})` : "No answer";
+    return tried > 0
+      ? `No correct answer (${tried} wrong ${tried === 1 ? "guess" : "guesses"})`
+      : "No answer";
   }
   if (row.status === "late") return `“${r?.input}” arrived after time ran out`;
   if (!r) return "No answer";
@@ -176,10 +233,20 @@ function ShareCard({
 }) {
   const [state, setState] = useState<"idle" | "copied" | "manual">("idle");
   // the site's address, read only in the browser (empty during server render)
-  const url = useSyncExternalStore(noSubscribe, () => window.location.origin, () => "");
+  const url = useSyncExternalStore(
+    noSubscribe,
+    () => window.location.origin,
+    () => "",
+  );
+  const route = routeFor(pack, date);
+  const altitude = altitudeOn(route, total, max);
   const text = [
     `TriviaSummit: ${packName}, ${formatDate(date, "short")}`,
-    `${rows.map((r) => emojiOf(r.result)).join("")} ${total}/${max}, ${altitudeOf(total, max).toLocaleString("en-GB")} m`,
+    route.title,
+    `${rows.map((r) => emojiOf(r.result)).join("")} ${total}/${max}`,
+    altitude >= summitOf(route).alt
+      ? `Summit, ${formatMetres(altitude)}`
+      : `Reached ${campAt(route, altitude).name}, ${formatMetres(altitude)}`,
     url,
   ]
     .filter(Boolean)
@@ -197,20 +264,20 @@ function ShareCard({
 
   return (
     <div className="mt-8 border-y border-dashed border-haze/40 py-5">
-      <pre className="whitespace-pre-wrap font-sans text-lg leading-snug" aria-label="Your result to share">
+      <pre
+        className="whitespace-pre-wrap font-sans text-lg leading-snug"
+        aria-label="Your result to share"
+      >
         {text}
       </pre>
       <div className="mt-4 flex items-center gap-4">
-        <button
-          type="button"
-          onClick={copy}
-          className="btn btn-sign"
-        >
+        <button type="button" onClick={copy} className="btn btn-sign">
           Copy result
         </button>
         <span role="status" className="text-haze">
           {state === "copied" && "Copied. Paste it anywhere."}
-          {state === "manual" && "Copying was blocked. Select the text above and copy it."}
+          {state === "manual" &&
+            "Copying was blocked. Select the text above and copy it."}
         </span>
       </div>
     </div>

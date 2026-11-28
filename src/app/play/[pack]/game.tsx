@@ -4,6 +4,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { AnswerResult, DayRow, RowStatus } from "@/lib/game";
 import { Results } from "./results";
 import { PeakStrip } from "@/components/mountains";
+import { ClimbScene } from "@/components/climb";
+import { Clouds, CompassTimer, cloudDensity } from "@/components/compass";
+import {
+  type Route as ClimbRoute,
+  altitudeOn,
+  campAt,
+  formatMetres,
+  nextCamp,
+  routeFor,
+  summitOf,
+  zoneAt,
+} from "@/lib/routes";
 import { track } from "@/lib/track";
 import { formatDate, pointsOf, statLine, tierOf } from "./scoring";
 
@@ -69,6 +81,9 @@ export function Game({
 
   const row = rows[index];
   const answeredCount = rows.filter((r) => DONE.includes(r.status)).length;
+  const route = routeFor(pack, date);
+  const totalPoints = rows.reduce((sum, r) => sum + pointsOf(r.result), 0);
+  const altitude = altitudeOn(route, totalPoints);
 
   const finish = useCallback(async () => {
     setPhase("finishing");
@@ -282,18 +297,23 @@ export function Game({
         </p>
         <h1
           id="ready-title"
-          className="mt-1 font-sign text-6xl font-bold leading-none sm:text-7xl"
+          className="mt-1 font-sign text-5xl font-bold leading-[0.95] sm:text-6xl"
         >
-          {resuming ? `Camp ${answeredCount + 1}` : "Base camp"}
+          {route.title}
         </h1>
-        <p className="mt-4 max-w-prose text-lg text-haze">
+        <p className="mt-3 text-lg text-haze">
+          {route.region}. From {route.start.name} at{" "}
+          {formatMetres(route.start.alt)} to {summitOf(route).name} at{" "}
+          {formatMetres(summitOf(route).alt)}.
+        </p>
+        <div className="mt-6">
+          <ClimbReadout route={route} altitude={altitude} resting={false} />
+        </div>
+        <p className="mt-6 max-w-prose text-lg text-haze">
           {resuming
             ? `${answeredCount} of ${rows.length} answered. A question you opened keeps its own clock, even if you left the page.`
-            : `${rows.length} questions, ${rows[0]?.timeLimitS ?? 30} seconds each, one climb a day. Each question appears only when you reach its camp, and its clock starts straight away.`}
+            : `${rows.length} questions, ${rows[0]?.timeLimitS ?? 30} seconds each. Every correct answer moves you up the trail, and the less expected it is, the further you climb. A perfect day reaches ${summitOf(route).name}.`}
         </p>
-        <div className="mt-8">
-          <Route rows={rows} index={resuming ? index : -1} />
-        </div>
         <button
           type="button"
           onClick={() => {
@@ -316,49 +336,45 @@ export function Game({
       ? (row?.timeLimitS ?? 30)
       : Math.ceil(remainingMs / 1000);
 
+  const clockRunning = phase === "question" || phase === "checking";
+  const resting = phase === "feedback" && !row?.result?.correct;
+
   return (
-    <section aria-labelledby="prompt-text">
-      <div className="flex items-baseline justify-between">
-        <span className="font-sign text-2xl font-bold">Camp {index + 1}</span>
-        <span className="text-haze">
-          {index + 1} of {rows.length}
-        </span>
-      </div>
+    <section
+      aria-labelledby="prompt-text"
+      style={
+        {
+          "--cloud": cloudDensity(fraction, clockRunning),
+        } as React.CSSProperties
+      }
+    >
+      <Clouds fraction={fraction} active={clockRunning} />
+      <p className="over-cloud relative z-20 font-sign text-2xl font-bold leading-tight">
+        {route.title}
+      </p>
       <div className="mt-3">
-        <Route rows={rows} index={index} />
+        <ClimbReadout route={route} altitude={altitude} resting={resting} />
       </div>
 
+      <div className="over-cloud relative z-20 mt-6 flex items-center justify-between gap-4">
+        <span className="text-haze">
+          Question {index + 1} of {rows.length}
+        </span>
+        <Route rows={rows} index={index} />
+      </div>
       <h1
         id="prompt-text"
-        className="mt-6 min-h-[2.5em] text-3xl font-bold leading-snug sm:text-4xl"
+        className="over-cloud relative z-20 mt-3 min-h-[2.5em] text-3xl font-bold leading-snug sm:text-4xl"
       >
         {phase === "opening" ? <span className="text-haze">…</span> : row?.text}
       </h1>
 
-      {/* horizon line: drains as time runs out */}
-      <div className="mt-6 flex items-center gap-3" aria-hidden="true">
-        <div className="h-1 flex-1 overflow-hidden bg-rule">
-          <div
-            className={`h-full transition-[width] duration-100 ease-linear ${
-              phase !== "question" && phase !== "checking"
-                ? "bg-haze/40"
-                : fraction < 0.25
-                  ? "bg-flag"
-                  : "bg-glacier"
-            }`}
-            style={{ width: `${fraction * 100}%` }}
-          />
-        </div>
-        <span className="w-8 text-right font-sign text-xl font-semibold tabular-nums">
-          {seconds}
-        </span>
-      </div>
       <p className="sr-only" aria-live="polite">
         {phase === "question" && seconds <= 5 ? `${seconds} seconds left` : ""}
       </p>
 
       <form
-        className="mt-6 flex gap-2"
+        className="over-cloud relative z-20 mt-5 flex items-center gap-2"
         onSubmit={(e) => {
           e.preventDefault();
           if (phase === "question") void submit(input);
@@ -387,9 +403,18 @@ export function Game({
         >
           Answer
         </button>
+        <CompassTimer
+          seconds={seconds}
+          total={row?.timeLimitS ?? 30}
+          fraction={fraction}
+          active={clockRunning}
+        />
       </form>
 
-      <div className="mt-5 min-h-28" aria-live="assertive">
+      <div
+        className="over-cloud relative z-20 mt-5 min-h-28"
+        aria-live="assertive"
+      >
         {(phase === "question" || phase === "checking") && (
           <div>
             {retry && (
@@ -439,6 +464,11 @@ export function Game({
               timeUp={endedByTime}
               noun={noun}
               guesses={row.tried.length}
+            />
+            <ClimbNote
+              route={route}
+              before={altitudeOn(route, totalPoints - pointsOf(row.result))}
+              after={altitude}
             />
             <button
               type="button"
@@ -540,13 +570,10 @@ function Feedback({
   );
 }
 
-/** The day's route: seven camps on a trail. Done camps take their tier's colour. */
+/** The day's seven questions as marks: done ones take their tier's colour. */
 function Route({ rows, index }: { rows: DayRow[]; index: number }) {
   return (
-    <ol
-      className="relative flex items-center justify-between"
-      aria-label="Route"
-    >
+    <ol className="relative flex items-center gap-1" aria-label="Questions">
       <span
         className="absolute inset-x-2 top-1/2 h-0 border-t-2 border-dashed border-rule"
         aria-hidden="true"
@@ -565,10 +592,10 @@ function Route({ rows, index }: { rows: DayRow[]; index: number }) {
         return (
           <li
             key={r.promptId}
-            className="relative z-10 flex h-8 w-8 items-center justify-center"
+            className="relative z-10 flex h-6 w-6 items-center justify-center"
           >
             {done && tier ? (
-              <svg viewBox="0 0 24 20" className="h-7 w-8" aria-hidden="true">
+              <svg viewBox="0 0 24 20" className="h-5 w-6" aria-hidden="true">
                 <path
                   d="M1 19 L12 2 L23 19 Z"
                   fill={tier.color}
@@ -607,5 +634,80 @@ function Route({ rows, index }: { rows: DayRow[]; index: number }) {
         );
       })}
     </ol>
+  );
+}
+
+/** The scene plus a plain-text line saying where you are and what's next. */
+function ClimbReadout({
+  route,
+  altitude,
+  resting,
+}: {
+  route: ClimbRoute;
+  altitude: number;
+  resting: boolean;
+}) {
+  const camp = campAt(route, altitude);
+  const ahead = nextCamp(route, altitude);
+  const zone = zoneAt(route, altitude);
+  const where =
+    camp.alt === altitude || altitude === route.start.alt
+      ? `at ${camp.name}`
+      : `above ${camp.name}`;
+  return (
+    <figure>
+      <div className="border-y border-rule">
+        <ClimbScene
+          route={route}
+          altitude={altitude}
+          resting={resting}
+          label={`${route.title}. You are ${where}, ${formatMetres(altitude)}, in ${zone.name.toLowerCase()}.`}
+        />
+      </div>
+      <figcaption className="over-cloud relative z-20 mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <span className="font-sign text-xl font-bold">
+          {formatMetres(altitude)}
+          <span className="ml-2 font-sans text-base font-normal text-haze">
+            {zone.name}
+          </span>
+        </span>
+        <span className="text-haze">
+          {ahead
+            ? `Next: ${ahead.name}, ${formatMetres(ahead.alt)}`
+            : `On ${camp.name}`}
+        </span>
+      </figcaption>
+    </figure>
+  );
+}
+
+/** After an answer: how far it carried you, or that you hold where you are. */
+function ClimbNote({
+  route,
+  before,
+  after,
+}: {
+  route: ClimbRoute;
+  before: number;
+  after: number;
+}) {
+  if (after <= before) {
+    return (
+      <p className="mt-3 text-haze">
+        You hold at {formatMetres(after)} and pitch a tent.
+      </p>
+    );
+  }
+  const passed = route.stops.filter((s) => s.alt > before && s.alt <= after);
+  const names = passed.map((s) => s.name);
+  const list =
+    names.length <= 1
+      ? names[0]
+      : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+  return (
+    <p className="mt-3 text-haze">
+      Climbed {formatMetres(after - before)} to {formatMetres(after)}
+      {list ? `, past ${list}` : ""}.
+    </p>
   );
 }

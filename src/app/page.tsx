@@ -1,11 +1,14 @@
+import { Suspense } from "react";
 import Link from "next/link";
+import { connection } from "next/server";
 import { MountainRange, PeakLadder } from "@/components/mountains";
-import { PACKS } from "@/lib/game";
+import { PACKS, puzzleDate } from "@/lib/game";
+import { routeFor } from "@/lib/routes";
 
 const ROUTE = [
   "Each question appears when you reach it, and its 30-second clock starts straight away.",
   "Type an answer and press Enter. Wrong? Keep guessing until one's right or the clock runs out (10 tries at most). Small spelling slips are fine.",
-  "Every correct answer scores. The less expected it is for that question, the higher it climbs.",
+  "Each day climbs a real mountain route, camp by camp. Every correct answer moves you up it, and the less expected it is for that question, the further you climb.",
   "One climb per pack per day. New questions at midnight UTC.",
 ];
 
@@ -42,6 +45,9 @@ export default function Home() {
                   <span>
                     <span className="block font-sign text-3xl font-bold leading-tight">{PACKS[slug].name}</span>
                     <span className="block text-sm font-medium opacity-75">{PACKS[slug].blurb}</span>
+                    <Suspense fallback={null}>
+                      <TodaysRoute pack={slug} />
+                    </Suspense>
                   </span>
                   <span className="shrink-0 text-right font-sign text-lg font-semibold leading-tight">
                     7 questions
@@ -82,5 +88,15 @@ export default function Home() {
         </section>
       </div>
     </main>
+  );
+}
+
+/** Today's mountain for a pack. Depends on the date, so it renders per request. */
+async function TodaysRoute({ pack }: { pack: string }) {
+  await connection();
+  return (
+    <span className="mt-1 block text-sm font-semibold">
+      Today: {routeFor(pack, puzzleDate()).title}
+    </span>
   );
 }
