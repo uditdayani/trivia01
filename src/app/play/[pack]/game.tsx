@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { AnswerResult, DayRow, RowStatus } from "@/lib/game";
 import { Results } from "./results";
+import { PeakStrip } from "@/components/mountains";
 import { track } from "@/lib/track";
 import { formatDate, pointsOf, statLine, tierOf } from "./scoring";
 
@@ -504,6 +505,9 @@ function Feedback({
               <strong>{result.name}</strong> is correct.
             </p>
           </div>
+        </div>
+        <div className="mt-4">
+          <PeakStrip reached={tier.name} />
         </div>
         {stat && <p className="mt-2 text-sm text-haze">{stat}</p>}
       </div>
