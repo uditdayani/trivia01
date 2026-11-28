@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SummitMark } from "@/components/mountains";
-import "@fontsource/barlow/400.css";
-import "@fontsource/barlow/500.css";
-import "@fontsource/barlow/600.css";
-import "@fontsource/barlow-condensed/600.css";
-import "@fontsource/barlow-condensed/700.css";
+import "@fontsource/commissioner/400";
+import "@fontsource/commissioner/600";
+import "@fontsource/commissioner/700";
+import "@fontsource/big-shoulders-stencil-display/600";
+import "@fontsource/big-shoulders-stencil-display/700";
+import "@fontsource/big-shoulders-stencil-display/800";
 import "./globals.css";
 
 export const metadata: Metadata = {

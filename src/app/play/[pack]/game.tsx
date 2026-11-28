@@ -6,7 +6,15 @@ import { Results } from "./results";
 import { track } from "@/lib/track";
 import { formatDate, pointsOf, statLine, tierOf } from "./scoring";
 
-type Phase = "ready" | "opening" | "question" | "checking" | "feedback" | "finishing" | "done" | "error";
+type Phase =
+  | "ready"
+  | "opening"
+  | "question"
+  | "checking"
+  | "feedback"
+  | "finishing"
+  | "done"
+  | "error";
 
 const FEEDBACK_MS = 1800;
 const DONE: RowStatus[] = ["expired", "answered", "late"];
@@ -28,12 +36,21 @@ export function Game({
   const allDone = initialRows.every((r) => DONE.includes(r.status));
   const [rows, setRows] = useState<DayRow[]>(initialRows);
   const [phase, setPhase] = useState<Phase>(allDone ? "done" : "ready");
-  const [index, setIndex] = useState(() => Math.max(0, initialRows.findIndex((r) => !DONE.includes(r.status))));
+  const [index, setIndex] = useState(() =>
+    Math.max(
+      0,
+      initialRows.findIndex((r) => !DONE.includes(r.status)),
+    ),
+  );
   const [input, setInput] = useState("");
   const [remainingMs, setRemainingMs] = useState(0);
   const [error, setError] = useState("");
   const [endedByTime, setEndedByTime] = useState(false);
-  const [retry, setRetry] = useState<{ name: string | null; input: string; guessesLeft: number } | null>(null);
+  const [retry, setRetry] = useState<{
+    name: string | null;
+    input: string;
+    guessesLeft: number;
+  } | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const deadline = useRef(0);
@@ -84,8 +101,13 @@ export function Game({
           body: JSON.stringify({ pack, date, promptId: target.promptId }),
         });
         const json = await res.json();
-        if (!res.ok) throw new Error(json.error ?? "Couldn't open the question.");
-        setRows((rs) => rs.map((r, j) => (j === i ? { ...r, text: json.text, status: "in_progress" } : r)));
+        if (!res.ok)
+          throw new Error(json.error ?? "Couldn't open the question.");
+        setRows((rs) =>
+          rs.map((r, j) =>
+            j === i ? { ...r, text: json.text, status: "in_progress" } : r,
+          ),
+        );
         submitting.current = false;
         timeUp.current = false;
         setRetry(null);
@@ -93,7 +115,9 @@ export function Game({
         setRemainingMs(json.remainingMs);
         setPhase("question");
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Couldn't open the question.");
+        setError(
+          e instanceof Error ? e.message : "Couldn't open the question.",
+        );
         setPhase("error");
       }
     },
@@ -101,7 +125,9 @@ export function Game({
   );
 
   const timeUp = useRef(false);
-  const submitRef = useRef<((raw: string, final?: boolean) => Promise<void>) | null>(null);
+  const submitRef = useRef<
+    ((raw: string, final?: boolean) => Promise<void>) | null
+  >(null);
 
   /** Send a guess. final = the clock ran out, so this guess ends the question. */
   const submit = useCallback(
@@ -126,19 +152,39 @@ export function Game({
         const res = await fetch("/api/answer", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pack, date, promptId: row.promptId, input: guess, final }),
+          body: JSON.stringify({
+            pack,
+            date,
+            promptId: row.promptId,
+            input: guess,
+            final,
+          }),
         });
         json = await res.json();
-        if (!res.ok) throw new Error((json as unknown as { error?: string }).error ?? "Couldn't check that answer.");
+        if (!res.ok)
+          throw new Error(
+            (json as unknown as { error?: string }).error ??
+              "Couldn't check that answer.",
+          );
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Couldn't check that answer.");
+        setError(
+          e instanceof Error ? e.message : "Couldn't check that answer.",
+        );
         setPhase("error");
         return;
       }
 
       if (json.status === "retry") {
-        setRows((rs) => rs.map((r, j) => (j === index ? { ...r, tried: [...r.tried, json.name ?? guess] } : r)));
-        setRetry({ name: json.name, input: guess, guessesLeft: json.guessesLeft });
+        setRows((rs) =>
+          rs.map((r, j) =>
+            j === index ? { ...r, tried: [...r.tried, json.name ?? guess] } : r,
+          ),
+        );
+        setRetry({
+          name: json.name,
+          input: guess,
+          guessesLeft: json.guessesLeft,
+        });
         setInput("");
         submitting.current = false;
         if (timeUp.current || deadline.current - performance.now() <= 0) {
@@ -159,7 +205,9 @@ export function Game({
         nCorrect: json.nCorrect,
       };
       const status: RowStatus = json.status === "late" ? "late" : "answered";
-      setRows((rs) => rs.map((r, j) => (j === index ? { ...r, status, result } : r)));
+      setRows((rs) =>
+        rs.map((r, j) => (j === index ? { ...r, status, result } : r)),
+      );
       setRetry(null);
       setEndedByTime(final && !result.correct);
       setPhase("feedback");
@@ -199,19 +247,23 @@ export function Game({
     return () => window.clearTimeout(id);
   }, [phase, next]);
 
-  if (phase === "done") return <Results pack={pack} packName={packName} date={date} rows={rows} />;
+  if (phase === "done")
+    return <Results pack={pack} packName={packName} date={date} rows={rows} />;
 
-  if (phase === "finishing") return <p className="text-haze">Adding up your points…</p>;
+  if (phase === "finishing")
+    return <p className="text-haze">Adding up your points…</p>;
 
   if (phase === "error") {
     return (
       <div>
-        <h1 className="font-sign text-4xl font-bold">Something got in the way</h1>
+        <h1 className="font-sign text-4xl font-bold">
+          Something got in the way
+        </h1>
         <p className="mt-3 text-haze">{error}</p>
         <button
           type="button"
           onClick={() => window.location.reload()}
-          className="mt-6 rounded-md bg-ink px-5 py-3 font-semibold text-night hover:bg-sign"
+          className="btn btn-snow mt-6"
         >
           Reload the puzzle
         </button>
@@ -220,13 +272,17 @@ export function Game({
   }
 
   if (phase === "ready") {
-    const resuming = answeredCount > 0 || rows.some((r) => r.status === "in_progress");
+    const resuming =
+      answeredCount > 0 || rows.some((r) => r.status === "in_progress");
     return (
       <section aria-labelledby="ready-title">
         <p className="text-haze">
           {packName}, {formatDate(date)}
         </p>
-        <h1 id="ready-title" className="mt-1 font-sign text-6xl font-bold leading-none sm:text-7xl">
+        <h1
+          id="ready-title"
+          className="mt-1 font-sign text-6xl font-bold leading-none sm:text-7xl"
+        >
           {resuming ? `Camp ${answeredCount + 1}` : "Base camp"}
         </h1>
         <p className="mt-4 max-w-prose text-lg text-haze">
@@ -243,7 +299,7 @@ export function Game({
             if (!resuming) track("game_start", pack, date);
             void openQuestion(index);
           }}
-          className="mt-8 rounded-md bg-sign px-6 py-3 text-lg font-semibold text-sign-ink hover:bg-ink"
+          className="btn btn-sign mt-8 text-lg"
         >
           {resuming ? "Continue the climb" : "Start the climb"}
         </button>
@@ -254,7 +310,10 @@ export function Game({
   const limitMs = (row?.timeLimitS ?? 30) * 1000;
   // after answering, the bar holds the time that was left
   const fraction = phase === "opening" ? 1 : remainingMs / limitMs;
-  const seconds = phase === "opening" ? row?.timeLimitS ?? 30 : Math.ceil(remainingMs / 1000);
+  const seconds =
+    phase === "opening"
+      ? (row?.timeLimitS ?? 30)
+      : Math.ceil(remainingMs / 1000);
 
   return (
     <section aria-labelledby="prompt-text">
@@ -268,21 +327,30 @@ export function Game({
         <Route rows={rows} index={index} />
       </div>
 
-      <h1 id="prompt-text" className="mt-6 min-h-[2.5em] font-sign text-4xl font-bold leading-tight sm:text-5xl">
+      <h1
+        id="prompt-text"
+        className="mt-6 min-h-[2.5em] text-3xl font-bold leading-snug sm:text-4xl"
+      >
         {phase === "opening" ? <span className="text-haze">…</span> : row?.text}
       </h1>
 
       {/* horizon line: drains as time runs out */}
       <div className="mt-6 flex items-center gap-3" aria-hidden="true">
-        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-rule">
+        <div className="h-1 flex-1 overflow-hidden bg-rule">
           <div
-            className={`h-full rounded-full transition-[width] duration-100 ease-linear ${
-              phase !== "question" && phase !== "checking" ? "bg-haze/40" : fraction < 0.25 ? "bg-flag" : "bg-glacier"
+            className={`h-full transition-[width] duration-100 ease-linear ${
+              phase !== "question" && phase !== "checking"
+                ? "bg-haze/40"
+                : fraction < 0.25
+                  ? "bg-flag"
+                  : "bg-glacier"
             }`}
             style={{ width: `${fraction * 100}%` }}
           />
         </div>
-        <span className="w-8 text-right font-sign text-xl font-semibold tabular-nums">{seconds}</span>
+        <span className="w-8 text-right font-sign text-xl font-semibold tabular-nums">
+          {seconds}
+        </span>
       </div>
       <p className="sr-only" aria-live="polite">
         {phase === "question" && seconds <= 5 ? `${seconds} seconds left` : ""}
@@ -309,12 +377,12 @@ export function Game({
           spellCheck={false}
           maxLength={80}
           placeholder={`Type a ${noun}`}
-          className="min-w-0 flex-1 rounded-md border-2 border-rule bg-panel px-4 py-3 text-xl outline-none focus:border-glacier disabled:opacity-60"
+          className="min-w-0 flex-1 border-0 border-b-2 border-haze/60 bg-transparent px-1 py-3 text-2xl outline-none placeholder:text-haze/60 focus:border-sign disabled:opacity-60"
         />
         <button
           type="submit"
           disabled={phase !== "question"}
-          className="rounded-md bg-ink px-5 py-3 font-semibold text-night hover:bg-sign disabled:opacity-50"
+          className="btn btn-snow"
         >
           Answer
         </button>
@@ -324,36 +392,42 @@ export function Game({
         {(phase === "question" || phase === "checking") && (
           <div>
             {retry && (
-              <p className="rounded-md border-l-4 border-flag bg-flag-soft px-4 py-3 text-lg">
+              <p className="text-lg">
                 {retry.name ? (
                   <>
-                    <strong className="font-semibold text-flag">{retry.name}</strong> isn&apos;t a correct answer.
+                    <strong className="text-flag">{retry.name}</strong>{" "}
+                    isn&apos;t a correct answer.
                   </>
                 ) : (
                   <>
-                    <strong className="font-semibold text-flag">“{retry.input}”</strong> isn&apos;t a {noun} we know.
+                    <strong className="text-flag">“{retry.input}”</strong>{" "}
+                    isn&apos;t a {noun} we know.
                   </>
                 )}{" "}
                 Try again.
                 {retry.guessesLeft <= 3 && (
                   <span className="text-haze">
                     {" "}
-                    {retry.guessesLeft} {retry.guessesLeft === 1 ? "guess" : "guesses"} left.
+                    {retry.guessesLeft}{" "}
+                    {retry.guessesLeft === 1 ? "guess" : "guesses"} left.
                   </span>
                 )}
               </p>
             )}
             {row && row.tried.length > 0 && (
-              <p className="mt-3 text-sm text-haze">
-                Tried:{" "}
+              <p className="mt-2 text-haze">
+                Tried{" "}
                 {row.tried.map((t, i) => (
-                  <span key={i} className="mr-1.5 inline-block rounded bg-panel px-2 py-0.5 text-ink line-through decoration-flag/70">
-                    {t}
+                  <span key={i}>
+                    <s className="text-ink decoration-flag decoration-2">{t}</s>
+                    {i < row.tried.length - 1 ? ", " : "."}
                   </span>
                 ))}
               </p>
             )}
-            {phase === "checking" && !retry && <p className="text-haze">Checking…</p>}
+            {phase === "checking" && !retry && (
+              <p className="text-haze">Checking…</p>
+            )}
           </div>
         )}
         {phase === "feedback" && row?.result && (
@@ -365,8 +439,14 @@ export function Game({
               noun={noun}
               guesses={row.tried.length}
             />
-            <button type="button" onClick={next} className="mt-3 text-glacier underline">
-              {rows.some((r, j) => j > index && !DONE.includes(r.status)) ? "Next question" : "See results"}
+            <button
+              type="button"
+              onClick={next}
+              className="mt-3 text-glacier underline"
+            >
+              {rows.some((r, j) => j > index && !DONE.includes(r.status))
+                ? "Next question"
+                : "See results"}
             </button>
           </div>
         )}
@@ -392,47 +472,55 @@ function Feedback({
   const tier = tierOf(result);
   const prefix = timeUp && result.input ? "Time's up. " : "";
   if (late) {
-    return <p className="rounded-md border-l-4 border-haze bg-panel px-4 py-3 text-lg">Time ran out before that answer arrived.</p>;
+    return (
+      <p className="text-lg text-haze">
+        Time ran out before that answer arrived.
+      </p>
+    );
   }
   if (tier) {
     const stat = statLine(result);
     return (
-      <div
-        className="flex items-center gap-4 rounded-md border-l-4 bg-panel px-4 py-3"
-        style={{ borderColor: tier.color }}
-      >
-        <span className="flex flex-col items-center">
-          <svg viewBox="0 0 24 16" className="h-5 w-8" aria-hidden="true">
-            <path d="M1 15 L12 2 L23 15 Z" fill={tier.color} />
-            <path d="M12 2 L23 15 L15 15 Z" fill="#000" opacity="0.2" />
-          </svg>
-          <span className="font-sign text-3xl font-bold leading-none tabular-nums" style={{ color: tier.color }}>
+      <div>
+        <div className="flex items-end gap-4">
+          <span
+            className="font-sign text-6xl font-extrabold leading-[0.8] tabular-nums"
+            style={{ color: tier.color }}
+          >
             +{result.points}
           </span>
-        </span>
-        <div>
-          <p className="text-lg">
-            <strong className="font-semibold">{result.name}</strong> is correct:{" "}
-            <span className="font-semibold" style={{ color: tier.color }}>
+          <div className="pb-0.5">
+            <p
+              className="flex items-center gap-2 font-sign text-2xl font-bold leading-none"
+              style={{ color: tier.color }}
+            >
+              <svg viewBox="0 0 24 16" className="h-4 w-6" aria-hidden="true">
+                <path d="M1 15 L12 2 L23 15 Z" fill="currentColor" />
+                <path d="M12 2 L23 15 L15 15 Z" fill="#000" opacity="0.25" />
+              </svg>
               {tier.name}
-            </span>
-          </p>
-          {stat && <p className="text-sm text-haze">{stat}</p>}
+            </p>
+            <p className="mt-1.5 text-lg">
+              <strong>{result.name}</strong> is correct.
+            </p>
+          </div>
         </div>
+        {stat && <p className="mt-2 text-sm text-haze">{stat}</p>}
       </div>
     );
   }
   if (result.name) {
     return (
-      <p className="rounded-md border-l-4 border-flag bg-flag-soft px-4 py-3 text-lg">
+      <p className="text-lg">
         {prefix}
-        <strong className="font-semibold text-flag">{result.name}</strong> is a real {noun}, but not a correct answer here.
+        <strong className="text-flag">{result.name}</strong> is a real {noun},
+        but not a correct answer here.
       </p>
     );
   }
   if (!result.input) {
     return (
-      <p className="rounded-md border-l-4 border-haze bg-panel px-4 py-3 text-lg">
+      <p className="text-lg text-haze">
         {guesses > 0
           ? `Time's up. None of your ${guesses} ${guesses === 1 ? "guess was" : "guesses were"} right.`
           : "Time's up, no answer given."}
@@ -440,9 +528,10 @@ function Feedback({
     );
   }
   return (
-    <p className="rounded-md border-l-4 border-flag bg-flag-soft px-4 py-3 text-lg">
+    <p className="text-lg">
       {prefix}
-      <strong className="font-semibold text-flag">“{result.input}”</strong> isn&apos;t a {noun} we know.
+      <strong className="text-flag">“{result.input}”</strong> isn&apos;t a{" "}
+      {noun} we know.
     </p>
   );
 }
@@ -450,8 +539,14 @@ function Feedback({
 /** The day's route: seven camps on a trail. Done camps take their tier's colour. */
 function Route({ rows, index }: { rows: DayRow[]; index: number }) {
   return (
-    <ol className="relative flex items-center justify-between" aria-label="Route">
-      <span className="absolute inset-x-2 top-1/2 h-0 border-t-2 border-dashed border-rule" aria-hidden="true" />
+    <ol
+      className="relative flex items-center justify-between"
+      aria-label="Route"
+    >
+      <span
+        className="absolute inset-x-2 top-1/2 h-0 border-t-2 border-dashed border-rule"
+        aria-hidden="true"
+      />
       {rows.map((r, i) => {
         const done = DONE.includes(r.status);
         const tier = done ? tierOf(r.result) : null;
@@ -464,18 +559,39 @@ function Route({ rows, index }: { rows: DayRow[]; index: number }) {
             ? "you are here"
             : "to come";
         return (
-          <li key={r.promptId} className="relative z-10 flex h-8 w-8 items-center justify-center">
+          <li
+            key={r.promptId}
+            className="relative z-10 flex h-8 w-8 items-center justify-center"
+          >
             {done && tier ? (
               <svg viewBox="0 0 24 20" className="h-7 w-8" aria-hidden="true">
-                <path d="M1 19 L12 2 L23 19 Z" fill={tier.color} stroke="var(--color-night)" strokeWidth="1.5" />
+                <path
+                  d="M1 19 L12 2 L23 19 Z"
+                  fill={tier.color}
+                  stroke="var(--color-night)"
+                  strokeWidth="1.5"
+                />
                 <path d="M12 2 L23 19 L15 19 Z" fill="#000" opacity="0.22" />
               </svg>
             ) : done ? (
-              <span className="h-2.5 w-4 rounded-full bg-flag" aria-hidden="true" />
+              <svg
+                viewBox="0 0 12 12"
+                className="h-3.5 w-3.5"
+                aria-hidden="true"
+              >
+                <path
+                  d="M2 2 L10 10 M10 2 L2 10"
+                  stroke="var(--color-flag)"
+                  strokeWidth="2.2"
+                  strokeLinecap="square"
+                />
+              </svg>
             ) : (
               <span
                 className={`h-3.5 w-3.5 rotate-45 border-2 ${
-                  current ? "camp-current border-sign bg-sign" : "border-haze/60 bg-night"
+                  current
+                    ? "camp-current border-sign bg-sign"
+                    : "border-haze/60 bg-night"
                 }`}
                 aria-hidden="true"
               />

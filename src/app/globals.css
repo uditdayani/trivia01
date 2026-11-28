@@ -28,8 +28,8 @@
   --color-fuji: #f59a4a;
   --color-wycheproof: #b98563;
 
-  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
-  --font-sign: "Barlow Condensed", "Barlow", ui-sans-serif, sans-serif;
+  --font-sans: "Commissioner", ui-sans-serif, system-ui, sans-serif;
+  --font-sign: "Big Shoulders Stencil Display", "Commissioner", sans-serif;
 }
 
 :root {
@@ -82,3 +82,18 @@ body {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Buttons: one shape, two paints. Square corners like a stamped hut sign. */
+.btn {
+  display: inline-block;
+  border-radius: 2px;
+  padding: 0.75rem 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn-snow { background: var(--color-ink); color: var(--color-night); }
+.btn-snow:hover:not(:disabled) { background: var(--color-sign); }
+.btn-sign { background: var(--color-sign); color: var(--color-sign-ink); }
+.btn-sign:hover:not(:disabled) { background: var(--color-ink); }

@@ -118,7 +118,7 @@ function BetterAnswers({ row }: { row: DayRow }) {
         <span className="group-open:hidden">See better answers</span>
         <span className="hidden group-open:inline">Hide better answers</span>
       </summary>
-      <dl className="mt-2 space-y-1.5 rounded-md bg-panel px-3 py-2.5 text-sm">
+      <dl className="mt-2 space-y-1 text-sm">
         {higher.map(({ tier, names }) => (
           <div key={tier.name} className="grid grid-cols-[6.5rem_1fr] gap-2">
             <dt className="font-semibold" style={{ color: tier.color }}>
@@ -196,7 +196,7 @@ function ShareCard({
   }
 
   return (
-    <div className="mt-8 rounded-md bg-panel p-5">
+    <div className="mt-8 border-y border-dashed border-haze/40 py-5">
       <pre className="whitespace-pre-wrap font-sans text-lg leading-snug" aria-label="Your result to share">
         {text}
       </pre>
@@ -204,7 +204,7 @@ function ShareCard({
         <button
           type="button"
           onClick={copy}
-          className="rounded-md bg-sign px-5 py-2.5 font-semibold text-sign-ink hover:bg-ink"
+          className="btn btn-sign"
         >
           Copy result
         </button>
