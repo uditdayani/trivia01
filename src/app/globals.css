@@ -97,3 +97,7 @@ body {
 .btn-snow:hover:not(:disabled) { background: var(--color-sign); }
 .btn-sign { background: var(--color-sign); color: var(--color-sign-ink); }
 .btn-sign:hover:not(:disabled) { background: var(--color-ink); }
+
+/* Keep paragraphs from ending on a lone word, and balance headings. */
+p, li, dd { text-wrap: pretty; }
+h1, h2, h3 { text-wrap: balance; }
